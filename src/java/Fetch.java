@@ -3,7 +3,6 @@ import java.util.Properties;
 
 public class Fetch {
     public static void main(String args[]) {
-//        String host = args[0];
 
         String host = "imap.yandex.ru";
         String username = "jek2ka2016@yandex.ru";
@@ -44,15 +43,15 @@ public class Fetch {
             store.connect(host, username, password);
             System.out.println(store.getDefaultFolder());
             // Получить folder
-//            Folder folder = store.getFolder("INBOX");
-            Folder folder = store.getDefaultFolder();
+            Folder folder = store.getFolder("INBOX");
+//            Folder folder = store.toString();
+            System.out.println(store.getFolder("INBOX").getMessageCount());
             folder.open(Folder.READ_ONLY);
 
             // Получить каталог
-//            Message message[] = folder.getMessages();
-//            System.err.println(message.length);
-            System.out.println(folder.getNewMessageCount());
-//            System.out.println(folder.ge);
+//            System.out.println(folder.getMessageCount());
+            Message message[] = folder.getMessages();
+            System.err.println(message.length);
 
 //            for (int i = 0, n = message.length; i < n; i++) {
 //                System.out.println(i + ": " + message[i].getFrom()[0] + "\t"
