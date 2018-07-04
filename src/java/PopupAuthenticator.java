@@ -9,12 +9,15 @@ public class PopupAuthenticator extends javax.mail.Authenticator {
         String username;
         String password;
 
-        String result = JOptionPane.showInputDialog("Enter 'username,password'");
+//        String result = JOptionPane.showInputDialog("Enter 'username,password'");
+//
+//        StringTokenizer st = new StringTokenizer(result, ",");
+//        username = st.nextToken();
+//        password = st.nextToken();
 
-        StringTokenizer st = new StringTokenizer(result, ",");
-        username = st.nextToken();
-        password = st.nextToken();
-
+        // Yandex
+        username = "jek2ka2016@yandex.ru";
+        password = "Nokia3510!";
         return new PasswordAuthentication(username, password);
     }
 }

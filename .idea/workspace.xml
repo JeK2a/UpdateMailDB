@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="Доработана структура.">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jaf_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/Fetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/Fetch.java" afterDir="false" />
+    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/java/PopupAuthenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/PopupAuthenticator.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,82 +17,11 @@
       <file leaf-file-name="Fetch.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/java/Fetch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="194">
+              <caret line="15" selection-start-line="15" selection-end-line="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Folder.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/javax/mail/Folder.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="135" column="28" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Message.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/javax/mail/Message.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="102" column="27" selection-start-line="102" selection-start-column="27" selection-end-line="102" selection-end-column="27" />
-              <folding>
-                <element signature="e#4217#4218#0" expanded="true" />
-                <element signature="e#4251#4252#0" expanded="true" />
-                <element signature="e#4286#4287#0" expanded="true" />
-                <element signature="e#4322#4323#0" expanded="true" />
-                <element signature="e#4374#4375#0" expanded="true" />
-                <element signature="e#4414#4415#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Part.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/javax/mail/Part.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessageCache.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/com/sun/mail/imap/MessageCache.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Session.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/javax/mail/Session.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="170" column="37" selection-start-line="170" selection-start-column="37" selection-end-line="170" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="URLName.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/javax/mail/URLName.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="34" column="30" selection-start-line="34" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Service.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/glassfish5/glassfish/modules/javax.mail.jar!/javax/mail/Service.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="190" column="26" selection-start-line="190" selection-start-column="17" selection-end-line="190" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -104,23 +29,10 @@
       <file leaf-file-name="PopupAuthenticator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/PopupAuthenticator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="32" selection-start-line="19" selection-end-line="20" selection-end-column="32" />
+            <state relative-caret-position="285">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Properties.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Properties.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13547">
-              <caret line="1307" column="31" selection-start-line="1307" selection-start-column="31" selection-end-line="1307" selection-end-column="31" />
-              <folding>
-                <element signature="e#51799#51800#0" expanded="true" />
-                <element signature="e#51841#51842#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -134,8 +46,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/java/PopupAuthenticator.java" />
         <option value="$PROJECT_DIR$/src/java/Fetch.java" />
+        <option value="$PROJECT_DIR$/src/java/PopupAuthenticator.java" />
       </list>
     </option>
   </component>
@@ -270,7 +182,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1530642275984</updated>
-      <workItem from="1530642278271" duration="7308000" />
+      <workItem from="1530642278271" duration="7911000" />
     </task>
     <task id="LOCAL-00001" summary="Доработана структура.">
       <created>1530643444554</created>
@@ -279,14 +191,21 @@
       <option name="project" value="LOCAL" />
       <updated>1530643444554</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Доработана структура.">
+      <created>1530653830971</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1530653830972</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7308000" />
+    <option name="totallyTimeSpent" value="7911000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1366" height="768" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="0" />
@@ -298,14 +217,14 @@
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="2" show_stripe_button="false" />
-      <window_info anchor="right" id="Run" order="9" visible="true" weight="0.30724174" />
+      <window_info active="true" anchor="right" id="Run" order="9" visible="true" weight="0.36933535" />
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49950248" visible="true" weight="0.20660277" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992785" visible="true" weight="0.19486405" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info id="Structure" order="1" sideWeight="0.5004975" side_tool="true" visible="true" weight="0.20660277" />
+      <window_info id="Structure" order="1" sideWeight="0.5007215" side_tool="true" visible="true" weight="0.19486405" />
       <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
       <window_info id="UI Designer" />
       <window_info anchor="right" id="Theme Preview" order="5" />
@@ -444,8 +363,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/PopupAuthenticator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="32" selection-start-line="19" selection-end-line="20" selection-end-column="32" />
+        <state relative-caret-position="285">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -454,8 +373,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/Fetch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="194">
+          <caret line="15" selection-start-line="15" selection-end-line="18" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
