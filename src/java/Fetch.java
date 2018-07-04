@@ -2,7 +2,7 @@ import javax.mail.*;
 import java.util.Properties;
 
 public class Fetch {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws MessagingException {
 
         // Получить системные свойства
         Properties props = System.getProperties();
@@ -40,13 +40,11 @@ public class Fetch {
             folder.open(Folder.READ_ONLY);
 
             // Получить каталог
-//            Message message[] = folder.getMessages();
             Message message[] = folder.getMessages();
-            System.out.println(message.length);
+            System.out.println("Новых сообщений: " + folder.getNewMessageCount() + "/" + message.length);
+            System.out.println("Непрочитанных сообщений: " + folder.getUnreadMessageCount() + "/" + message.length);
+            System.out.println(folder.getURLName().toString());
 
-            for (int i=0; i < folder.getNewMessageCount(); i++) {
-                System.out.println(i + " - " + message[i].getSubject());
-            }
 
             // Закрыть соединение
             folder.close(false);
