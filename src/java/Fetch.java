@@ -1,3 +1,5 @@
+import com.sun.mail.imap.IMAPFolder;
+
 import javax.mail.*;
 import java.util.Properties;
 
@@ -36,8 +38,11 @@ public class Fetch {
             System.out.println(store.getDefaultFolder());
 
             // Получить folder
-            Folder folder = store.getFolder("INBOX");
+            IMAPFolder folder = (IMAPFolder) store.getFolder("INBOX");
             folder.open(Folder.READ_ONLY);
+
+            new Thread(new KeepAliveRunnable(folder, 1)).start();
+            new Thread(new KeepAliveRunnable(folder, 2)).start();
 
             // Получить каталог
             Message message[] = folder.getMessages();
@@ -53,6 +58,6 @@ public class Fetch {
             e.printStackTrace();
             System.err.println(e);
         }
-        System.exit(0);
+//        System.exit(0);
     }
 }
