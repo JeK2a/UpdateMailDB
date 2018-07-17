@@ -4,10 +4,17 @@ import java.util.StringTokenizer;
 
 public class PopupAuthenticator extends javax.mail.Authenticator {
 
+    private String username;
+    private String password;
+    private String acc;
+
+    public PopupAuthenticator(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public PasswordAuthentication getPasswordAuthentication() {
-        String username;
-        String password;
 
         String result = JOptionPane.showInputDialog("Enter 'username,password'");
 
@@ -17,4 +24,5 @@ public class PopupAuthenticator extends javax.mail.Authenticator {
 
         return new PasswordAuthentication(username, password);
     }
+
 }

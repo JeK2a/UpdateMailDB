@@ -25,3 +25,9 @@ hs_err_pid*
 src/java/PopupAuthenticator.java
 src/java/PopupAuthenticator.java
 src/java/PopupAuthenticator.java
+.idea/
+.idea
+.DS_Store
+.idea/workspace.xml
+src/java/MyProperties.java
+src/java/MyProperties.java

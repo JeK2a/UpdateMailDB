@@ -8,7 +8,7 @@ import java.net.ProtocolException;
 public class KeepAliveRunnable implements Runnable {
 
 //    private static final long KEEP_ALIVE_FREQ = 300000; // 5 minutes
-    private static final long KEEP_ALIVE_FREQ = 3000; // 5 minutes
+    private static final long KEEP_ALIVE_FREQ = 300; // 5 minutes
 
     private IMAPFolder folder;
     private int number;
@@ -25,25 +25,43 @@ public class KeepAliveRunnable implements Runnable {
         while (true) {
             try {
                 Thread.sleep(KEEP_ALIVE_FREQ);
+
+                if (!folder.isOpen()) {
+                    folder.open(Folder.READ_ONLY);
+                }
                 System.out.println(
-                        number + " - "
-                                + folder.getUnreadMessageCount()
-                                + "/" + folder.getMessageCount()
+                        number + " - " +
+                        folder.getNewMessageCount() +
+                        "/" + folder.getMessageCount()
                 );
+
+                if (folder.getNewMessageCount() > 0) {
+                    System.out.print(folder.getNewMessageCount());
+                    Thread.sleep(1000);
+                }
+
             } catch (MessagingException | InterruptedException e) {
                 e.printStackTrace();
+            } finally {
+                if (folder.isOpen()) {
+                    try {
+                        folder.close(false);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                        System.err.println(e);
+                    }
+                }
             }
         }
 
 //        while (!Thread.interrupted()) {
-//
-//
+
 //            try {
-////                Thread.sleep(KEEP_ALIVE_FREQ);
-//
-//
-//                // Perform a NOOP just to keep alive the connection
-////                LOGGER.debug("Performing a NOOP to keep alvie the connection");
+//                Thread.sleep(KEEP_ALIVE_FREQ);
+
+
+                // Perform a NOOP just to keep alive the connection
+//                LOGGER.debug("Performing a NOOP to keep alvie the connection");
 //                folder.doCommand(protocol -> {
 //                    try {
 //                        protocol.simpleCommand("NOOP", null);
@@ -54,11 +72,9 @@ public class KeepAliveRunnable implements Runnable {
 //                    }
 //                    return null;
 //                });
-//            } catch (InterruptedException e) {
-//                // Ignore, just aborting the thread...
 //            } catch (MessagingException e) {
-//                // Shouldn't really happen...
-////                LOGGER.warn("Unexpected exception while keeping alive the IDLE connection", e);
+                // Shouldn't really happen...
+//                LOGGER.warn("Unexpected exception while keeping alive the IDLE connection", e);
 //            }
 
     }
