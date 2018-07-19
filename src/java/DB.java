@@ -28,8 +28,7 @@ public class DB {
 
             stmt = con.createStatement(); // getting Statement object to execute query
 
-//            String query = "SELECT * FROM message";
-//            rs = stmt.executeQuery(query);
+
 
             Message message = getMessage();
 
@@ -38,10 +37,7 @@ public class DB {
                 System.out.println(i);
             }
 
-//            while (rs.next()) {
-//                int count = rs.getInt(1);
-//                System.out.println(count);
-//            }
+
 
         } catch(SQLException | ClassNotFoundException e) {
             System.err.println(e);
@@ -51,6 +47,20 @@ public class DB {
                 assert stmt != null; if (stmt != null) stmt.close();
                 assert rs   != null; if (rs != null)   rs.close();
             } catch(SQLException ignored) {  }
+        }
+    }
+
+    private void showElement() {
+        String query = "SELECT * FROM message";
+        try {
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                int count = rs.getInt(1);
+                System.out.println(count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
