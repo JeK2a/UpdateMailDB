@@ -1,3 +1,5 @@
+package old;
+
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.protocol.IMAPProtocol;
 

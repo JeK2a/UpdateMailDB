@@ -1,15 +1,16 @@
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.event.*;
-import java.util.Arrays;
 
 public class MailListenerThread implements Runnable {
 
     private Folder folder;
-    private int thread_sleep_time = 1000;
+    private final ThreadLocal<Integer> thread_sleep_time = ThreadLocal.withInitial(() -> 1000);
+    private DB db;
 
     public MailListenerThread(Folder folder) {
         this.folder = folder;
+        db = new DB();
     }
 
     @Override
@@ -38,19 +39,25 @@ public class MailListenerThread implements Runnable {
                 MyReadEmail.enterMessage("Connection closed");
             }
         });
+
         folder.addMessageChangedListener(new MessageChangedListener() {
             @Override
             public void messageChanged(MessageChangedEvent messageChangedEvent) {
-                MyReadEmail.enterMessage("messageChanged " + folder.getFullName());
                 try {
-                    MyReadEmail.enterMessage(String.valueOf(messageChangedEvent.getMessage().getMessageNumber()));
-                    MyReadEmail.enterMessage(messageChangedEvent.getMessage().getSubject());
-                    MyReadEmail.enterMessage(messageChangedEvent.getMessage().getFlags().toString());
-                    MyReadEmail.enterMessage(Arrays.toString(messageChangedEvent.getMessage().getFrom()));
-                    MyReadEmail.enterMessage(Arrays.toString(messageChangedEvent.getMessage().getReplyTo()));
-                    MyReadEmail.enterMessage(messageChangedEvent.getMessage().getSentDate().toString());
-                    MyReadEmail.enterMessage(messageChangedEvent.getMessage().getReceivedDate().toString());
-                    MyReadEmail.enterMessage(messageChangedEvent.getMessage().getDataHandler().toString());
+                    String message_id = messageChangedEvent.getMessage().getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+                    MyReadEmail.enterMessage(message_id);
+                    MyReadEmail.enterMessage(new Email(messageChangedEvent.getMessage()).toString());
+
+                    db.addEmail(new Email(messageChangedEvent.getMessage()));
+
+//                    Enumeration headers = messageChangedEvent.getMessage().getAllHeaders();
+//                    while (headers.hasMoreElements()) {
+//                        Header h = (Header) headers.nextElement();
+//                        MyReadEmail.enterMessage(h.getName() + ": " + h.getValue());
+//                    }
+
+
+                    MyReadEmail.enterMessage("messageChanged "  );
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -59,6 +66,7 @@ public class MailListenerThread implements Runnable {
         folder.addMessageCountListener(new MessageCountListener() {
             @Override
             public void messagesAdded(MessageCountEvent messageCountEvent) {
+                db.addEmail(new Email(messageCountEvent.getMessages()[0]));
                 MyReadEmail.enterMessage(
                         "messagesAdded " +
                         messageCountEvent.getMessages().length +
@@ -84,7 +92,7 @@ public class MailListenerThread implements Runnable {
                     folder.open(Folder.READ_ONLY);
                     System.err.println("Folder close -> open");
                 }
-                Thread.sleep(thread_sleep_time);
+                Thread.sleep(thread_sleep_time.get());
             }
         } catch (InterruptedException | MessagingException e) {
             e.printStackTrace();

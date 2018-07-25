@@ -1,297 +1,134 @@
-import javax.activation.DataHandler;
 import javax.mail.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.*;
-import java.util.Date;
-import java.util.Enumeration;
+import java.util.ArrayList;
 
-public class DB {
+public class DB implements AutoCloseable {
     private static final String URL      = "jdbc:mysql://localhost:8889/test";
     private static final String USER     = "root";
     private static final String PASSWORD = "root";
 
     private static Connection con;
-    private static Statement stmt;
-    private static ResultSet rs;
+    private static Statement  stmt;
+    private static ResultSet  rs;
 
     public DB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(URL, USER, PASSWORD); // JDBC подключение к MySQL
 
-            if (con == null) {                       // Если подключение к БД не установлено
+            if (con == null) {                              // Если подключение к БД не установлено
                 System.err.println("Нет соединения с БД!"); // Вывести ошибку
                 System.exit(0);                      // И выйти из программы
             }
 
             stmt = con.createStatement(); // getting Statement object to execute query
 
-
-
-            Message message = getMessage();
-
-            for (int i = 0; i < 5000; i++) {
-                addMessage(message);
-                System.out.println(i);
-            }
-
-
-
         } catch(SQLException | ClassNotFoundException e) {
             System.err.println(e);
-        } finally {
-            try {
-                assert con  != null; if (con != null)  con.close();
-                assert stmt != null; if (stmt != null) stmt.close();
-                assert rs   != null; if (rs != null)   rs.close();
-            } catch(SQLException ignored) {  }
         }
     }
 
-    private void showElement() {
-        String query = "SELECT * FROM message";
+    public void addEmail(Email email) {
+        try {
+            String query = "" +
+                "INSERT INTO `a_my_emails`(" +
+                    " `direction`," +
+                    " `user_id`," +
+                    " `client_id`," +
+                    " `uid`," +
+                    " `message_id`," +
+                    " `msgno`," +
+                    " `from`," +
+                    " `to`," +
+                    " `in_reply_to`," +
+                    " `references`," +
+                    " `date`," +
+                    " `size`," +
+                    " `subject`," +
+                    " `folder`," +
+                    " `recent`," +
+                    " `flagged`," +
+                    " `answered`," +
+                    " `deleted`," +
+                    " `seen`," +
+                    " `draft`," +
+                    " `udate`)" +
+                " VALUES (" +
+                     "\"" + email.getDirection() + "\"" +
+                    ", " + "\"" + email.getUser_id() + "\"" +
+                    ", " + "\"" + email.getClient_id() + "\"" +
+                    ", " + "\"" + email.getUid() + "\"" +
+                    ", " + "\"" + email.getMessage_id() + "\"" +
+                    ", " + "\"" + email.getMsgno() + "\"" +
+                    ", " + "\"" + email.getFrom() + "\"" +
+                    ", " + "\"" + email.getTo() + "\"" +
+                    ", " + "\"" + email.getIn_replay_to() + "\"" +
+                    ", " + "\"" + email.getReferences() + "\"" +
+                    ", " + "\"" + email.getDate() + "\"" +
+                    ", " + "\"" + email.getSize() + "\"" +
+                    ", " + "\"" + email.getSubject() + "\"" +
+                    ", " + "\"" + email.getFolder() + "\"" +
+                    ", " + "\"" + email.getRecent() + "\"" +
+                    ", " + "\"" + email.getFlagged() + "\"" +
+                    ", " + "\"" + email.getAnswred() + "\"" +
+                    ", " + "\"" + email.getDeleted() + "\"" +
+                    ", " + "\"" + email.getSeen() + "\"" +
+                    ", " + "\"" + email.getDraft() + "\"" +
+                    ", " + "\"" + email.getUpdate() + "\"" +
+                    ")";
+            System.out.println(query);
+            stmt.executeUpdate(query); // Update(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void changeMessage(Email email) { // TODO
+
+    }
+
+    public ArrayList<User> getUsers() {
+        String query = "" +
+                "SELECT * " +
+                "FROM a_my_users_emails " +
+                "WHERE is_monitoring AND is_default";
+
+        ArrayList<User> users = new ArrayList<User>();
+
+
         try {
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                int count = rs.getInt(1);
-                System.out.println(count);
+                users.add(new User(
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getBoolean(5),
+                    rs.getBoolean(6),
+                    rs.getString(7),
+                    rs.getInt(8),
+                    rs.getString(9),
+                    rs.getString(10),
+                    rs.getString(11),
+                    rs.getString(12
+                )));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return users;
     }
 
-    private Message getMessage() {
-        return new Message() {
-            @Override
-            public Address[] getFrom() throws MessagingException {
-                return new Address[0];
-            }
 
-            @Override
-            public void setFrom() throws MessagingException {
-
-            }
-
-            @Override
-            public void setFrom(Address address) throws MessagingException {
-
-            }
-
-            @Override
-            public void addFrom(Address[] addresses) throws MessagingException {
-
-            }
-
-            @Override
-            public Address[] getRecipients(RecipientType recipientType) throws MessagingException {
-                return new Address[0];
-            }
-
-            @Override
-            public void setRecipients(RecipientType recipientType, Address[] addresses) throws MessagingException {
-
-            }
-
-            @Override
-            public void addRecipients(RecipientType recipientType, Address[] addresses) throws MessagingException {
-
-            }
-
-            @Override
-            public String getSubject() throws MessagingException {
-                return "Test Subject!!!";
-            }
-
-            @Override
-            public void setSubject(String s) throws MessagingException {
-
-            }
-
-            @Override
-            public Date getSentDate() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public void setSentDate(Date date) throws MessagingException {
-
-            }
-
-            @Override
-            public Date getReceivedDate() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public Flags getFlags() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public void setFlags(Flags flags, boolean b) throws MessagingException {
-
-            }
-
-            @Override
-            public Message reply(boolean b) throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public void saveChanges() throws MessagingException {
-
-            }
-
-            @Override
-            public int getSize() throws MessagingException {
-                return 0;
-            }
-
-            @Override
-            public int getLineCount() throws MessagingException {
-                return 0;
-            }
-
-            @Override
-            public String getContentType() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public boolean isMimeType(String s) throws MessagingException {
-                return false;
-            }
-
-            @Override
-            public String getDisposition() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public void setDisposition(String s) throws MessagingException {
-
-            }
-
-            @Override
-            public String getDescription() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public void setDescription(String s) throws MessagingException {
-
-            }
-
-            @Override
-            public String getFileName() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public void setFileName(String s) throws MessagingException {
-
-            }
-
-            @Override
-            public InputStream getInputStream() throws IOException, MessagingException {
-                return null;
-            }
-
-            @Override
-            public DataHandler getDataHandler() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public Object getContent() throws IOException, MessagingException {
-                return null;
-            }
-
-            @Override
-            public void setDataHandler(DataHandler dataHandler) throws MessagingException {
-
-            }
-
-            @Override
-            public void setContent(Object o, String s) throws MessagingException {
-
-            }
-
-            @Override
-            public void setText(String s) throws MessagingException {
-
-            }
-
-            @Override
-            public void setContent(Multipart multipart) throws MessagingException {
-
-            }
-
-            @Override
-            public void writeTo(OutputStream outputStream) throws IOException, MessagingException {
-
-            }
-
-            @Override
-            public String[] getHeader(String s) throws MessagingException {
-                return new String[0];
-            }
-
-            @Override
-            public void setHeader(String s, String s1) throws MessagingException {
-
-            }
-
-            @Override
-            public void addHeader(String s, String s1) throws MessagingException {
-
-            }
-
-            @Override
-            public void removeHeader(String s) throws MessagingException {
-
-            }
-
-            @Override
-            public Enumeration getAllHeaders() throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public Enumeration getMatchingHeaders(String[] strings) throws MessagingException {
-                return null;
-            }
-
-            @Override
-            public Enumeration getNonMatchingHeaders(String[] strings) throws MessagingException {
-                return null;
-            }
-        };
-    }
-
-    private void addMessage(Message message) {
+    @Override
+    public void close() throws Exception {
         try {
-            String subject = message.getSubject();
-
-            String query = "INSERT INTO test.`message` (`subject`) VALUES('"+ subject +"');";
-
-            stmt.executeUpdate(query);
-        } catch (SQLException | MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void changeMessage(Message message) {
-        String query = "";
-
-        try {
-            stmt.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            assert con  != null; if (con  != null) con.close();
+            assert stmt != null; if (stmt != null) stmt.close();
+            assert rs   != null; if (rs   != null) rs.close();
+        } catch(SQLException ignored) { }
     }
 }

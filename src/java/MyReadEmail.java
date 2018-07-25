@@ -5,33 +5,37 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 public class MyReadEmail extends JFrame {
 
+    private static DB db;
     private static JTextArea textArea; // Панель для вывода сообщения
 
-    private MyReadEmail(String title) {
-        super(title);
+    private MyReadEmail() {
+        super("Mail reader");
 
         addWindow();
     }
 
-    private void connectToMailAccount(String acc) {
-        MyProperties myProperties = new MyProperties(acc);
+    private void connectToMailAccount(User user, String folder_name) {
+        MyProperties myProperties = new MyProperties(user);
+
         Session session = Session.getDefaultInstance(myProperties, null);
         session.setDebug(true);
 
         try {
             Store store = session.getStore();
             store.connect(
-                    myProperties.IMAP_Server,
-                    myProperties.IMAP_AUTH_EMAIL,
-                    myProperties.IMAP_AUTH_PWD
+                    user.getHost(),
+                    user.getEmail(),
+                    user.getPassword()
             );
 
-            IMAPFolder folder = (IMAPFolder) store.getFolder("INBOX");
+            IMAPFolder folder = (IMAPFolder) store.getFolder(folder_name);
             new Thread(new MailListenerThread(folder)).start();
         } catch (MessagingException e) {
+            System.err.println(user.getEmail());
             e.printStackTrace();
         }
     }
@@ -81,7 +85,7 @@ public class MyReadEmail extends JFrame {
         JScrollPane scrollPane = new JScrollPane(textArea);                                  // Панель прокрутки
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);     // Вертикальная прокрутка
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Горизонтальная прокрутка
-        setPreferredSize(new Dimension(450, 450));                             // Установить размер панели прокрутки
+        setPreferredSize(new Dimension(600, 1000));                            // Установить размер панели прокрутки
         add(scrollPane);                                                                     // Добавить на окно панель прокрутки
 
         setVisible(true); // Сделать окно видимым
@@ -95,13 +99,13 @@ public class MyReadEmail extends JFrame {
     }
 
 	public static void main(String[] args) {
-        String[] accs = {"GMail", "Mail.ru", "Yandex"};
 
-		MyReadEmail myReadEmail = new MyReadEmail("Test SMTP Listener");
+        db = new DB();
+        ArrayList<User> users = db.getUsers();
+        MyReadEmail myReadEmail = new MyReadEmail();
 
-        for (String acc: accs) {
-            System.out.println(acc);
-            myReadEmail.connectToMailAccount(acc);
+        for (User user : users) {
+            myReadEmail.connectToMailAccount(user, "INBOX");
         }
 	}
 
