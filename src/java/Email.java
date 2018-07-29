@@ -7,33 +7,41 @@ import java.util.Date;
 
 public class Email {
 
-    private int id = 0;
+    private int    id = 0;
     private String direction;
-    private int user_id;
-    private int client_id;
-    private int uid;
+    private int    user_id;
+    private int    client_id;
+    private int    uid;
     private String message_id;
-    private int msgno = 0;
+    private int    msgno = 0;
     private String from;
     private String to;
     private String in_replay_to;
     private String references = "";
     private Timestamp date;
-    private int size = 0;
+    private int    size    = 0;
     private String subject = "";
-    private String folder = "";
-    private int recent  = 0;
-    private int flagged = 0;
-    private int answred = 0;
-    private int deleted = 0;
-    private int seen    = 0;
-    private int draft   = 0;
+    private String folder  = "";
+    private int    recent  = 0;
+    private int    flagged = 0;
+    private int    answred = 0;
+    private int    deleted = 0;
+    private int    seen    = 0;
+    private int    draft   = 0;
     private Timestamp update;
 
-    public Email(Message message) {
+    public Email(User user, Message message) {
         try {
-            this.direction    = "in";
-            this.message_id   = message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+            if (InternetAddress.toString(message.getFrom()).equals(user.getEmail())) {
+                this.direction    = "out";
+            } else {
+                this.direction    = "in";
+            }
+            this.client_id    = 0; // TODO
+            this.uid          = 0; // TODO  ???
+            this.user_id      = user.getUser_id();
+            this.message_id   = message.getHeader("Message-ID")[0].
+                                    replace("<", "").replace(">", "");
             this.from         = InternetAddress.toString(message.getFrom());
             this.to           = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
             this.in_replay_to = InternetAddress.toString(message.getReplyTo());
@@ -63,6 +71,34 @@ public class Email {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Email{" +
+                "id=" + id +
+                ", direction='" + direction + '\'' +
+                ", user_id=" + user_id +
+                ", client_id=" + client_id +
+                ", uid=" + uid +
+                ", message_id='" + message_id + '\'' +
+                ", msgno='" + msgno + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", in_replay_to='" + in_replay_to + '\'' +
+                ", references='" + references + '\'' +
+                ", date=" + date +
+                ", size=" + size +
+                ", subject='" + subject + '\'' +
+                ", folder='" + folder + '\'' +
+                ", recent=" + recent +
+                ", flagged=" + flagged +
+                ", answred=" + answred +
+                ", deleted=" + deleted +
+                ", seen=" + seen +
+                ", draft=" + draft +
+                ", update=" + update +
+                '}';
     }
 
     public int getId() {
@@ -153,31 +189,4 @@ public class Email {
         return update;
     }
 
-    @Override
-    public String toString() {
-        return "Email{" +
-                "id=" + id +
-                ", direction='" + direction + '\'' +
-                ", user_id=" + user_id +
-                ", client_id=" + client_id +
-                ", uid=" + uid +
-                ", message_id='" + message_id + '\'' +
-                ", msgno='" + msgno + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", in_replay_to='" + in_replay_to + '\'' +
-                ", references='" + references + '\'' +
-                ", date=" + date +
-                ", size=" + size +
-                ", subject='" + subject + '\'' +
-                ", folder='" + folder + '\'' +
-                ", recent=" + recent +
-                ", flagged=" + flagged +
-                ", answred=" + answred +
-                ", deleted=" + deleted +
-                ", seen=" + seen +
-                ", draft=" + draft +
-                ", update=" + update +
-                '}';
-    }
 }

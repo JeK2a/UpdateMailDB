@@ -13,40 +13,41 @@ public class User {
     private String  secure;
 
     public User(
-            int     id,
-            int     user_id,
-            String  email,
-            String  password,
-            boolean is_monitoring,
-            boolean is_default,
-            String  host,
-            int     port,
-            String  login,
-            String  name_from,
-            String  charset,
-            String  secure
+               int     id,
+               int     user_id,
+               String  email,
+               String  password,
+               boolean is_monitoring,
+               boolean is_default,
+               String  host,
+               int     port,
+               String  login,
+               String  name_from,
+               String  charset,
+               String  secure
     ) {
-        this.id            = id;
-        this.user_id       = user_id;
-        this.email         = email;
-        this.password      = password;
+        this.id            = id           ;
+        this.user_id       = user_id      ;
+        this.email         = email        ;
+        this.password      = password     ;
         this.is_monitoring = is_monitoring;
-        this.is_default    = is_default;
-        this.host          = host;
-        this.port          = port;
-        this.login         = login;
-        this.name_from     = name_from;
-        this.charset       = charset;
-        this.secure        = secure;
+        this.is_default    = is_default   ;
+        this.host          = host         ;
+        this.port          = port         ;
+        this.login         = login        ;
+        this.name_from     = name_from    ;
+        this.charset       = charset      ;
+        this.secure        = secure       ;
     }
 
     @Override
     public String toString() {
-        return "\nUser{" + "\n" +
+        return "\n" +
+                "User{"                            +  "\n" +
                 "id            = " + id            + ",\n" +
                 "user_id       = " + user_id       + ",\n" +
                 "email         = " + email         + ",\n" +
-                "password      = " + password      + ",\n" +
+//              "password      = " + password      + ",\n" +
                 "is_monitoring = " + is_monitoring + ",\n" +
                 "is_default    = " + is_default    + ",\n" +
                 "host          = " + host          + ",\n" +

@@ -1,6 +1,10 @@
 import com.sun.mail.imap.IMAPFolder;
 
 import javax.mail.*;
+import javax.mail.event.FolderEvent;
+import javax.mail.event.FolderListener;
+import javax.mail.event.StoreEvent;
+import javax.mail.event.StoreListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -18,7 +22,7 @@ public class MyReadEmail extends JFrame {
         addWindow();
     }
 
-    private void connectToMailAccount(User user, String folder_name) {
+    private void connectToMailAccount(User user) {
         MyProperties myProperties = new MyProperties(user);
 
         Session session = Session.getDefaultInstance(myProperties, null);
@@ -27,15 +31,42 @@ public class MyReadEmail extends JFrame {
         try {
             Store store = session.getStore();
             store.connect(
-                    user.getHost(),
-                    user.getEmail(),
-                    user.getPassword()
+                user.getHost(),
+                user.getEmail(),
+                user.getPassword()
             );
 
-            IMAPFolder folder = (IMAPFolder) store.getFolder(folder_name);
-            new Thread(new MailListenerThread(folder)).start();
+            store.addFolderListener(new FolderListener() {
+                @Override
+                public void folderCreated(FolderEvent folderEvent) {
+                    MyReadEmail.enterMessage("folder created");
+                }
+
+                @Override
+                public void folderDeleted(FolderEvent folderEvent) {
+                    MyReadEmail.enterMessage("folder deleted");
+                }
+
+                @Override
+                public void folderRenamed(FolderEvent folderEvent) {
+                    MyReadEmail.enterMessage("folder renamed");
+                }
+            });
+
+            store.addStoreListener(storeEvent ->
+                    MyReadEmail.enterMessage("store notification - " + storeEvent.getMessage()));
+
+//            IMAPFolder folder = (IMAPFolder) store.getFolder(folder_name);
+            IMAPFolder[] folders = (IMAPFolder[]) store.getDefaultFolder().list();
+            System.err.println("_________________________________Folders_________________________________");
+            for (IMAPFolder folder: folders) {
+                MyReadEmail.enterMessage("Connect to -> " + user.getEmail() + " -> " + folder.getFullName());
+                new Thread(new MailListenerThread(user, folder)).start();
+            }
+            System.err.println("_________________________________folders_________________________________");
+
         } catch (MessagingException e) {
-            System.err.println(user.getEmail());
+            System.err.println("Problems wish " + user.getEmail());
             e.printStackTrace();
         }
     }
@@ -94,18 +125,24 @@ public class MyReadEmail extends JFrame {
 
     // Вывод сообщения
     public static void enterMessage(String text) {
-        System.out.println(text);     // На панель
+        System.err.println(text);     // На панель
         textArea.append(text + "\n"); // В коммандную строку
     }
 
-	public static void main(String[] args) {
+    private void showFolders(Folder[] folders) {
+        String folder_name;
+        for (Folder folder : folders) {
+            MyReadEmail.enterMessage(folder.getFullName());
+        }
+    }
 
+	public static void main(String[] args) {
         db = new DB();
         ArrayList<User> users = db.getUsers();
         MyReadEmail myReadEmail = new MyReadEmail();
 
         for (User user : users) {
-            myReadEmail.connectToMailAccount(user, "INBOX");
+            myReadEmail.connectToMailAccount(user);
         }
 	}
 
