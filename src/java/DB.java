@@ -83,7 +83,7 @@ public class DB implements AutoCloseable {
         }
     }
 
-    private void changeMessage(Email email) { // TODO
+    private void changeMessage(Email email) { // TODO changeMessage
 
     }
 

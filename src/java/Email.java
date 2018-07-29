@@ -13,7 +13,7 @@ public class Email {
     private int    client_id;
     private int    uid;
     private String message_id;
-    private int    msgno = 0;
+    private int    msgno;
     private String from;
     private String to;
     private String in_replay_to;
@@ -37,8 +37,8 @@ public class Email {
             } else {
                 this.direction    = "in";
             }
-            this.client_id    = 0; // TODO
-            this.uid          = 0; // TODO  ???
+            this.client_id    = 0; // TODO client_id from DB a_1c_client_emails or a_ex_client_emails
+            this.uid          = 0; // TODO uid  ???
             this.user_id      = user.getUser_id();
             this.message_id   = message.getHeader("Message-ID")[0].
                                     replace("<", "").replace(">", "");
@@ -51,12 +51,12 @@ public class Email {
             this.folder       = message.getFolder().getFullName();
             this.update       = new Timestamp(new Date().getTime());
 
-            if (message.isSet(Flags.Flag.DELETED))  { this.deleted = 1; }
+            if (message.isSet(Flags.Flag.DELETED )) { this.deleted = 1; }
             if (message.isSet(Flags.Flag.ANSWERED)) { this.answred = 1; }
-            if (message.isSet(Flags.Flag.DRAFT))    { this.draft   = 1; }
-            if (message.isSet(Flags.Flag.FLAGGED))  { this.flagged = 1; }
-            if (message.isSet(Flags.Flag.RECENT))   { this.recent  = 1; }
-            if (message.isSet(Flags.Flag.SEEN))     { this.seen    = 1; }
+            if (message.isSet(Flags.Flag.DRAFT   )) { this.draft   = 1; }
+            if (message.isSet(Flags.Flag.FLAGGED )) { this.flagged = 1; }
+            if (message.isSet(Flags.Flag.RECENT  )) { this.recent  = 1; }
+            if (message.isSet(Flags.Flag.SEEN    )) { this.seen    = 1; }
 
 //            System.out.println("From: " + InternetAddress.toString(message.getFrom()));
 //            System.out.println("Reply-to: " + InternetAddress.toString(message.getReplyTo()));
@@ -75,29 +75,29 @@ public class Email {
 
     @Override
     public String toString() {
-        return "Email{" +
-                "id=" + id +
-                ", direction='" + direction + '\'' +
-                ", user_id=" + user_id +
-                ", client_id=" + client_id +
-                ", uid=" + uid +
-                ", message_id='" + message_id + '\'' +
-                ", msgno='" + msgno + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", in_replay_to='" + in_replay_to + '\'' +
-                ", references='" + references + '\'' +
-                ", date=" + date +
-                ", size=" + size +
-                ", subject='" + subject + '\'' +
-                ", folder='" + folder + '\'' +
-                ", recent=" + recent +
-                ", flagged=" + flagged +
-                ", answred=" + answred +
-                ", deleted=" + deleted +
-                ", seen=" + seen +
-                ", draft=" + draft +
-                ", update=" + update +
+        return "Email{"                            + " \n" +
+                "id             = " + id           + ",\n" +
+                ", direction    = " + direction    + ",\n" +
+                ", user_id      = " + user_id      + ",\n" +
+                ", client_id    = " + client_id    + ",\n" +
+                ", uid          = " + uid          + ",\n" +
+                ", message_id   = " + message_id   + ",\n" +
+                ", msgno        = " + msgno        + ",\n" +
+                ", from         = " + from         + ",\n" +
+                ", to           = " + to           + ",\n" +
+                ", in_replay_to = " + in_replay_to + ",\n" +
+                ", references   = " + references   + ",\n" +
+                ", date         = " + date         + ",\n" +
+                ", size         = " + size         + ",\n" +
+                ", subject      = " + subject      + ",\n" +
+                ", folder       = " + folder       + ",\n" +
+                ", recent       = " + recent       + ",\n" +
+                ", flagged      = " + flagged      + ",\n" +
+                ", answred      = " + answred      + ",\n" +
+                ", deleted      = " + deleted      + ",\n" +
+                ", seen         = " + seen         + ",\n" +
+                ", draft        = " + draft        + ",\n" +
+                ", update       = " + update       + " \n" +
                 '}';
     }
 
