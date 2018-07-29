@@ -12,5 +12,8 @@
     <orderEntry type="library" name="jaf-1.1" level="project" />
     <orderEntry type="library" name="javax.mail" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.46" level="project" />
+    <orderEntry type="library" name="jaf-1.11" level="project" />
+    <orderEntry type="library" name="javax.mail1" level="project" />
+    <orderEntry type="library" name="javamail-1.4" level="project" />
   </component>
 </module>
