@@ -16,7 +16,7 @@ public class SendMailTLS {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-//        Authenticator auth = new PopupAuthenticator();
+//        Authenticator auth = new old.PopupAuthenticator();
 
         Session session = Session.getInstance(props, null);
 

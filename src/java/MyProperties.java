@@ -19,6 +19,7 @@ public class MyProperties extends Properties {
         {
             put("mail.imap.ssl.enable", "true");
         }
+//        put("mail.imap.statuscachetimeout", "500");
     }
 
     public String getIMAP_Server() {

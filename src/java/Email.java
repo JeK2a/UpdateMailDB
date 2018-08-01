@@ -10,7 +10,7 @@ public class Email {
     private int    id = 0;
     private String direction;
     private int    user_id;
-    private int    client_id;
+    private int    client_id = 0;
     private int    uid;
     private String message_id;
     private int    msgno;
@@ -19,9 +19,9 @@ public class Email {
     private String in_replay_to;
     private String references = "";
     private Timestamp date;
-    private int    size    = 0;
-    private String subject = "";
-    private String folder  = "";
+    private int    size;
+    private String subject;
+    private String folder;
     private int    recent  = 0;
     private int    flagged = 0;
     private int    answred = 0;
@@ -31,19 +31,29 @@ public class Email {
     private Timestamp update;
 
     public Email(User user, Message message) {
+
+        int client_id;
+
         try {
-            if (InternetAddress.toString(message.getFrom()).equals(user.getEmail())) {
+            String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+            String from = InternetAddress.toString(message.getFrom());
+
+            if (InternetAddress.toString(message.getFrom()).contains(user.getEmail())) {
                 this.direction    = "out";
+                client_id = DB.getClientIDByAddress(to);
             } else {
                 this.direction    = "in";
+                client_id = DB.getClientIDByAddress(from);
             }
-            this.client_id    = 0; // TODO client_id from DB a_1c_client_emails or a_ex_client_emails
+
+            this.client_id = client_id;
             this.uid          = 0; // TODO uid  ???
             this.user_id      = user.getUser_id();
             this.message_id   = message.getHeader("Message-ID")[0].
                                     replace("<", "").replace(">", "");
-            this.from         = InternetAddress.toString(message.getFrom());
-            this.to           = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+            this.msgno        = 0;
+            this.from         = from;
+            this.to           = to;
             this.in_replay_to = InternetAddress.toString(message.getReplyTo());
             this.date         = new Timestamp(message.getSentDate().getTime());
             this.size         = message.getSize();

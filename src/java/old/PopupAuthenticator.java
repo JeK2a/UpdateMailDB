@@ -1,3 +1,5 @@
+package old;
+
 import javax.mail.PasswordAuthentication;
 import javax.swing.*;
 import java.util.StringTokenizer;
