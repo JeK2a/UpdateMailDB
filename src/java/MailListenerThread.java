@@ -33,12 +33,12 @@ public class MailListenerThread implements Runnable {
         folder.addConnectionListener(new ConnectionListener() {
             @Override
             public void opened(ConnectionEvent connectionEvent) {
-                UpdateMailDB.enterMessage("Connection opened");
+                StartMail.enterMessage("Connection opened");
             }
 
             @Override
             public void disconnected(ConnectionEvent connectionEvent) {
-                UpdateMailDB.enterMessage("Connection disconnected");
+                StartMail.enterMessage("Connection disconnected");
                 try {
                     folder.open(Folder.READ_ONLY);
                 } catch (MessagingException e) {
@@ -52,7 +52,7 @@ public class MailListenerThread implements Runnable {
 
             @Override
             public void closed(ConnectionEvent connectionEvent) {
-                UpdateMailDB.enterMessage("Connection closed");
+                StartMail.enterMessage("Connection closed");
             }
         });
 
@@ -60,15 +60,15 @@ public class MailListenerThread implements Runnable {
         folder.addMessageChangedListener(new MessageChangedListener() {
             @Override
             public void messageChanged(MessageChangedEvent messageChangedEvent) {
-                UpdateMailDB.enterMessage(new Email(user, messageChangedEvent.getMessage()).toString());
+                StartMail.enterMessage(new Email(user, messageChangedEvent.getMessage()).toString());
 
                 db.changeMessage(new Email(user, messageChangedEvent.getMessage()));
-                UpdateMailDB.enterMessage("messageChanged");
+                StartMail.enterMessage("messageChanged");
 
 //                    Enumeration headers = messageChangedEvent.getMessage().getAllHeaders();
 //                    while (headers.hasMoreElements()) {
 //                        Header h = (Header) headers.nextElement();
-//                        UpdateMailDB.enterMessage(h.getName() + ": " + h.getValue());
+//                        StartMail.enterMessage(h.getName() + ": " + h.getValue());
 //                    }
             }
         });
@@ -78,7 +78,7 @@ public class MailListenerThread implements Runnable {
             public void messagesAdded(MessageCountEvent messageCountEvent) {
                 for (Message message : messageCountEvent.getMessages()) {
                     db.addEmail(new Email(user, message));
-                    UpdateMailDB.enterMessage("messagesAdded ");
+                    StartMail.enterMessage("messagesAdded ");
                 }
             }
 
@@ -86,7 +86,7 @@ public class MailListenerThread implements Runnable {
             public void messagesRemoved(MessageCountEvent messageCountEvent) { // TODO messagesRemoved
                 for (Message message : messageCountEvent.getMessages()) {
                     db.changeMessage(new Email(user, message));
-                    UpdateMailDB.enterMessage("messagesRemoved");
+                    StartMail.enterMessage("messagesRemoved");
                 }
             }
         });

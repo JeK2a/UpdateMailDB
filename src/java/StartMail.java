@@ -9,13 +9,13 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
-public class UpdateMailDB extends JFrame {
+public class StartMail extends JFrame {
 
     private static DB db;
     private static JTextArea textArea; // Панель для вывода сообщения
     private ArrayList<ArrayList<Thread>> threadList = new ArrayList<>();
 
-    private UpdateMailDB() {
+    private StartMail() {
         super("Mail reader");
         addWindow();
     }
@@ -40,27 +40,27 @@ public class UpdateMailDB extends JFrame {
             store.addFolderListener(new FolderListener() {
                 @Override
                 public void folderCreated(FolderEvent folderEvent) {
-                    UpdateMailDB.enterMessage("folder created");
+                    StartMail.enterMessage("folder created");
                 }
 
                 @Override
                 public void folderDeleted(FolderEvent folderEvent) {
-                    UpdateMailDB.enterMessage("folder deleted");
+                    StartMail.enterMessage("folder deleted");
                 }
 
                 @Override
                 public void folderRenamed(FolderEvent folderEvent) {
-                    UpdateMailDB.enterMessage("folder renamed");
+                    StartMail.enterMessage("folder renamed");
                 }
             });
 
             store.addStoreListener(storeEvent ->
-                    UpdateMailDB.enterMessage("store notification - " + storeEvent.getMessage()));
+                    StartMail.enterMessage("store notification - " + storeEvent.getMessage()));
 
             System.err.println("_________________________________Folders_________________________________");
             IMAPFolder[] folders = (IMAPFolder[]) store.getDefaultFolder().list();
             for (IMAPFolder folder: folders) {
-                UpdateMailDB.enterMessage("Connect to -> " + user.getEmail() + " -> " + folder.getFullName());
+                StartMail.enterMessage("Connect to -> " + user.getEmail() + " -> " + folder.getFullName());
                 Thread myThread = new Thread(new MailListenerThread(user, folder));
                 myThread.start();
                 tmpThreadList.add(myThread);
@@ -135,7 +135,7 @@ public class UpdateMailDB extends JFrame {
     private void showFolders(Folder[] folders) {
         String folder_name;
         for (Folder folder : folders) {
-            UpdateMailDB.enterMessage(folder.getFullName());
+            StartMail.enterMessage(folder.getFullName());
         }
     }
 
@@ -146,14 +146,14 @@ public class UpdateMailDB extends JFrame {
 	public static void main(String[] args) {
         db = new DB();
         ArrayList<User> users = db.getUsers();
-        UpdateMailDB updateMailDB = new UpdateMailDB();
+        StartMail startMail = new StartMail();
 
         for (User user : users) {
-            updateMailDB.connectToMailAccount(user);
+            startMail.connectToMailAccount(user);
         }
 
 //        while (true) {
-//            for (ArrayList<Thread> threads : updateMailDB.getThreadList()) {
+//            for (ArrayList<Thread> threads : startMail.getThreadList()) {
 //                for (Thread thread : threads) {
 //                    enterMessage(thread.getName() + " / " + thread.isAlive() + " / " + thread.isDaemon());
 //                }
