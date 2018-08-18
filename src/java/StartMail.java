@@ -152,19 +152,19 @@ public class StartMail extends JFrame {
             startMail.connectToMailAccount(user);
         }
 
-//        while (true) {
-//            for (ArrayList<Thread> threads : startMail.getThreadList()) {
-//                for (Thread thread : threads) {
-//                    enterMessage(thread.getName() + " / " + thread.isAlive() + " / " + thread.isDaemon());
-//                }
-//            }
-//
-//            try {
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        while (true) {
+            for (ArrayList<Thread> threads : startMail.getThreadList()) {
+                for (Thread thread : threads) {
+                    enterMessage(thread.getName() + " / " + thread.isAlive() + " / " + thread.isDaemon());
+                }
+            }
+
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 
 }

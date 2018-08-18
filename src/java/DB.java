@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class DB implements AutoCloseable {
 
-    private static final String URL      = "jdbc:mysql://localhost:8889/test";
+    private static final String URL      = "jdbc:mysql://localhost:8889/test?useSSL=false";
     private static final String USER     = "root";
     private static final String PASSWORD = "root";
 

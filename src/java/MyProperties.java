@@ -11,7 +11,7 @@ public class MyProperties extends Properties {
         this.IMAP_AUTH_EMAIL = user.getEmail();
         this.IMAP_AUTH_PWD   = user.getPassword();
 
-        put("mail.debug"          , "false");
+        put("mail.debug"          , "true");
         put("mail.store.protocol" , "imaps");
         put("mail.imap.port"      , user.getPort());
         if (user.getSecure().equals("ssl") || user.getSecure().equals("tls") ||
