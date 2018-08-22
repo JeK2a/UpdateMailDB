@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class DB implements AutoCloseable {
 
-    private static final String URL      = "jdbc:mysql://localhost:8889/test?useSSL=false";
+    private static final String URL      = "jdbc:mysql://localhost:8889/test?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
     private static final String USER     = "root";
     private static final String PASSWORD = "root";
 
@@ -78,17 +78,13 @@ public class DB implements AutoCloseable {
 
         System.out.println(query);
 
-        int result = 0;
-
         try {
-            result = stmt.executeUpdate(query);
-            System.err.println("result " + result);
-            if (result != 1) { System.err.println("add email"); }
+            return stmt.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return 1;
     }
 
     public int addNewEmail(Email email) {
@@ -144,60 +140,52 @@ public class DB implements AutoCloseable {
 
         System.out.println(query);
 
-        int result = 0;
-
         try {
-            result = stmt.executeUpdate(query);
-            System.err.println("result " + result);
-            if (result != 1) { System.err.println("add new email"); }
+            return stmt.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return 1;
     }
 
     public int changeMessage(Email email) {
         String query = "" +
                 "UPDATE `a_my_emails` " +
                 "SET " +
-//                "`id` = "          + "'" + email.getId()           + "'" + ", " +
-                  "`direction` = "   + "'" + email.getDirection()    + "'" + ", " +
-                  "`user_id` = "     + "'" + email.getUser_id()      + "'" + ", " +
-                  "`client_id` =  "  + "'" + email.getClient_id()    + "'" + ", " +
-                  "`uid`= "          + "'" + email.getUid()          + "'" + ", " +
-//                "`message_id` = "  + "'" + email.getMessage_id()   + "'" + ", " +
-                  "`msgno`= "        + "'" + email.getMsgno()        + "'" + ", " +
-                  "`from`= "         + "'" + email.getFrom()         + "'" + ", " +
-                  "`to`= "           + "'" + email.getTo()           + "'" + ", " +
-                  "`in_reply_to` = " + "'" + email.getIn_replay_to() + "'" + ", " +
-                  "`references`= "   + "'" + email.getReferences()   + "'" + ", " +
-                  "`date`= "         + "'" + email.getDate()         + "'" + ", " +
-                  "`size`= "         + "'" + email.getSize()         + "'" + ", " +
-                  "`subject`= "      + "'" + email.getSubject()      + "'" + ", " +
-                  "`folder`= "       + "'" + email.getFolder()       + "'" + ", " +
-                  "`recent`= "       + "'" + email.getRecent()       + "'" + ", " +
-                  "`flagged`= "      + "'" + email.getFlagged()      + "'" + ", " +
-                  "`answered`= "     + "'" + email.getFlagged()      + "'" + ", " +
-                  "`deleted`= "      + "'" + email.getDeleted()      + "'" + ", " +
-                  "`seen`= "         + "'" + email.getSeen()         + "'" + ", " +
-                  "`draft`= "        + "'" + email.getDraft()        + "'" + ", " +
-                  "`udate`= "        + "'" + email.getUpdate()       + "'" +
-                "WHERE `message_id` =   '" + email.getMessage_id()   + "'" + ";";
+//                  "`id`          = '" + email.getId()           + "', " +
+                    "`direction`   = '" + email.getDirection()    + "', " +
+                    "`user_id`     = '" + email.getUser_id()      + "', " +
+                    "`client_id`   = '" + email.getClient_id()    + "', " +
+                    "`uid`         = '" + email.getUid()          + "', " +
+//                  "`message_id`  = '" + email.getMessage_id()   + "', " +
+                    "`msgno`       = '" + email.getMsgno()        + "', " +
+                    "`from`        = '" + email.getFrom()         + "', " +
+                    "`to`          = '" + email.getTo()           + "', " +
+                    "`in_reply_to` = '" + email.getIn_replay_to() + "', " +
+                    "`references`  = '" + email.getReferences()   + "', " +
+                    "`date`        = '" + email.getDate()         + "', " +
+                    "`size`        = '" + email.getSize()         + "', " +
+                    "`subject`     = '" + email.getSubject()      + "', " +
+                    "`folder`      = '" + email.getFolder()       + "', " +
+                    "`recent`      = '" + email.getRecent()       + "', " +
+                    "`flagged`     = '" + email.getFlagged()      + "', " +
+                    "`answered`    = '" + email.getFlagged()      + "', " +
+                    "`deleted`     = '" + email.getDeleted()      + "', " +
+                    "`seen`        = '" + email.getSeen()         + "', " +
+                    "`draft`       = '" + email.getDraft()        + "', " +
+                    "`udate`       = '" + email.getUpdate()       + "'  " +
+                "WHERE `message_id` = '" + email.getMessage_id()  + "'; ";
 
         System.out.println(query);
 
-        int result = 0;
-
         try {
-            result = stmt.executeUpdate(query);
-            System.err.println("result " + result);
-            if (result != 1) { System.err.println("change message"); }
+            return stmt.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return 1;
     }
 
     public static int getClientIDByAddress(String address) { // TODO client_id from DB a_1c_client_emails/a_ex_client_emails
@@ -256,6 +244,39 @@ public class DB implements AutoCloseable {
         }
 
         return users;
+    }
+
+    public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки
+        String query = "" +
+                "UPDATE `a_my_emails` " +
+                "SET " +
+                    "`folder` = '" + new_folder_name   + "', " +
+                    "`udate`  = '" + email.getUpdate() + "'  " +
+                "WHERE" +
+                    "`folder`     = '" + user_id               + "' AND " +
+                    "`message_id` = '" + email.getMessage_id() + "';";
+
+        int result = 0;
+
+        try {
+            result = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    // TODO изменение флага сообщенией на удаленное
+
+    private int useQuery(String query) { // TODO не видит запрос
+        try {
+            return stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 1;
     }
 
     @Override

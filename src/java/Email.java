@@ -41,9 +41,11 @@ public class Email {
             if (InternetAddress.toString(message.getFrom()).contains(user.getEmail())) {
                 this.direction    = "out";
                 client_id = DB.getClientIDByAddress(to);
+                from = user.getEmail(); // TODO
             } else {
                 this.direction    = "in";
                 client_id = DB.getClientIDByAddress(from);
+                to = user.getEmail();   // TODO
             }
 
             this.client_id = client_id;
@@ -68,15 +70,15 @@ public class Email {
             if (message.isSet(Flags.Flag.RECENT  )) { this.recent  = 1; }
             if (message.isSet(Flags.Flag.SEEN    )) { this.seen    = 1; }
 
-//            System.out.println("From: " + InternetAddress.toString(message.getFrom()));
-//            System.out.println("Reply-to: " + InternetAddress.toString(message.getReplyTo()));
-//            System.out.println("To: " + InternetAddress.toString(message.getRecipients(Message.RecipientType.TO)));
-//            System.out.println("Cc: " + InternetAddress.toString(message.getRecipients(Message.RecipientType.CC)));
-//            System.out.println("Bcc: " + InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC)));
-//            System.out.println("Subject: " + message.getSubject());
+//            String from = InternetAddress.toString(message.getFrom());
+//            String reply-to =  InternetAddress.toString(message.getReplyTo());
+//            String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+//            String cc = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
+//            String bcc = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
+//            String Subject = message.getSubject();
 //
-//            System.out.println("Sent: " + message.getSentDate());         // когда отправлено
-//            System.out.println("Received: " + message.getReceivedDate()); // когда получено
+//            Date sent = message.getSentDate();         // когда отправлено
+//            Date received = message.getReceivedDate(); // когда получено
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -85,30 +87,30 @@ public class Email {
 
     @Override
     public String toString() {
-        return "Email{"                            + " \n" +
-                "id             = " + id           + ",\n" +
-                ", direction    = " + direction    + ",\n" +
-                ", user_id      = " + user_id      + ",\n" +
-                ", client_id    = " + client_id    + ",\n" +
-                ", uid          = " + uid          + ",\n" +
-                ", message_id   = " + message_id   + ",\n" +
-                ", msgno        = " + msgno        + ",\n" +
-                ", from         = " + from         + ",\n" +
-                ", to           = " + to           + ",\n" +
-                ", in_replay_to = " + in_replay_to + ",\n" +
-                ", references   = " + references   + ",\n" +
-                ", date         = " + date         + ",\n" +
-                ", size         = " + size         + ",\n" +
-                ", subject      = " + subject      + ",\n" +
-                ", folder       = " + folder       + ",\n" +
-                ", recent       = " + recent       + ",\n" +
-                ", flagged      = " + flagged      + ",\n" +
-                ", answred      = " + answred      + ",\n" +
-                ", deleted      = " + deleted      + ",\n" +
-                ", seen         = " + seen         + ",\n" +
-                ", draft        = " + draft        + ",\n" +
-                ", update       = " + update       + " \n" +
-                '}';
+        return "Email {"                              + " \n" +
+                "     id           = " + id           + ",\n" +
+                "     direction    = " + direction    + ",\n" +
+                "     user_id      = " + user_id      + ",\n" +
+                "     client_id    = " + client_id    + ",\n" +
+                "     uid          = " + uid          + ",\n" +
+                "     message_id   = " + message_id   + ",\n" +
+                "     msgno        = " + msgno        + ",\n" +
+                "     from         = " + from         + ",\n" +
+                "     to           = " + to           + ",\n" +
+                "     in_replay_to = " + in_replay_to + ",\n" +
+                "     references   = " + references   + ",\n" +
+                "     date         = " + date         + ",\n" +
+                "     size         = " + size         + ",\n" +
+                "     subject      = " + subject      + ",\n" +
+                "     folder       = " + folder       + ",\n" +
+                "     recent       = " + recent       + ",\n" +
+                "     flagged      = " + flagged      + ",\n" +
+                "     answred      = " + answred      + ",\n" +
+                "     deleted      = " + deleted      + ",\n" +
+                "     seen         = " + seen         + ",\n" +
+                "     draft        = " + draft        + ",\n" +
+                "     update       = " + update       + " \n" +
+                "}\n";
     }
 
     public int getId() {

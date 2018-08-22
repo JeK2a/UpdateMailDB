@@ -21,10 +21,8 @@ public class StartMail extends JFrame {
     }
 
     private void connectToMailAccount(User user) {
-
         ArrayList<Thread> tmpThreadList = new ArrayList<>();
-
-        MyProperties myProperties = new MyProperties(user);
+        MyProperties myProperties       = new MyProperties(user);
 
         Session session = Session.getDefaultInstance(myProperties, null);
         session.setDebug(true);
@@ -45,11 +43,36 @@ public class StartMail extends JFrame {
 
                 @Override
                 public void folderDeleted(FolderEvent folderEvent) {
+
+                    try {
+                        Message[] messages = folderEvent.getFolder().getMessages();
+
+                        for (Message message : messages) {
+                            // TODO изменение флага сообщенией на удаленное
+                        }
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+
                     StartMail.enterMessage("folder deleted");
                 }
 
                 @Override
                 public void folderRenamed(FolderEvent folderEvent) {
+                    try {
+                        String old_folder_name = folderEvent.getFolder().getFullName();
+                        String new_folder_name = folderEvent.getNewFolder().getFullName();
+                        int user_id = user.getUser_id();
+
+                        Message[] messages = folderEvent.getFolder().getMessages();
+
+                        for (Message message : messages) {
+                            db.changeFolderName(new Email(user, message), user_id, new_folder_name); // TODO проверить, добавить проверку результата
+                        }
+
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                     StartMail.enterMessage("folder renamed");
                 }
             });
