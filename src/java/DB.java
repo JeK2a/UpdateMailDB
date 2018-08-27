@@ -3,9 +3,14 @@ import java.util.ArrayList;
 
 public class DB implements AutoCloseable {
 
-    private static final String URL      = "jdbc:mysql://localhost:8889/test?useSSL=false&useUnicode=true&characterEncoding=UTF-8";
     private static final String USER     = "root";
     private static final String PASSWORD = "root";
+    private static final String URL      = "jdbc:mysql://localhost:8889/test";
+    private static final String[] params = {
+            "useSSL=false",
+            "useUnicode=true",
+            "characterEncoding=utf-8"
+    };
 
     private static Connection con;
     private static Statement  stmt;
@@ -14,7 +19,8 @@ public class DB implements AutoCloseable {
     public DB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(URL, USER, PASSWORD); // JDBC подключение к MySQL
+            con = DriverManager.getConnection(URL + "?" + arrayToString(params), USER, PASSWORD); // JDBC подключение к MySQL
+            System.err.println(URL + "?" + arrayToString(params));
 
             if (con == null) {                              // Если подключение к БД не установлено
                 System.err.println("Нет соединения с БД!"); // Вывести ошибку
@@ -53,26 +59,26 @@ public class DB implements AutoCloseable {
                 "`udate`"        +
             ") "                 +
             "VALUES ("           +
-                "'" + email.getDirection()    + "'" + ", " +
-                "'" + email.getUser_id()      + "'" + ", " +
-                "'" + email.getClient_id()    + "'" + ", " +
-                "'" + email.getUid()          + "'" + ", " +
-                "'" + email.getMessage_id()   + "'" + ", " +
-                "'" + email.getMsgno()        + "'" + ", " +
-                "'" + email.getFrom()         + "'" + ", " +
-                "'" + email.getTo()           + "'" + ", " +
-                "'" + email.getIn_replay_to() + "'" + ", " +
-                "'" + email.getReferences()   + "'" + ", " +
-                "'" + email.getDate()         + "'" + ", " +
-                "'" + email.getSize()         + "'" + ", " +
-                "'" + email.getSubject()      + "'" + ", " +
-                "'" + email.getFolder()       + "'" + ", " +
-                "'" + email.getRecent()       + "'" + ", " +
-                "'" + email.getFlagged()      + "'" + ", " +
-                "'" + email.getAnswred()      + "'" + ", " +
-                "'" + email.getDeleted()      + "'" + ", " +
-                "'" + email.getSeen()         + "'" + ", " +
-                "'" + email.getDraft()        + "'" + ", " +
+                "'" + email.getDirection()    + "', " +
+                "'" + email.getUser_id()      + "', " +
+                "'" + email.getClient_id()    + "', " +
+                "'" + email.getUid()          + "', " +
+                "'" + email.getMessage_id()   + "', " +
+                "'" + email.getMsgno()        + "', " +
+                "'" + email.getFrom()         + "', " +
+                "'" + email.getTo()           + "', " +
+                "'" + email.getIn_replay_to() + "', " +
+                "'" + email.getReferences()   + "', " +
+                "'" + email.getDate()         + "', " +
+                "'" + email.getSize()         + "', " +
+                "'" + email.getSubject()      + "', " +
+                "'" + email.getFolder()       + "', " +
+                "'" + email.getRecent()       + "', " +
+                "'" + email.getFlagged()      + "', " +
+                "'" + email.getAnswred()      + "', " +
+                "'" + email.getDeleted()      + "', " +
+                "'" + email.getSeen()         + "', " +
+                "'" + email.getDraft()        + "', " +
                 "'" + email.getUpdate()       + "'" +
             ");";
 
@@ -287,4 +293,21 @@ public class DB implements AutoCloseable {
             assert rs   != null; if (rs   != null) rs.close();
         } catch(SQLException ignored) { }
     }
+
+    public String arrayToString(String[] arr) {
+
+        StringBuilder str = new StringBuilder();
+
+        for (int i = 0; i < arr.length; i++) {
+            str.append(arr[i]);
+
+            if (i != (arr.length - 1)) {
+                str.append("&");
+            }
+        }
+
+        return str.toString();
+
+    }
+
 }

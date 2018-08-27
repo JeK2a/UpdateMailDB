@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="javax.mail" level="project" />
-    <orderEntry type="library" name="jaf-1.1" level="project" />
-    <orderEntry type="library" name="javamail-1.4" level="project" />
-    <orderEntry type="library" name="mysql-connector-java-5.1.46" level="project" />
+    <orderEntry type="library" exported="" name="javax.mail" level="project" />
+    <orderEntry type="library" exported="" name="jaf-1.1" level="project" />
+    <orderEntry type="library" exported="" name="javamail-1.4" level="project" />
+    <orderEntry type="library" exported="" name="mysql-connector-java-5.1.46" level="project" />
   </component>
 </module>

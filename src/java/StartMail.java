@@ -138,6 +138,8 @@ public class StartMail extends JFrame {
         }); // Добавить событи для взаимодействия с основным окном
 
         textArea = new JTextArea(20, 30);         // Панель для вывода сообщения
+//        textArea.setEnabled(false);
+        textArea.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(textArea);                                  // Панель прокрутки
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);     // Вертикальная прокрутка
