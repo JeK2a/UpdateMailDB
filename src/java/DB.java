@@ -7,10 +7,10 @@ public class DB implements AutoCloseable {
     private static final String PASSWORD = "root";
     private static final String URL      = "jdbc:mysql://localhost:8889/test";
     private static final String[] params = {
-            "useSSL=false",
-            "useUnicode=true",
-            "characterEncoding=utf-8"
-    };
+                                               "useSSL=false",
+                                               "useUnicode=true",
+                                               "characterEncoding=utf-8"
+                                           };
 
     private static Connection con;
     private static Statement  stmt;

@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `a_my_emails` (
   `seen` int(11) NOT NULL,
   `draft` int(11) NOT NULL,
   `udate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Индексы сохранённых таблиц
