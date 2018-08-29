@@ -13,14 +13,15 @@ public class DB implements AutoCloseable {
                                            };
 
     private static Connection con;
-    private static Statement  stmt;
+    private static Statement stmt;
+    private static PreparedStatement prep_stmt;
     private static ResultSet  rs;
 
     public DB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(URL + "?" + arrayToString(params), USER, PASSWORD); // JDBC подключение к MySQL
-            System.err.println(URL + "?" + arrayToString(params));
+            con = DriverManager.getConnection(URL + "?" + arrayToString(params, "&"), USER, PASSWORD); // JDBC подключение к MySQL
+            System.err.println(URL + "?" + arrayToString(params, "&"));
 
             if (con == null) {                              // Если подключение к БД не установлено
                 System.err.println("Нет соединения с БД!"); // Вывести ошибку
@@ -33,7 +34,7 @@ public class DB implements AutoCloseable {
         }
     }
 
-    public int addEmail(Email email) {
+    public boolean addEmail(Email email) {
         String query = "" +
             "INSERT INTO `a_my_emails`(" +
                 "`direction`,"   +
@@ -58,42 +59,45 @@ public class DB implements AutoCloseable {
                 "`draft`,"       +
                 "`udate`"        +
             ") "                 +
-            "VALUES ("           +
-                "'" + email.getDirection()    + "', " +
-                "'" + email.getUser_id()      + "', " +
-                "'" + email.getClient_id()    + "', " +
-                "'" + email.getUid()          + "', " +
-                "'" + email.getMessage_id()   + "', " +
-                "'" + email.getMsgno()        + "', " +
-                "'" + email.getFrom()         + "', " +
-                "'" + email.getTo()           + "', " +
-                "'" + email.getIn_replay_to() + "', " +
-                "'" + email.getReferences()   + "', " +
-                "'" + email.getDate()         + "', " +
-                "'" + email.getSize()         + "', " +
-                "'" + email.getSubject()      + "', " +
-                "'" + email.getFolder()       + "', " +
-                "'" + email.getRecent()       + "', " +
-                "'" + email.getFlagged()      + "', " +
-                "'" + email.getAnswred()      + "', " +
-                "'" + email.getDeleted()      + "', " +
-                "'" + email.getSeen()         + "', " +
-                "'" + email.getDraft()        + "', " +
-                "'" + email.getUpdate()       + "'" +
-            ");";
-
-        System.out.println(query);
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
+                "ON DUPLICATE KEY UPDATE `message_id` = ?;";
 
         try {
-            return stmt.executeUpdate(query);
+            prep_stmt = con.prepareStatement(query);
+
+            prep_stmt.setString(1, email.getDirection());
+            prep_stmt.setInt(2, email.getUser_id());
+            prep_stmt.setInt(3, email.getClient_id());
+            prep_stmt.setInt(4, email.getUid());
+            prep_stmt.setString(5, email.getMessage_id());
+            prep_stmt.setInt(6, email.getMsgno());
+            prep_stmt.setString(7, email.getFrom() );
+            prep_stmt.setString(8, email.getTo());
+            prep_stmt.setString(9, email.getIn_replay_to());
+            prep_stmt.setString(10,email.getReferences());
+            prep_stmt.setDate(11, email.getDate());
+            prep_stmt.setInt(12, email.getSize());
+            prep_stmt.setString(13, email.getSubject());
+            prep_stmt.setString(14, email.getFolder());
+            prep_stmt.setInt(15, email.getRecent());
+            prep_stmt.setInt(16, email.getFlagged());
+            prep_stmt.setInt(17, email.getAnswred());
+            prep_stmt.setInt(18, email.getDeleted());
+            prep_stmt.setInt(19, email.getSeen());
+            prep_stmt.setInt(20, email.getDraft());
+            prep_stmt.setDate(21, email.getUpdate());
+
+            prep_stmt.setString(22, email.getMessage_id());
+
+            prep_stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return 1;
+        return true;
     }
 
-    public int addNewEmail(Email email) {
+    public boolean addNewEmail(Email email) {
         String query = "" +
             "INSERT INTO `a_my_emails`(" +
                 "`direction`,"   +
@@ -117,71 +121,72 @@ public class DB implements AutoCloseable {
                 "`seen`,"        +
                 "`draft`,"       +
                 "`udate`"        +
-            ") "                 +
-            "VALUES(" +
-                "'" + email.getDirection()    + "'" + ", " +
-                "'" + email.getUser_id()      + "'" + ", " +
-                "'" + email.getClient_id()    + "'" + ", " +
-                "'" + email.getUid()          + "'" + ", " +
-                "'" + email.getMessage_id()   + "'" + ", " +
-                "'" + email.getMsgno()        + "'" + ", " +
-                "'" + email.getFrom()         + "'" + ", " +
-                "'" + email.getTo()           + "'" + ", " +
-                "'" + email.getIn_replay_to() + "'" + ", " +
-                "'" + email.getReferences()   + "'" + ", " +
-                "'" + email.getDate()         + "'" + ", " +
-                "'" + email.getSize()         + "'" + ", " +
-                "'" + email.getSubject()      + "'" + ", " +
-                "'" + email.getFolder()       + "'" + ", " +
-                "'" + email.getRecent()       + "'" + ", " +
-                "'" + email.getFlagged()      + "'" + ", " +
-                "'" + email.getAnswred()      + "'" + ", " +
-                "'" + email.getDeleted()      + "'" + ", " +
-                "'" + email.getSeen()         + "'" + ", " +
-                "'" + email.getDraft()        + "'" + ", " +
-                "'" + email.getUpdate()       + "'" +
-            ")" +
-            "ON DUPLICATE KEY UPDATE " +
-                "`message_id` = '" + email.getMessage_id() + "';";
-
-        System.out.println(query);
+            ") "             +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
+                "ON DUPLICATE KEY UPDATE `message_id` = ?;";
 
         try {
-            return stmt.executeUpdate(query);
+            prep_stmt = con.prepareStatement(query);
+
+            prep_stmt.setString(1, email.getDirection());
+            prep_stmt.setInt(2, email.getUser_id());
+            prep_stmt.setInt(3, email.getClient_id());
+            prep_stmt.setInt(4, email.getUid());
+            prep_stmt.setString(5, email.getMessage_id());
+            prep_stmt.setInt(6, email.getMsgno());
+            prep_stmt.setString(7, email.getFrom() );
+            prep_stmt.setString(8, email.getTo());
+            prep_stmt.setString(9, email.getIn_replay_to());
+            prep_stmt.setString(10,email.getReferences());
+            prep_stmt.setDate(11, email.getDate());
+            prep_stmt.setInt(12, email.getSize());
+            prep_stmt.setString(13, email.getSubject());
+            prep_stmt.setString(14, email.getFolder());
+            prep_stmt.setInt(15, email.getRecent());
+            prep_stmt.setInt(16, email.getFlagged());
+            prep_stmt.setInt(17, email.getAnswred());
+            prep_stmt.setInt(18, email.getDeleted());
+            prep_stmt.setInt(19, email.getSeen());
+            prep_stmt.setInt(20, email.getDraft());
+            prep_stmt.setDate(21, email.getUpdate());
+
+            prep_stmt.setString(22, email.getMessage_id());
+
+            prep_stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return 1;
+        return true;
     }
 
     public int changeMessage(Email email) {
         String query = "" +
-                "UPDATE `a_my_emails` " +
-                "SET " +
-//                  "`id`          = '" + email.getId()           + "', " +
-                    "`direction`   = '" + email.getDirection()    + "', " +
-                    "`user_id`     = '" + email.getUser_id()      + "', " +
-                    "`client_id`   = '" + email.getClient_id()    + "', " +
-                    "`uid`         = '" + email.getUid()          + "', " +
-//                  "`message_id`  = '" + email.getMessage_id()   + "', " +
-                    "`msgno`       = '" + email.getMsgno()        + "', " +
-                    "`from`        = '" + email.getFrom()         + "', " +
-                    "`to`          = '" + email.getTo()           + "', " +
-                    "`in_reply_to` = '" + email.getIn_replay_to() + "', " +
-                    "`references`  = '" + email.getReferences()   + "', " +
-                    "`date`        = '" + email.getDate()         + "', " +
-                    "`size`        = '" + email.getSize()         + "', " +
-                    "`subject`     = '" + email.getSubject()      + "', " +
-                    "`folder`      = '" + email.getFolder()       + "', " +
-                    "`recent`      = '" + email.getRecent()       + "', " +
-                    "`flagged`     = '" + email.getFlagged()      + "', " +
-                    "`answered`    = '" + email.getFlagged()      + "', " +
-                    "`deleted`     = '" + email.getDeleted()      + "', " +
-                    "`seen`        = '" + email.getSeen()         + "', " +
-                    "`draft`       = '" + email.getDraft()        + "', " +
-                    "`udate`       = '" + email.getUpdate()       + "'  " +
-                "WHERE `message_id` = '" + email.getMessage_id()  + "'; ";
+            "UPDATE `a_my_emails` " +
+            "SET " +
+//              "`id`          = '" + email.getId()           + "', " +
+                "`direction`   = '" + email.getDirection()    + "', " +
+                "`user_id`     = '" + email.getUser_id()      + "', " +
+                "`client_id`   = '" + email.getClient_id()    + "', " +
+                "`uid`         = '" + email.getUid()          + "', " +
+//              "`message_id`  = '" + email.getMessage_id()   + "', " +
+                "`msgno`       = '" + email.getMsgno()        + "', " +
+                "`from`        = '" + email.getFrom()         + "', " +
+                "`to`          = '" + email.getTo()           + "', " +
+                "`in_reply_to` = '" + email.getIn_replay_to() + "', " +
+                "`references`  = '" + email.getReferences()   + "', " +
+                "`date`        = '" + email.getDate()         + "', " +
+                "`size`        = '" + email.getSize()         + "', " +
+                "`subject`     = '" + email.getSubject()      + "', " +
+                "`folder`      = '" + email.getFolder()       + "', " +
+                "`recent`      = '" + email.getRecent()       + "', " +
+                "`flagged`     = '" + email.getFlagged()      + "', " +
+                "`answered`    = '" + email.getFlagged()      + "', " +
+                "`deleted`     = '" + email.getDeleted()      + "', " +
+                "`seen`        = '" + email.getSeen()         + "', " +
+                "`draft`       = '" + email.getDraft()        + "', " +
+                "`udate`       = '" + email.getUpdate()       + "'  " +
+            "WHERE `message_id` = '" + email.getMessage_id()  + "'; ";
 
         System.out.println(query);
 
@@ -225,6 +230,8 @@ public class DB implements AutoCloseable {
         ArrayList<User> users = new ArrayList<>();
 
         try {
+            stmt = con.createStatement();
+
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -294,7 +301,7 @@ public class DB implements AutoCloseable {
         } catch(SQLException ignored) { }
     }
 
-    public String arrayToString(String[] arr) {
+    public String arrayToString(String[] arr, String symbol) {
 
         StringBuilder str = new StringBuilder();
 
@@ -302,7 +309,7 @@ public class DB implements AutoCloseable {
             str.append(arr[i]);
 
             if (i != (arr.length - 1)) {
-                str.append("&");
+                str.append(symbol);
             }
         }
 

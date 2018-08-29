@@ -2,7 +2,6 @@ import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Email {
@@ -18,7 +17,7 @@ public class Email {
     private String to;
     private String in_replay_to;
     private String references = "";
-    private Timestamp date;
+    private java.sql.Date date;
     private int    size;
     private String subject;
     private String folder;
@@ -28,7 +27,7 @@ public class Email {
     private int    deleted = 0;
     private int    seen    = 0;
     private int    draft   = 0;
-    private Timestamp update;
+    private java.sql.Date update;
 
     public Email(User user, Message message) {
 
@@ -57,11 +56,14 @@ public class Email {
             this.from         = from;
             this.to           = to;
             this.in_replay_to = InternetAddress.toString(message.getReplyTo());
-            this.date         = new Timestamp(message.getSentDate().getTime());
+            this.date         = new java.sql.Date(message.getSentDate().getTime());
             this.size         = message.getSize();
-            this.subject      = message.getSubject();
+
+            this.subject      = removeBadChars(message.getSubject());
+            if (this.subject == null) { this.subject = " "; }
+
             this.folder       = message.getFolder().getFullName();
-            this.update       = new Timestamp(new Date().getTime());
+            this.update       = new java.sql.Date(new Date().getTime());
 
             if (message.isSet(Flags.Flag.DELETED )) { this.deleted = 1; }
             if (message.isSet(Flags.Flag.ANSWERED)) { this.answred = 1; }
@@ -157,7 +159,7 @@ public class Email {
         return references;
     }
 
-    public Timestamp getDate() {
+    public java.sql.Date getDate() {
         return date;
     }
 
@@ -197,8 +199,18 @@ public class Email {
         return draft;
     }
 
-    public Timestamp getUpdate() {
+    public java.sql.Date getUpdate() {
         return update;
+    }
+
+    public static String removeBadChars(String s) {
+        if (s == null) return null;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0 ; i < s.length() ; i++){
+            if (Character.isHighSurrogate(s.charAt(i))) continue;
+            sb.append(s.charAt(i));
+        }
+        return sb.toString();
     }
 
 }
