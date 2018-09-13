@@ -15,6 +15,10 @@ public class Email {
     private int    msgno;
     private String from;
     private String to;
+
+    private String cc;
+    private String bcc;
+
     private String in_replay_to;
     private String references = "";
     private java.sql.Date date;
@@ -34,8 +38,32 @@ public class Email {
         int client_id;
 
         try {
-            String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+//            Address[] arr_cc  = message.getRecipients(Message.RecipientType.CC);
+//            Address[] arr_bcc = message.getRecipients(Message.RecipientType.BCC);
+//
+//            System.err.println("------------------------ CC ------------------------");
+//            if (arr_cc.length != 0) {
+//                for (Address element : arr_cc) {
+//                    System.err.println(element.toString());
+//                }
+//            }
+//
+//            System.err.println("------------------------ BCC ------------------------");
+//            if (arr_bcc.length != 0) {
+//                for (Address element : arr_bcc) {
+//                    System.err.println(element.toString());
+//                }
+//            }
+//
+//            System.err.println();
+
+            String to   = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
+            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
             String from = InternetAddress.toString(message.getFrom());
+
+            this.cc  = cc;
+            this.bcc = bcc;
 
             if (InternetAddress.toString(message.getFrom()).contains(user.getEmail())) {
                 this.direction    = "out";

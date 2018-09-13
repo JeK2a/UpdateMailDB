@@ -48,7 +48,8 @@ public class StartMail extends JFrame {
                         Message[] messages = folderEvent.getFolder().getMessages();
 
                         for (Message message : messages) {
-                            // TODO изменение флага сообщенией на удаленное
+                            // TODO изменение флага сообщенией на удаленное (проверить)
+                            db.changeDeleteFlag(new Email(user, message), user.getUser_id());
                         }
                     } catch (MessagingException e) {
                         e.printStackTrace();

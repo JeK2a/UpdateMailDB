@@ -68,7 +68,7 @@ public class MailListenerThread implements Runnable {
 //                    Enumeration headers = messageChangedEvent.getMessage().getAllHeaders();
 //                    while (headers.hasMoreElements()) {
 //                        Header h = (Header) headers.nextElement();
-//                        StartMail.enterMessage(h.getName() + ": " + h.getValue());
+//                        src.java.StartMail.enterMessage(h.getName() + ": " + h.getValue());
 //                    }
             }
         });

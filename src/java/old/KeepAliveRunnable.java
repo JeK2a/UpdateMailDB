@@ -5,7 +5,6 @@ import com.sun.mail.imap.protocol.IMAPProtocol;
 
 import javax.mail.Folder;
 import javax.mail.MessagingException;
-import java.net.ProtocolException;
 
 public class KeepAliveRunnable implements Runnable {
 

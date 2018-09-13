@@ -11,7 +11,6 @@ public class DB implements AutoCloseable {
                                                "useUnicode=true",
                                                "characterEncoding=utf-8"
                                            };
-
     private static Connection con;
     private static Statement stmt;
     private static PreparedStatement prep_stmt;
@@ -97,68 +96,6 @@ public class DB implements AutoCloseable {
         return true;
     }
 
-    public boolean addNewEmail(Email email) {
-        String query = "" +
-            "INSERT INTO `a_my_emails`(" +
-                "`direction`,"   +
-                "`user_id`,"     +
-                "`client_id`,"   +
-                "`uid`,"         +
-                "`message_id`,"  +
-                "`msgno`,"       +
-                "`from`,"        +
-                "`to`,"          +
-                "`in_reply_to`," +
-                "`references`,"  +
-                "`date`,"        +
-                "`size`,"        +
-                "`subject`,"     +
-                "`folder`,"      +
-                "`recent`,"      +
-                "`flagged`,"     +
-                "`answered`,"    +
-                "`deleted`,"     +
-                "`seen`,"        +
-                "`draft`,"       +
-                "`udate`"        +
-            ") "             +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
-                "ON DUPLICATE KEY UPDATE `message_id` = ?;";
-
-        try {
-            prep_stmt = con.prepareStatement(query);
-
-            prep_stmt.setString(1, email.getDirection());
-            prep_stmt.setInt(2, email.getUser_id());
-            prep_stmt.setInt(3, email.getClient_id());
-            prep_stmt.setInt(4, email.getUid());
-            prep_stmt.setString(5, email.getMessage_id());
-            prep_stmt.setInt(6, email.getMsgno());
-            prep_stmt.setString(7, email.getFrom() );
-            prep_stmt.setString(8, email.getTo());
-            prep_stmt.setString(9, email.getIn_replay_to());
-            prep_stmt.setString(10,email.getReferences());
-            prep_stmt.setDate(11, email.getDate());
-            prep_stmt.setInt(12, email.getSize());
-            prep_stmt.setString(13, email.getSubject());
-            prep_stmt.setString(14, email.getFolder());
-            prep_stmt.setInt(15, email.getRecent());
-            prep_stmt.setInt(16, email.getFlagged());
-            prep_stmt.setInt(17, email.getAnswred());
-            prep_stmt.setInt(18, email.getDeleted());
-            prep_stmt.setInt(19, email.getSeen());
-            prep_stmt.setInt(20, email.getDraft());
-            prep_stmt.setDate(21, email.getUpdate());
-
-            prep_stmt.setString(22, email.getMessage_id());
-
-            prep_stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
 
     public int changeMessage(Email email) {
         String query = "" +
@@ -199,7 +136,7 @@ public class DB implements AutoCloseable {
         return 1;
     }
 
-    public static int getClientIDByAddress(String address) { // TODO client_id from DB a_1c_client_emails/a_ex_client_emails
+    public static int getClientIDByAddress(String address) { // TODO client_id from src.java.DB a_1c_client_emails/a_ex_client_emails
         String query = "" +
             "SELECT `client_id` " +
             "FROM `a_ex_client_emails` " +
@@ -259,7 +196,7 @@ public class DB implements AutoCloseable {
         return users;
     }
 
-    public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки
+    public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
         String query = "" +
                 "UPDATE `a_my_emails` " +
                 "SET " +
@@ -279,8 +216,6 @@ public class DB implements AutoCloseable {
 
         return result;
     }
-
-    // TODO изменение флага сообщенией на удаленное
 
     private int useQuery(String query) { // TODO не видит запрос
         try {
@@ -317,4 +252,26 @@ public class DB implements AutoCloseable {
 
     }
 
+
+
+    public int changeDeleteFlag(Email email, int user_id) { // TODO изменение флага сообщенией на удаленное (проверить)
+        String query = "" +
+                "UPDATE `a_my_emails` " +
+                "SET " +
+                    "`deleted` = 1, " +
+                    "`udate`  = '" + email.getUpdate() + "'  " +
+                "WHERE" +
+                    "`folder`     = '" + user_id               + "' AND " +
+                    "`message_id` = '" + email.getMessage_id() + "';";
+
+        int result = 0;
+
+        try {
+            result = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

@@ -16,7 +16,7 @@ public class AddNewMessageThread implements Runnable {
     @Override
     public void run() {
         for (Message message : messages) {
-            System.err.println(db.addNewEmail(new Email(user, message)));
+            System.err.println(db.addEmail(new Email(user, message)));
         }
     }
 }

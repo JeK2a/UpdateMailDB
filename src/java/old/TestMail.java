@@ -17,7 +17,7 @@ public class TestMail {
     public static void main(String[] args) {
 
         // Настроить аутентификацию, получить session
-//        Authenticator auth = new old.PopupAuthenticator();
+//        Authenticator auth = new src.java.old.PopupAuthenticator();
 
         Properties props = System.getProperties();
         // Yandex
