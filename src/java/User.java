@@ -11,6 +11,7 @@ public class User {
     private String  name_from;
     private String  charset;
     private String  secure;
+    private int     success;
 
     public User(
                int     id,
@@ -24,7 +25,8 @@ public class User {
                String  login,
                String  name_from,
                String  charset,
-               String  secure
+               String  secure,
+               int     success
     ) {
         this.id            = id           ;
         this.user_id       = user_id      ;
@@ -38,6 +40,7 @@ public class User {
         this.name_from     = name_from    ;
         this.charset       = charset      ;
         this.secure        = secure       ;
+        this.success       = success      ;
     }
 
     @Override

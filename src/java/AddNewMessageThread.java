@@ -2,21 +2,26 @@ import javax.mail.Message;
 
 public class AddNewMessageThread implements Runnable {
 
+    private DB        db;
+    private User      user;
     private Message[] messages;
-    private User user;
-    private DB db;
+
+
 
 
     public AddNewMessageThread(User user, Message[] messages) {
-        this.messages = messages;
-        this.user = user;
         db = new DB();
+        this.user     = user;
+        this.messages = messages;
+
+
     }
 
     @Override
     public void run() {
         for (Message message : messages) {
-            System.err.println(db.addEmail(new Email(user, message)));
+//            System.out.print(" " + db.addEmail(new Email(user, message)) + " ");
+            db.addEmail(new Email(user, message));
         }
     }
 }

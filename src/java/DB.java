@@ -3,24 +3,40 @@ import java.util.ArrayList;
 
 public class DB implements AutoCloseable {
 
-    private static final String USER     = "root";
-    private static final String PASSWORD = "root";
-    private static final String URL      = "jdbc:mysql://localhost:8889/test";
     private static final String[] params = {
                                                "useSSL=false",
                                                "useUnicode=true",
                                                "characterEncoding=utf-8"
                                            };
-    private static Connection con;
-    private static Statement stmt;
+    private static Connection        con;
+    private static Statement         stmt;
     private static PreparedStatement prep_stmt;
-    private static ResultSet  rs;
+    private static ResultSet         rs;
 
     public DB() {
+        new Settings();
+
+        String USER     = Settings.getUser();
+        String PASSWORD = Settings.getPassword();
+        String HOST     = Settings.getHost();
+        String PORT     = Settings.getPort();
+        String SCHEMA   = Settings.getSchema();
+        String URL      = "jdbc:mysql://" + HOST + ":" + PORT + "/" + SCHEMA;
+
+        params[0] = "useSSL="            + Settings.getUsessl();
+        params[1] = "useUnicode="        + Settings.getUseunicode();
+        params[2] = "characterEncoding=" + Settings.getCharacterencoding();
+
+//        System.out.println(URL);
+//
+//        System.out.println("useSSL="            + Settings.getUsessl());
+//        System.out.println("useUnicode="        + Settings.getUseunicode());
+//        System.out.println("characterEncoding=" + Settings.getCharacterencoding());
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(URL + "?" + arrayToString(params, "&"), USER, PASSWORD); // JDBC подключение к MySQL
-            System.err.println(URL + "?" + arrayToString(params, "&"));
+//            System.err.println(URL + "?" + arrayToString(params, "&"));
 
             if (con == null) {                              // Если подключение к БД не установлено
                 System.err.println("Нет соединения с БД!"); // Вывести ошибку
@@ -34,8 +50,9 @@ public class DB implements AutoCloseable {
     }
 
     public boolean addEmail(Email email) {
+
         String query = "" +
-            "INSERT INTO `a_my_emails`(" +
+            "INSERT INTO `" + Settings.getTable_emails() + "`(" +
                 "`direction`,"   +
                 "`user_id`,"     +
                 "`client_id`,"   +
@@ -59,7 +76,7 @@ public class DB implements AutoCloseable {
                 "`udate`"        +
             ") "                 +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
-                "ON DUPLICATE KEY UPDATE `message_id` = ?;";
+                "ON DUPLICATE KEY UPDATE `message_id` = VALUES(`message_id`);";
 
         try {
             prep_stmt = con.prepareStatement(query);
@@ -86,20 +103,22 @@ public class DB implements AutoCloseable {
             prep_stmt.setInt(20, email.getDraft());
             prep_stmt.setDate(21, email.getUpdate());
 
-            prep_stmt.setString(22, email.getMessage_id());
+//            prep_stmt.setString(22, email.getMessage_id());
 
-            prep_stmt.execute();
+            prep_stmt.executeLargeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         return true;
     }
 
-
     public int changeMessage(Email email) {
+
+        int result = 0;
+
         String query = "" +
-            "UPDATE `a_my_emails` " +
+            "UPDATE `" + Settings.getTable_emails() + "` " +
             "SET " +
 //              "`id`          = '" + email.getId()           + "', " +
                 "`direction`   = '" + email.getDirection()    + "', " +
@@ -114,7 +133,7 @@ public class DB implements AutoCloseable {
                 "`references`  = '" + email.getReferences()   + "', " +
                 "`date`        = '" + email.getDate()         + "', " +
                 "`size`        = '" + email.getSize()         + "', " +
-                "`subject`     = '" + email.getSubject()      + "', " +
+                "`subject`     = ?                                , " +
                 "`folder`      = '" + email.getFolder()       + "', " +
                 "`recent`      = '" + email.getRecent()       + "', " +
                 "`flagged`     = '" + email.getFlagged()      + "', " +
@@ -125,50 +144,69 @@ public class DB implements AutoCloseable {
                 "`udate`       = '" + email.getUpdate()       + "'  " +
             "WHERE `message_id` = '" + email.getMessage_id()  + "'; ";
 
-        System.out.println(query);
+//        System.out.println(query);
 
         try {
-            return stmt.executeUpdate(query);
+
+            prep_stmt = con.prepareStatement(query);
+            prep_stmt.setString(1, email.getSubject());
+            result = prep_stmt.executeUpdate();
+//            return stmt.executeUpdate(query); // old
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return 1;
+        return result;
     }
 
-    public static int getClientIDByAddress(String address) { // TODO client_id from src.java.DB a_1c_client_emails/a_ex_client_emails
-        String query = "" +
-            "SELECT `client_id` " +
-            "FROM `a_ex_client_emails` " +
-            "WHERE `email` = '" + address + "'" +
-            "LIMIT 1;";
-
-        int id = 0;
-
-        try {
-            rs = stmt.executeQuery(query);
-
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return id;
-    }
+//    public static int getClientIDByAddress(String address) { // TODO client_id from src.java.DB a_1c_client_emails/a_ex_client_emails
+//        String query = "" +
+//            "SELECT `client_id` " +
+//            "FROM `a_ex_client_emails` " +
+//            "WHERE `email` = '" + address + "'" +
+//            "LIMIT 1;";
+//
+//        int id = 0;
+//
+//        try {
+//            rs = stmt.executeQuery(query);
+//
+//            if (rs.next()) {
+//                id = rs.getInt(1);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return id;
+//    }
 
     public ArrayList<User> getUsers() {
+
         String query = "" +
-            "SELECT * " +
-            "FROM `a_my_users_emails` " +
-            "WHERE `is_monitoring` = 1";
+            "SELECT " +
+                "`id`, "             +
+                " `user_id`, "       +
+                " `email`, "         +
+                " `password`, "      +
+                " `is_monitoring`, " +
+                " `is_default`, "    +
+                " `host`, "          +
+                " `port`, "          +
+                " `login`, "         +
+                " `name_from`, "     +
+                " `charset`, "       +
+                " `secure`, "        +
+                " `success` "        +
+            "FROM `" + Settings.getTable_users() + "` " +
+            "WHERE " +
+                "`is_monitoring` = 1 AND " +
+                "`success` = 1";
 
         ArrayList<User> users = new ArrayList<>();
 
         try {
             stmt = con.createStatement();
-
             rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -185,7 +223,8 @@ public class DB implements AutoCloseable {
                         rs.getString(9),
                         rs.getString(10),
                         rs.getString(11),
-                        rs.getString(12)
+                        rs.getString(12),
+                        rs.getInt(13)
                     )
                 );
             }
@@ -198,7 +237,7 @@ public class DB implements AutoCloseable {
 
     public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
         String query = "" +
-                "UPDATE `a_my_emails` " +
+                "UPDATE `" + Settings.getTable_emails() + "` " +
                 "SET " +
                     "`folder` = '" + new_folder_name   + "', " +
                     "`udate`  = '" + email.getUpdate() + "'  " +
@@ -252,11 +291,9 @@ public class DB implements AutoCloseable {
 
     }
 
-
-
     public int changeDeleteFlag(Email email, int user_id) { // TODO изменение флага сообщенией на удаленное (проверить)
         String query = "" +
-                "UPDATE `a_my_emails` " +
+                "UPDATE `" + Settings.getTable_emails() + "` " +
                 "SET " +
                     "`deleted` = 1, " +
                     "`udate`  = '" + email.getUpdate() + "'  " +
@@ -274,4 +311,5 @@ public class DB implements AutoCloseable {
 
         return result;
     }
+
 }

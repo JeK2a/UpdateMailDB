@@ -58,32 +58,41 @@ public class Email {
 //            System.err.println();
 
             String to   = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
-            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
-            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
+//            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
+//            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
             String from = InternetAddress.toString(message.getFrom());
 
-            this.cc  = cc;
-            this.bcc = bcc;
+//            this.cc  = cc;
+//            this.bcc = bcc;
 
-            if (InternetAddress.toString(message.getFrom()).contains(user.getEmail())) {
+            if (
+                message.getFrom() != null &&
+                InternetAddress.toString(message.getFrom()).contains(user.getEmail())
+            ) {
                 this.direction    = "out";
-                client_id = DB.getClientIDByAddress(to);
+//                client_id = DB.getClientIDByAddress(to);
                 from = user.getEmail(); // TODO
             } else {
                 this.direction    = "in";
-                client_id = DB.getClientIDByAddress(from);
+//                client_id = DB.getClientIDByAddress(from);
                 to = user.getEmail();   // TODO
             }
 
-            this.client_id = client_id;
-            this.uid          = 0; // TODO uid  ???
+            this.client_id = 0; // TODO client_id;
+            this.uid          = 0;
             this.user_id      = user.getUser_id();
             this.message_id   = message.getHeader("Message-ID")[0].
                                     replace("<", "").replace(">", "");
             this.msgno        = 0;
             this.from         = from;
-            this.to           = to;
-            this.in_replay_to = InternetAddress.toString(message.getReplyTo());
+            this.to           = (to == null ? "" : to);
+
+            this.in_replay_to =  InternetAddress.toString(message.getReplyTo());
+
+            if (this.in_replay_to == null || this.in_replay_to.equals("")) {
+                this.in_replay_to = " ";
+            }
+
             this.date         = new java.sql.Date(message.getSentDate().getTime());
             this.size         = message.getSize();
 

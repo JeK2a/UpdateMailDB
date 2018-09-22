@@ -11,7 +11,9 @@ public class MyProperties extends Properties {
         this.IMAP_auth_email    = user.getEmail();
         this.IMAP_auth_password = user.getPassword();
 
-        put("mail.debug"          , "true");
+        Settings settings = new Settings();
+
+        put("mail.debug"          , Settings.getMail_debug());
         put("mail.store.protocol" , "imaps");
         put("mail.imap.port"      , user.getPort());
 
