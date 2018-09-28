@@ -7,10 +7,11 @@
     </content>
     <orderEntry type="jdk" jdkName="10" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" exported="" name="lib" level="project" />
     <orderEntry type="library" exported="" name="jaf-1.1" level="project" />
-    <orderEntry type="library" exported="" name="javax.mail" level="project" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.46" level="project" />
+    <orderEntry type="library" exported="" name="javax.json.processing-1.0" level="project" />
+    <orderEntry type="library" name="WebSocket-1.0" level="project" />
+    <orderEntry type="library" name="javax.mail" level="project" />
   </component>
 </module>

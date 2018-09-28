@@ -1,14 +1,10 @@
 package ws_client;
 
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/endpoint")
 public class MyWebSocket {
@@ -39,7 +35,7 @@ public class MyWebSocket {
         System.out.println("onMessage::From=" + session.getId() + " Message=" + message);
 
         try {
-            session.getBasicRemote().sendText("Hello Client " + session.getId() + "!");
+            session.getBasicRemote().sendText("Hello Client_2 " + session.getId() + "!");
         } catch (IOException e) {
             e.printStackTrace();
         }
