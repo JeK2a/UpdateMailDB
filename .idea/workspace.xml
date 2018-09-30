@@ -6,40 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/java/chat_connector/ChatConnector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javax_mail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/javax_mail.xml" afterDir="false" />
+    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="Добавлена поддержка работы через чат.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/UpdateMailDB/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/UpdateMailDB/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/UpdateMailDB/ws_client/WebSocketClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/UpdateMailDB/ws_client/ws_enpoint_1/t1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/UpdateMailDB/ws_client2/client.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/UpdateMailDB/ws_client2/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/AddNewMessageThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/AddNewMessageThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/MailListenerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/MailListenerThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/StartMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/StartMail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/websocket_client/Client_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/websocket_client/Client_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/websocket_client/MyClientEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/websocket_client/MyClientEndpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/ChatBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/ChatBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/ChatClientEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/ChatClientEndpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/MyWebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/MyWebSocket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/PushTimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/PushTimeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/TestApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/TestApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/WebSocketClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/WebSocketClient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/jee7/ChatServerEndPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/jee7/ChatServerEndPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/jee7/ChatServerEndPointConfigurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/jee7/ChatServerEndPointConfigurator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/ws_enpoint_1/HelloEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/ws_enpoint_1/HelloEndpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client/ws_enpoint_1/t1.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client/ws_enpoint_1/t1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client2/EchoServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client2/EchoServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client2/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client2/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client2/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client3/AnnotatedChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client3/AnnotatedChatClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client3/Client_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client3/Client_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client3/Client_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client3/Client_2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client3/MyClientEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client3/MyClientEndpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client3/WeatherClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client3/WeatherClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client4/ChatBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client4/ChatBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ws_client4/ChatClientEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ws_old/ws_client4/ChatClientEndpoint.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -151,14 +121,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="218" />
-          <entry key="txt" value="4" />
+          <entry key="java" value="779" />
+          <entry key="txt" value="44" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="218" />
-          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="JAVA" value="779" />
+          <entry key="PLAIN_TEXT" value="44" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -166,7 +136,7 @@
           <entry key="a_my_emails" value="1" />
           <entry key="a_my_users_emails" value="1" />
           <entry key="html" value="1" />
-          <entry key="java" value="32" />
+          <entry key="java" value="33" />
           <entry key="js" value="2" />
           <entry key="md" value="1" />
           <entry key="sql" value="1" />
@@ -176,7 +146,7 @@
         <counts>
           <entry key="Database Element" value="2" />
           <entry key="HTML" value="1" />
-          <entry key="JAVA" value="32" />
+          <entry key="JAVA" value="33" />
           <entry key="JavaScript" value="2" />
           <entry key="Markdown" value="1" />
           <entry key="Scratch" value="1" />
@@ -192,7 +162,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/DB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
+            <state>
               <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="16" selection-end-column="23" />
             </state>
           </provider>
@@ -201,17 +171,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/AddNewMessageThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+            <state relative-caret-position="120">
+              <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="das://f6e389d1-07dc-4723-aa3d-7bd9128b2b97/schema/test/table/a_my_emails">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
+        <entry file="file://$PROJECT_DIR$/src/java/MailListenerThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -237,7 +207,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/ws_old/ws_client3/Client_1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="390">
               <caret line="26" column="44" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -249,8 +219,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/chat_connector/ChatConnector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="60" selection-end-column="11" />
+            <state relative-caret-position="-93">
+              <caret line="15" column="2" lean-forward="true" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -258,8 +228,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/java/StartMail.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
+            <state relative-caret-position="588">
+              <caret line="280" column="17" lean-forward="true" selection-start-line="280" selection-start-column="17" selection-end-line="280" selection-end-column="17" />
+              <folding>
+                <element signature="e#1236#1463#0" expanded="true" />
+                <element signature="e#1462#1463#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -332,7 +306,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/java/examples/EmailAuthenticator.java" />
         <option value="$PROJECT_DIR$/src/java/examples/ReadEmail.java" />
         <option value="$PROJECT_DIR$/src/java/old/KeepAliveRunnable.java" />
         <option value="$PROJECT_DIR$/src/java/old/TestMail.java" />
@@ -380,8 +353,9 @@
         <option value="$PROJECT_DIR$/src/java/ws_client/ChatBot.java" />
         <option value="$PROJECT_DIR$/src/java/ws_client2/EchoServer.java" />
         <option value="$PROJECT_DIR$/src/java/ws_client4/ChatBot.java" />
-        <option value="$PROJECT_DIR$/src/java/AddNewMessageThread.java" />
         <option value="$PROJECT_DIR$/src/java/chat_connector/ChatConnector.java" />
+        <option value="$PROJECT_DIR$/src/java/AddNewMessageThread.java" />
+        <option value="$PROJECT_DIR$/src/java/MailListenerThread.java" />
         <option value="$PROJECT_DIR$/src/java/StartMail.java" />
       </list>
     </option>
@@ -464,7 +438,7 @@
     <property name="SearchEverywhereHistoryKey" value="messageChangedEvent &#9;PSI&#9;JAVA://javax.mail.event.MessageChangedEvent" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538323128860" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538335359717" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -705,7 +679,7 @@
       <workItem from="1538250768642" duration="599000" />
       <workItem from="1538253120268" duration="697000" />
       <workItem from="1538306900743" duration="4846000" />
-      <workItem from="1538320153965" duration="1113000" />
+      <workItem from="1538320153965" duration="9896000" />
     </task>
     <task id="LOCAL-00005" summary="Доработана структура.">
       <created>1531861586623</created>
@@ -756,11 +730,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537658688753</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Добавлена поддержка работы через чат.">
+      <created>1538323489337</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1538323489338</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="255472000" />
+    <option name="totallyTimeSpent" value="264255000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -796,7 +777,6 @@
       <window_info anchor="bottom" id="TODO" order="11" weight="0.104950495" />
       <window_info anchor="bottom" id="Database Console" order="12" weight="0.23283581" />
       <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.3283582" />
-      <window_info anchor="bottom" x="0" y="45" width="1366" height="655" id="Run" order="14" sideWeight="0.49848944" weight="0.24356435" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="right" id="Capture Analysis" order="2" />
@@ -806,6 +786,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="7" weight="0.24973376" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+      <window_info active="true" anchor="right" x="0" y="45" width="1366" height="655" id="Run" order="9" sideWeight="0.49848944" visible="true" weight="0.2800852" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -822,7 +803,8 @@
     <MESSAGE value="Доработано подключение ко всем ящикам и передача сведений о пользователе." />
     <MESSAGE value="Мелкие доработки." />
     <MESSAGE value="Внесены последние изменения с параметризированными запросами." />
-    <option name="LAST_COMMIT_MESSAGE" value="Внесены последние изменения с параметризированными запросами." />
+    <MESSAGE value="Добавлена поддержка работы через чат." />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлена поддержка работы через чат." />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -865,13 +847,6 @@
     <entry file="jar://$PROJECT_DIR$/../JavaLib/glassfish5 3/glassfish/modules/javax.websocket-api_2.jar!/javax/websocket/WebSocketContainer.class" />
     <entry file="jar://$PROJECT_DIR$/../JavaLib/glassfish5 3/glassfish/modules/javax.websocket-api_3.jar!/javax/websocket/WebSocketContainer.class" />
     <entry file="jar://$PROJECT_DIR$/../JavaLib/glassfish5 3/glassfish/modules/javax.websocket-api_5.jar!/javax/websocket/WebSocketContainer.class" />
-    <entry file="file://$PROJECT_DIR$/src/java/MailListenerThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="94" selection-start-line="94" selection-end-line="94" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/MyProperties.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -968,6 +943,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
           <caret line="42" column="2" selection-start-line="42" selection-start-column="2" selection-end-line="42" selection-end-column="2" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -999,6 +977,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
           <caret line="46" column="1" selection-start-line="46" selection-start-column="1" selection-end-line="46" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1013,6 +994,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1020,6 +1004,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1039,22 +1026,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/DB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="16" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/AddNewMessageThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f6e389d1-07dc-4723-aa3d-7bd9128b2b97/schema/test/table/a_my_emails">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
-          <filtering enabled="true" />
+          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="16" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -1072,20 +1045,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/ws_old/ws_client3/Client_1.java">
+    <entry file="file://$PROJECT_DIR$/src/java/ws_old/ws_client2/EchoServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="26" column="44" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="420">
+          <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://f6e389d1-07dc-4723-aa3d-7bd9128b2b97/schema/test/table/a_my_emails">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/chat_connector/ChatConnector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="60" selection-end-column="11" />
+        <state relative-caret-position="-93">
+          <caret line="15" column="2" lean-forward="true" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/ws_old/ws_client3/Client_1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="44" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1096,17 +1083,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/ws_old/ws_client2/EchoServer.java">
+    <entry file="file://$PROJECT_DIR$/src/java/AddNewMessageThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+        <state relative-caret-position="120">
+          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/MailListenerThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/StartMail.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
+        <state relative-caret-position="588">
+          <caret line="280" column="17" lean-forward="true" selection-start-line="280" selection-start-column="17" selection-end-line="280" selection-end-column="17" />
+          <folding>
+            <element signature="e#1236#1463#0" expanded="true" />
+            <element signature="e#1462#1463#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

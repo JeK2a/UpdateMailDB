@@ -91,11 +91,11 @@ public class MailListenerThread implements Runnable {
             }
         });
 
-        try {
-            new Thread(new AddNewMessageThread(user, folder.getMessages())).start();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            new Thread(new AddNewMessageThread(user, folder.getMessages())).start();
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
 
         try {
             while (true) {

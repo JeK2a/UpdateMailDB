@@ -30,11 +30,10 @@ public class StartMail {
         String url = "wss://my.tdfort.ru:8897";
 
         WebSocketFactory webSocketFactory = new WebSocketFactory();
-
         WebSocketAdapter webSocketAdapter = new WebSocketAdapter(){
             @Override
             public void onTextMessage(WebSocket ws, String message) {
-                System.out.println(message);
+//                System.out.println(message);
 //                        ws.disconnect();
             }
         };
@@ -47,10 +46,7 @@ public class StartMail {
         } catch (IOException | WebSocketException e) {
             e.printStackTrace();
         }
-
         // ---------------------------------------------------------------------------------------
-
-
     }
 
     private void connectToMailAccount(User user) {
@@ -120,11 +116,17 @@ public class StartMail {
             IMAPFolder[] folders = (IMAPFolder[]) store.getDefaultFolder().list(); // Получение списка папок лоя текушего подключения
             for (IMAPFolder folder: folders) {
                 StartMail.enterMessage("Connect to -> " + user.getEmail() + " -> " + folder.getFullName());
-                Thread myThread = new Thread(new MailListenerThread(user, folder)); // Создание потока для отслеживания действий с определенной папкой
-                myThread.start(); // Запус потока
-                tmpThreadList.add(myThread); // Добавить потока в список
+
+
+//                Thread myTreadAllMails = new Thread(new AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика // TODO
+//                myTreadAllMails.start(); // Запус потока
+
+                Thread myThreadEvent = new Thread(new MailListenerThread(user, folder)); // Создание потока для отслеживания действий с определенной папкой // TODO
+                myThreadEvent.start(); // Запус потока
+
+                tmpThreadList.add(myThreadEvent); // Добавить потока в список
 //                tmpThreadMap.put(folder, myThread);
-                tmpThreadMap.put(folder.getFullName(), myThread);
+                tmpThreadMap.put(folder.getFullName(), myThreadEvent);
             }
 
             threadList.add(tmpThreadList); // Добавить в список списк потоков с подключениями к папкам
@@ -132,6 +134,7 @@ public class StartMail {
             threadMap.put(user.getEmail(), tmpThreadMap);
 
         } catch (MessagingException e) {
+            enterMessage("Problems wish " + user.getEmail());
             System.err.println("Problems wish " + user.getEmail());
             e.printStackTrace();
         }
@@ -218,8 +221,6 @@ public class StartMail {
             startMail.connectToMailAccount(user); // Подключение к почтовым аккаунтам
         }
 
-
-
         while (true) {
 
 //            for (ArrayList<Thread> threads : startMail.getThreadList()) {
@@ -228,7 +229,8 @@ public class StartMail {
 //                }
 //            }
 
-            System.err.println("Users count - " + threadMap.size());
+            int count_accaunt = threadMap.size();
+            System.err.println("Users count - " + count_accaunt);
 
 //            for (HashMap.Entry<User, HashMap<Folder, Thread>> mapUsers : threadMap.entrySet()) {
 //                System.err.println("user - " + mapUsers.getKey().getEmail());
@@ -246,27 +248,54 @@ public class StartMail {
 //                    System.err.println(folder.getFullName() + " / " +  thread.getName() + " / " + thread.isAlive());
 //                }
 //            }
-            StringBuilder message = new StringBuilder();
+//            StringBuilder message = new StringBuilder();
+
+            int i = 0;
+            int j = 0;
 
             for (HashMap.Entry<String, HashMap<String, Thread>> mapUsers : threadMap.entrySet()) {
                 System.err.println(mapUsers.getKey());
-                message.append(mapUsers.getKey());
+//                message.append(mapUsers.getKey());
+                String message = ++i + "/" + count_accaunt + " " + mapUsers.getKey();
                 HashMap<String, Thread> mapTmp = mapUsers.getValue();
+
+
+                int count_folders = mapTmp.size();
+
                 for (HashMap.Entry<String, Thread> mapFolders : mapTmp.entrySet()) {
                     String folder = mapFolders.getKey();
                     Thread thread = mapFolders.getValue();
                     System.err.println("          " + folder + " / " +  thread.getName() + " / " + thread.isAlive());
-                    message.append("          " + folder + " / " +  thread.getName() + " / " + thread.isAlive());
+
+                    message += "/"  + (thread.isAlive() ? "1" : "0");
+//                    message += folder + "/" + thread.getName() +  "/"  + (thread.isAlive() ? "1" : "0");
+                    j++;
                 }
+
+                message += " " + count_folders;
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message + "\", \"room_id\":\"1000\"}");
             }
 
+            webSocket.sendText("{\"act\":\"msg\", \"msg\":\"all folders count " + j + "\", \"room_id\":\"1000\"}");
+
             try {
-                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message.toString() + "\", \"room_id\":\"1000\"}");
-//                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message + "\", \"room_id\":\"1000\"}");
-                Thread.sleep(10000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+//            try {
+//                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message.toString() + "\", \"room_id\":\"1000\"}");
+//                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
 	}
 
