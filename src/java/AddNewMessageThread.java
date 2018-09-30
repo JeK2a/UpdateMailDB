@@ -6,15 +6,10 @@ public class AddNewMessageThread implements Runnable {
     private User      user;
     private Message[] messages;
 
-
-
-
     public AddNewMessageThread(User user, Message[] messages) {
         db = new DB();
         this.user     = user;
         this.messages = messages;
-
-
     }
 
     @Override

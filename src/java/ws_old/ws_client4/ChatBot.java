@@ -1,29 +1,15 @@
-package ws_client;
-
-/*
-  * ChatBot.java
-  * http://programmingforliving.com
-  */
-
-import java.io.StringReader;
-import java.net.URI;
+package ws_old.ws_client4;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import java.io.StringReader;
+import java.net.URI;
 
-/**
-  * ChatBot
-  * @author Jiji_Sasidharan
-  */
 public class ChatBot {
-/*
-      * main
-      * @param args
-      * @throws Exception
-      */
-    public static void main(String[] args) throws Exception {
-        final ChatClientEndpoint clientEndPoint = new ChatClientEndpoint(new URI("wss://my.tdfort.ru:8897"));
 
+    public static void main(String[] args) throws Exception {
+//        final ChatClientEndpoint clientEndPoint = new ChatClientEndpoint(new URI("ws://localhost:8080/jee7-websocket-api/chat"));
+        final ChatClientEndpoint clientEndPoint = new ChatClientEndpoint(new URI("wsw://my.tdfort.ru:8897"));
         clientEndPoint.addMessageHandler(new ChatClientEndpoint.MessageHandler() {
             public void handleMessage(String message) {
                 JsonObject jsonObject = Json.createReader(new StringReader(message)).readObject();
@@ -41,14 +27,11 @@ public class ChatBot {
         }
     }
 
-/*
-     * Create a json representation.
-     *
-     * @param message
-     * @return
-     */
     private static String getMessage(String message) {
-        return Json.createObjectBuilder().add("user", "bot").add("message", message).build().toString();
+        return Json.createObjectBuilder()
+                .add("user", "bot")
+                .add("message", message)
+                .build()
+                .toString();
     }
-
 }

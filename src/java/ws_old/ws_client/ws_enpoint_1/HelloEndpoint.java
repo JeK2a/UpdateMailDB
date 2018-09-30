@@ -1,4 +1,4 @@
-package ws_client.ws_enpoint_1;
+package ws_old.ws_client.ws_enpoint_1;
 
 //public class HelloEndpoint extends Endpoint {
 //

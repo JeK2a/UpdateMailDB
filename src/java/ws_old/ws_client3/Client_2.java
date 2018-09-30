@@ -1,8 +1,7 @@
-package ws_client3;
-
-import org.glassfish.tyrus.core.websocket.ContainerProvider;
+package ws_old.ws_client3;
 
 import javax.websocket.ClientEndpointConfig;
+import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
 import javax.websocket.WebSocketContainer;
 import java.io.IOException;

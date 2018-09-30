@@ -1,7 +1,4 @@
-package ws_client;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+package ws_old.ws_client;
 
 public class TestApp {
 

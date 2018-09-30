@@ -1,4 +1,4 @@
-package ws_client3;
+package ws_old.ws_client3;
 
 //annotated client endpoint in action
 

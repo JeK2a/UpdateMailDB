@@ -1,4 +1,4 @@
-package ws_client3;
+package ws_old.ws_client3;
 
 //a bare bone implementation of a programmatic endpoint
 

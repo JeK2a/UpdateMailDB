@@ -1,4 +1,4 @@
-package ws_client.jee7;
+package ws_old.ws_client.jee7;
 
 /**
  * ChatServerEndPointConfigurator.java

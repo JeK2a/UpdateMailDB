@@ -1,4 +1,4 @@
-package ws_client;
+package ws_old.ws_client;
 
 import java.util.*;
 import javax.websocket.Session;

@@ -1,4 +1,4 @@
-//package websocket_client;
+//package ws_old.websocket_client;
 //
 //import org.glassfish.tyrus.core.websocket.ContainerProvider;
 //

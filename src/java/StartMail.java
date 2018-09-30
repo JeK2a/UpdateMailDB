@@ -1,16 +1,15 @@
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketException;
+import com.neovisionaries.ws.client.WebSocketFactory;
 import com.sun.mail.imap.IMAPFolder;
 
 import javax.mail.*;
 import javax.mail.event.FolderEvent;
 import javax.mail.event.FolderListener;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.Map;
 
 public class StartMail {
 //public class StartMail extends JFrame {
@@ -21,9 +20,37 @@ public class StartMail {
 //    private static HashMap<User, HashMap<Folder, Thread>> threadMap = new HashMap<>();
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
 
+    private static WebSocket webSocket;
+
     private StartMail() {
 //        super("Mail reader");
 //        addWindow();
+
+        // ------------------------------------------WSS------------------------------------------
+        String url = "wss://my.tdfort.ru:8897";
+
+        WebSocketFactory webSocketFactory = new WebSocketFactory();
+
+        WebSocketAdapter webSocketAdapter = new WebSocketAdapter(){
+            @Override
+            public void onTextMessage(WebSocket ws, String message) {
+                System.out.println(message);
+//                        ws.disconnect();
+            }
+        };
+
+        try {
+            webSocket = webSocketFactory.createSocket(url);
+            webSocket.addListener(webSocketAdapter);
+            webSocket.connect();
+            webSocket.sendText("{\"act\":\"start\",\"user_id\":\"1000\",\"user_name\":\"Mailler\",\"msg\":\"Подключение установлено обоюдно, отлично!\"}");
+        } catch (IOException | WebSocketException e) {
+            e.printStackTrace();
+        }
+
+        // ---------------------------------------------------------------------------------------
+
+
     }
 
     private void connectToMailAccount(User user) {
@@ -168,6 +195,7 @@ public class StartMail {
     public static void enterMessage(String text) {
         System.out.println(text);     // На панель
 //        textArea.append(text + "\n"); // В коммандную строку
+        webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + text + "\", \"room_id\":\"1000\"}");
     }
 
     private void showFolders(Folder[] folders) {
@@ -189,6 +217,8 @@ public class StartMail {
         for (User user : users) {
             startMail.connectToMailAccount(user); // Подключение к почтовым аккаунтам
         }
+
+
 
         while (true) {
 
@@ -216,20 +246,24 @@ public class StartMail {
 //                    System.err.println(folder.getFullName() + " / " +  thread.getName() + " / " + thread.isAlive());
 //                }
 //            }
+            StringBuilder message = new StringBuilder();
 
             for (HashMap.Entry<String, HashMap<String, Thread>> mapUsers : threadMap.entrySet()) {
                 System.err.println(mapUsers.getKey());
+                message.append(mapUsers.getKey());
                 HashMap<String, Thread> mapTmp = mapUsers.getValue();
                 for (HashMap.Entry<String, Thread> mapFolders : mapTmp.entrySet()) {
                     String folder = mapFolders.getKey();
                     Thread thread = mapFolders.getValue();
                     System.err.println("          " + folder + " / " +  thread.getName() + " / " + thread.isAlive());
+                    message.append("          " + folder + " / " +  thread.getName() + " / " + thread.isAlive());
                 }
             }
 
-
             try {
-                Thread.sleep(30000);
+                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message.toString() + "\", \"room_id\":\"1000\"}");
+//                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message + "\", \"room_id\":\"1000\"}");
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

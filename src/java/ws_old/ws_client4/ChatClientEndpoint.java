@@ -1,4 +1,4 @@
-package ws_client4;
+package ws_old.ws_client4;
 
 import javax.websocket.*;
 import java.net.URI;

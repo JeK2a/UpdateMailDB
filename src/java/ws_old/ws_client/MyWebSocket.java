@@ -1,4 +1,4 @@
-package ws_client;
+package ws_old.ws_client;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;

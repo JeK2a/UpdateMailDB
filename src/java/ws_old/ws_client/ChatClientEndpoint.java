@@ -1,4 +1,4 @@
-package ws_client;
+package ws_old.ws_client;
 
 import java.net.URI;
 
@@ -10,7 +10,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
-import static javax.websocket.ContainerProvider.getWebSocketContainer;
 
 @ClientEndpoint
 public class ChatClientEndpoint {
