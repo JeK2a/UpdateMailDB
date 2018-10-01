@@ -6,8 +6,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 // Получение настроек из XML файла
 public class Settings {
@@ -63,8 +61,8 @@ public class Settings {
                     case "useunicode"        : useunicode        = text; break;
                     case "characterencoding" : characterencoding = text; break;
 
-                    case "table_users"       : table_users       = text;  break;
-                    case "table_emails"      : table_emails      = text;  break;
+                    case "table_users"       : table_users       = text; break;
+                    case "table_emails"      : table_emails      = text; break;
 
                     case "mail_debug"        : mail_debug        = text; break;
                     case "session_debug"     : mail_debug        = text; break;
@@ -72,7 +70,6 @@ public class Settings {
             }
         }
     }
-
 
     public static String getUser() {
         return user;

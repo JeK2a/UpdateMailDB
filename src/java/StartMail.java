@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StartMail {
-//public class StartMail extends JFrame {
 
     private static DB db;
     //    private static JTextArea textArea; // Панель для вывода сообщения
@@ -23,9 +22,6 @@ public class StartMail {
     private static WebSocket webSocket;
 
     private StartMail() {
-//        super("Mail reader");
-//        addWindow();
-
         // ------------------------------------------WSS------------------------------------------
         String url = "wss://my.tdfort.ru:8897";
 
@@ -69,6 +65,7 @@ public class StartMail {
             );
 
             store.addFolderListener(new FolderListener() { // Подключение отслеживания действий с падками в текущем подключении пользователя
+
                 @Override
                 public void folderCreated(FolderEvent folderEvent) { // Действие при создании папки
                     StartMail.enterMessage("folder created");
@@ -81,8 +78,7 @@ public class StartMail {
                         Message[] messages = folderEvent.getFolder().getMessages();
 
                         for (Message message : messages) {
-                            // TODO изменение флага сообщенией на удаленное (проверить)
-                            db.changeDeleteFlag(new Email(user, message), user.getUser_id());
+                            db.changeDeleteFlag(new Email(user, message), user.getUser_id()); // TODO изменение флага сообщенией на удаленное (проверить)
                         }
                     } catch (MessagingException e) {
                         e.printStackTrace();
@@ -118,10 +114,10 @@ public class StartMail {
                 StartMail.enterMessage("Connect to -> " + user.getEmail() + " -> " + folder.getFullName());
 
 
-//                Thread myTreadAllMails = new Thread(new AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика // TODO
+//                Thread myTreadAllMails = new Thread(new AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика // TODO 1 all
 //                myTreadAllMails.start(); // Запус потока
 
-                Thread myThreadEvent = new Thread(new MailListenerThread(user, folder)); // Создание потока для отслеживания действий с определенной папкой // TODO
+                Thread myThreadEvent = new Thread(new MailListenerThread(user, folder)); // Создание потока для отслеживания действий с определенной папкой // TODO 2 lsn
                 myThreadEvent.start(); // Запус потока
 
                 tmpThreadList.add(myThreadEvent); // Добавить потока в список
@@ -134,82 +130,15 @@ public class StartMail {
             threadMap.put(user.getEmail(), tmpThreadMap);
 
         } catch (MessagingException e) {
-            enterMessage("Problems wish " + user.getEmail());
-            System.err.println("Problems wish " + user.getEmail());
+            enterMessage("Problems wish "  + user.getEmail());
             e.printStackTrace();
         }
     }
 
-//    private void addWindow() {
-//        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Выходить из программы при закрытии основного окна
-//
-//        this.addWindowListener(new WindowListener() {
-//            @Override
-//            public void windowClosing(WindowEvent e) {
-//                System.exit(0);
-//            }
-//
-//            @Override
-//            public void windowOpened(WindowEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void windowClosed(WindowEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void windowIconified(WindowEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void windowDeiconified(WindowEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void windowActivated(WindowEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void windowDeactivated(WindowEvent e) {
-//
-//            }
-//        }); // Добавить событи для взаимодействия с основным окном
-
-//        textArea = new JTextArea(20, 30);         // Панель для вывода сообщения
-////        textArea.setEnabled(false);
-//        textArea.setEditable(false);
-//
-//        JScrollPane scrollPane = new JScrollPane(textArea);                                  // Панель прокрутки
-//        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);     // Вертикальная прокрутка
-//        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Горизонтальная прокрутка
-//        setPreferredSize(new Dimension(600, 1000));                            // Установить размер панели прокрутки
-//        add(scrollPane);                                                                     // Добавить на окно панель прокрутки
-//
-//        setVisible(true); // Сделать окно видимым
-//        pack();           // Сжать окно до минимума
-//    }
-
     // Вывод сообщения
     public static void enterMessage(String text) {
-        System.out.println(text);     // На панель
-//        textArea.append(text + "\n"); // В коммандную строку
+        System.out.println(text);       // На панель
         webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + text + "\", \"room_id\":\"1000\"}");
-    }
-
-    private void showFolders(Folder[] folders) {
-        String folder_name;
-        for (Folder folder : folders) {
-            StartMail.enterMessage(folder.getFullName());
-        }
-    }
-
-    private ArrayList<ArrayList<Thread>> getThreadList() {
-        return threadList;
     }
 
 	public static void main(String[] args) {
@@ -223,32 +152,8 @@ public class StartMail {
 
         while (true) {
 
-//            for (ArrayList<Thread> threads : startMail.getThreadList()) {
-//                for (Thread thread : threads) {
-//                    System.out.println(thread.getName() + " / " + thread.isAlive() + " / " + thread.isDaemon());
-//                }
-//            }
-
             int count_accaunt = threadMap.size();
             System.err.println("Users count - " + count_accaunt);
-
-//            for (HashMap.Entry<User, HashMap<Folder, Thread>> mapUsers : threadMap.entrySet()) {
-//                System.err.println("user - " + mapUsers.getKey().getEmail());
-//                HashMap<Folder, Thread> mapTmp = mapUsers.getValue();
-//                for (HashMap.Entry<Folder, Thread> mapFolders : mapTmp.entrySet()) {
-//                    Folder folder = mapFolders.getKey();
-//                    Thread thread = mapFolders.getValue();
-//                    if (!folder.isOpen()) {
-//                        try {
-//                            folder.open(Folder.READ_ONLY);
-//                        } catch (MessagingException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    System.err.println(folder.getFullName() + " / " +  thread.getName() + " / " + thread.isAlive());
-//                }
-//            }
-//            StringBuilder message = new StringBuilder();
 
             int i = 0;
             int j = 0;
@@ -256,7 +161,7 @@ public class StartMail {
             for (HashMap.Entry<String, HashMap<String, Thread>> mapUsers : threadMap.entrySet()) {
                 System.err.println(mapUsers.getKey());
 //                message.append(mapUsers.getKey());
-                String message = ++i + "/" + count_accaunt + " " + mapUsers.getKey();
+                StringBuilder message = new StringBuilder(++i + "/" + count_accaunt + " " + mapUsers.getKey());
                 HashMap<String, Thread> mapTmp = mapUsers.getValue();
 
 
@@ -267,12 +172,12 @@ public class StartMail {
                     Thread thread = mapFolders.getValue();
                     System.err.println("          " + folder + " / " +  thread.getName() + " / " + thread.isAlive());
 
-                    message += "/"  + (thread.isAlive() ? "1" : "0");
+                    message.append("/").append(thread.isAlive() ? "1" : "0");
 //                    message += folder + "/" + thread.getName() +  "/"  + (thread.isAlive() ? "1" : "0");
                     j++;
                 }
 
-                message += " " + count_folders;
+                message.append(count_folders);
 
                 try {
                     Thread.sleep(500);
@@ -290,12 +195,6 @@ public class StartMail {
                 e.printStackTrace();
             }
 
-//            try {
-//                webSocket.sendText("{\"act\":\"msg\", \"msg\":\"" + message.toString() + "\", \"room_id\":\"1000\"}");
-//                Thread.sleep(10000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
 	}
 

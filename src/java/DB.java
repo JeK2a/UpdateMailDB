@@ -27,12 +27,6 @@ public class DB implements AutoCloseable {
         params[1] = "useUnicode="        + Settings.getUseunicode();
         params[2] = "characterEncoding=" + Settings.getCharacterencoding();
 
-//        System.out.println(URL);
-//
-//        System.out.println("useSSL="            + Settings.getUsessl());
-//        System.out.println("useUnicode="        + Settings.getUseunicode());
-//        System.out.println("characterEncoding=" + Settings.getCharacterencoding());
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(URL + "?" + arrayToString(params, "&"), USER, PASSWORD); // JDBC подключение к MySQL
@@ -185,7 +179,7 @@ public class DB implements AutoCloseable {
 
         String query = "" +
             "SELECT " +
-                "`id`, "             +
+                " `id`, "            +
                 " `user_id`, "       +
                 " `email`, "         +
                 " `password`, "      +

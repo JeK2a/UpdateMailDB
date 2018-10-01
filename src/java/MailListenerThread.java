@@ -23,14 +23,12 @@ public class MailListenerThread implements Runnable {
                 folder.open(Folder.READ_ONLY);
             }
         } catch (MessagingException e) {
-            System.err.println(
-                    "Problem with email " + user.getEmail()
-                           + " / folder " + folder.getFullName()
-            );
+            System.err.println("Problem with email " + user.getEmail() + " / folder " + folder.getFullName());
             e.printStackTrace();
         }
 
         folder.addConnectionListener(new ConnectionListener() {
+
             @Override
             public void opened(ConnectionEvent connectionEvent) {
                 StartMail.enterMessage("Connection opened");
