@@ -31,7 +31,7 @@ public class Email {
     private int    deleted = 0;
     private int    seen    = 0;
     private int    draft   = 0;
-    private java.sql.Date update;
+    private java.sql.Timestamp update;
 
     public Email(User user, Message message) {
 
@@ -81,8 +81,9 @@ public class Email {
             this.client_id = 0; // TODO client_id;
             this.uid          = 0;
             this.user_id      = user.getUser_id();
-            this.message_id   = message.getHeader("Message-ID")[0].
-                                    replace("<", "").replace(">", "");
+            this.message_id   = message.getHeader("Message-ID")[0]
+                                    .replace("<", "")
+                                    .replace(">", "");
             this.msgno        = 0;
             this.from         = from;
             this.to           = (to == null ? "" : to);
@@ -100,7 +101,15 @@ public class Email {
             if (this.subject == null) { this.subject = " "; }
 
             this.folder       = message.getFolder().getFullName();
-            this.update       = new java.sql.Date(new Date().getTime());
+            this.update       = new java.sql.Timestamp(new Date().getTime());
+
+            System.err.println(new Date());
+            System.err.println(new Date().getTime());
+            System.err.println(new java.sql.Timestamp(new Date().getTime()));
+
+            Flags.Flag myF = new Flags.Flag(1);
+
+            message.setFlag(myF,true);
 
             if (message.isSet(Flags.Flag.DELETED )) { this.deleted = 1; }
             if (message.isSet(Flags.Flag.ANSWERED)) { this.answred = 1; }
@@ -236,7 +245,7 @@ public class Email {
         return draft;
     }
 
-    public java.sql.Date getUpdate() {
+    public java.sql.Timestamp getUpdate() {
         return update;
     }
 

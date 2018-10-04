@@ -95,13 +95,11 @@ public class DB implements AutoCloseable {
             prep_stmt.setInt(18, email.getDeleted());
             prep_stmt.setInt(19, email.getSeen());
             prep_stmt.setInt(20, email.getDraft());
-            prep_stmt.setDate(21, email.getUpdate());
-
-//            prep_stmt.setString(22, email.getMessage_id());
+            prep_stmt.setTimestamp(21, email.getUpdate());
 
             prep_stmt.executeLargeUpdate();
         } catch (SQLException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         }
 
         return true;

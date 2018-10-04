@@ -2,6 +2,7 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.event.*;
+import java.util.Enumeration;
 
 public class MailListenerThread implements Runnable {
 
@@ -58,9 +59,54 @@ public class MailListenerThread implements Runnable {
         folder.addMessageChangedListener(new MessageChangedListener() {
             @Override
             public void messageChanged(MessageChangedEvent messageChangedEvent) {
-                StartMail.enterMessage(new Email(user, messageChangedEvent.getMessage()).toString());
+                Message message = messageChangedEvent.getMessage();
+                Email email = new Email(user, message);
 
-                db.changeMessage(new Email(user, messageChangedEvent.getMessage()));
+
+                try {
+//                    Enumeration enumeration =  message.getAllHeaders();
+
+//                    Enumeration enumeration1 = new Vec
+//
+//                    while (enumeration.hasMoreElements()) {
+//                        System.out.println(enumeration.nextElement());
+//                    }
+
+//                    Vector v = new Vector();
+//
+//                    v.add("one");
+//                    v.add("2");
+//                    v.add("3");
+//                    v.add("4");
+//                    v.add("5");
+
+
+            for (Enumeration e = message.getAllHeaders(); e.hasMoreElements();) {
+                System.out.println(e.nextElement());
+            }
+
+
+//                    while (enumeration.hasMoreElements()) {
+//                        String tmp = enumeration.nextElement().toString();
+//                        System.out.println("Text ---- " + tmp);
+//                    }
+//
+//                    Iterator iterator = enumeration.asIterator();
+//
+//                    while (iterator.hasNext()) {
+//                        String tmp = (String) iterator.next();
+//                        System.out.println("Text ---> " + tmp);
+//
+//                    }
+
+
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+
+                StartMail.enterMessage(email.toString());
+
+                db.changeMessage(email);
                 StartMail.enterMessage("messageChanged");
 
 //                    Enumeration headers = messageChangedEvent.getMessage().getAllHeaders();

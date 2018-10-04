@@ -113,7 +113,6 @@ public class StartMail {
             for (IMAPFolder folder: folders) {
                 StartMail.enterMessage("Connect to -> " + user.getEmail() + " -> " + folder.getFullName());
 
-
 //                Thread myTreadAllMails = new Thread(new AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика // TODO 1 all
 //                myTreadAllMails.start(); // Запус потока
 
@@ -164,7 +163,6 @@ public class StartMail {
                 StringBuilder message = new StringBuilder(++i + "/" + count_accaunt + " " + mapUsers.getKey());
                 HashMap<String, Thread> mapTmp = mapUsers.getValue();
 
-
                 int count_folders = mapTmp.size();
 
                 for (HashMap.Entry<String, Thread> mapFolders : mapTmp.entrySet()) {
@@ -194,8 +192,6 @@ public class StartMail {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
 	}
-
 }
