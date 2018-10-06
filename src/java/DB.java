@@ -78,14 +78,14 @@ public class DB implements AutoCloseable {
             prep_stmt.setString(1, email.getDirection());
             prep_stmt.setInt(2, email.getUser_id());
             prep_stmt.setInt(3, email.getClient_id());
-            prep_stmt.setInt(4, email.getUid());
+            prep_stmt.setLong(4, email.getUid());
             prep_stmt.setString(5, email.getMessage_id());
             prep_stmt.setInt(6, email.getMsgno());
             prep_stmt.setString(7, email.getFrom() );
             prep_stmt.setString(8, email.getTo());
             prep_stmt.setString(9, email.getIn_replay_to());
             prep_stmt.setString(10,email.getReferences());
-            prep_stmt.setDate(11, email.getDate());
+            prep_stmt.setTimestamp(11, email.getDate());
             prep_stmt.setInt(12, email.getSize());
             prep_stmt.setString(13, email.getSubject());
             prep_stmt.setString(14, email.getFolder());
@@ -227,6 +227,32 @@ public class DB implements AutoCloseable {
         return users;
     }
 
+    public long getLastUID(int user_id, String folder_name) {
+
+        String query = "" +
+                "SELECT MAX(`uid`) "            +
+                "FROM `" + Settings.getTable_emails() + "` " +
+                "WHERE " +
+                "    `user_id` = '"+user_id+"' AND " +
+                "    `folder` = '"+folder_name+"' ";
+        System.out.println(query);
+
+        long last_uid = 0;
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+
+            if (rs.next()) { last_uid = rs.getLong(1); }
+            System.out.println(last_uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return last_uid;
+    }
+
+
     public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
         String query = "" +
                 "UPDATE `" + Settings.getTable_emails() + "` " +
@@ -292,6 +318,62 @@ public class DB implements AutoCloseable {
                 "WHERE" +
                     "`folder`     = '" + user_id               + "' AND " +
                     "`message_id` = '" + email.getMessage_id() + "';";
+
+        int result = 0;
+
+        try {
+            result = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int setFlags() {
+        return this.setFlags(0, null);
+    }
+
+    public int setFlags(int user_id) {
+        return this.setFlags(user_id, null);
+    }
+
+    public int setFlags(int user_id, String folder_name) {
+        String query = "" +
+                "UPDATE `a_my_emails` " +
+                "SET " +
+                "    `recent`   = 0," +
+                "    `flagged`  = 0," +
+                "    `answered` = 0," +
+                "    `deleted`  = 0," +
+                "    `seen`     = 1," +
+                "    `draft`    = 0 " +
+                "WHERE TRUE ";
+        if (user_id != 0) {
+            query += String.format(" AND `user_id` = '%d' ", user_id);
+        }
+        if (folder_name != null) {
+            query += String.format(" AND `folder` = '%s' ", folder_name);
+        }
+
+        int result = 0;
+
+        try {
+            result = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int setFlags(int user_id, String folder_name, String flag_name, byte flag_value) {
+        String query = "" +
+                "UPDATE `a_my_emails` " +
+                "SET `"+flag_name+"` = "+flag_value+" " +
+                "WHERE  " +
+                "   `user_id` = '"+user_id+"' AND" +
+                "   `folder` = '"+flag_name+"';";
 
         int result = 0;
 

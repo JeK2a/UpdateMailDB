@@ -66,8 +66,8 @@ public class MyTest {
             store.addStoreListener(storeEvent ->
                     StartMail.enterMessage("store notification - " + storeEvent.getMessage()));
 
-            IMAPFolder[] folders = (IMAPFolder[]) store.getDefaultFolder().list(); // Получение списка папок лоя текушего подключения
-            for (IMAPFolder folder: folders) {
+            IMAPFolder[] imap_folders = (IMAPFolder[]) store.getDefaultFolder().list(); // Получение списка папок лоя текушего подключения
+            for (IMAPFolder folder: imap_folders) {
 
 //                Thread myTreadAllMails = new Thread(new AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика // TODO 1 all
 //                myTreadAllMails.start(); // Запус потока

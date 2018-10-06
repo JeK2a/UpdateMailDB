@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `a_my_emails` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `size` int(11) NOT NULL,
   `subject` text COLLATE utf8mb4_general_ci NOT NULL,  -- varchar
-  `folder` varchar(255) NOT NULL,
+  `imap_folder` varchar(255) NOT NULL,
   `recent` int(11) NOT NULL,
   `flagged` int(11) NOT NULL,
   `answered` int(11) NOT NULL,

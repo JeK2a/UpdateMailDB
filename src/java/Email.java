@@ -1,7 +1,9 @@
-import javax.mail.Flags;
-import javax.mail.Message;
-import javax.mail.MessagingException;
+import com.sun.mail.imap.IMAPFolder;
+import com.sun.mail.imap.IMAPMessage;
+
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Email {
@@ -10,7 +12,7 @@ public class Email {
     private String direction;
     private int    user_id;
     private int    client_id = 0;
-    private int    uid;
+    private long   uid;
     private String message_id;
     private int    msgno;
     private String from;
@@ -21,7 +23,7 @@ public class Email {
 
     private String in_replay_to;
     private String references = "";
-    private java.sql.Date date;
+    private java.sql.Timestamp date;
     private int    size;
     private String subject;
     private String folder;
@@ -33,11 +35,12 @@ public class Email {
     private int    draft   = 0;
     private java.sql.Timestamp update;
 
-    public Email(User user, Message message) {
+    public Email(User user, IMAPMessage imap_message, IMAPFolder imap_folder) {
 
         int client_id;
 
         try {
+
 //            Address[] arr_cc  = message.getRecipients(Message.RecipientType.CC);
 //            Address[] arr_bcc = message.getRecipients(Message.RecipientType.BCC);
 //
@@ -57,17 +60,17 @@ public class Email {
 //
 //            System.err.println();
 
-            String to   = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+            String to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
 //            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
 //            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
-            String from = InternetAddress.toString(message.getFrom());
+            String from = InternetAddress.toString(imap_message.getFrom());
 
 //            this.cc  = cc;
 //            this.bcc = bcc;
 
             if (
-                message.getFrom() != null &&
-                InternetAddress.toString(message.getFrom()).contains(user.getEmail())
+                imap_message.getFrom() != null &&
+                InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
             ) {
                 this.direction    = "out";
 //                client_id = DB.getClientIDByAddress(to);
@@ -79,44 +82,47 @@ public class Email {
             }
 
             this.client_id = 0; // TODO client_id;
-            this.uid          = 0;
+
+            if (!imap_folder.isOpen()) {
+                try {
+                    imap_folder.open(IMAPFolder.READ_ONLY);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
+
+            this.uid          = imap_folder_tmp.getUID(imap_message);
             this.user_id      = user.getUser_id();
-            this.message_id   = message.getHeader("Message-ID")[0]
+            this.message_id   = imap_message.getHeader("Message-ID")[0]
                                     .replace("<", "")
                                     .replace(">", "");
             this.msgno        = 0;
             this.from         = from;
             this.to           = (to == null ? "" : to);
 
-            this.in_replay_to =  InternetAddress.toString(message.getReplyTo());
+            this.in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
 
             if (this.in_replay_to == null || this.in_replay_to.equals("")) {
                 this.in_replay_to = " ";
             }
 
-            this.date         = new java.sql.Date(message.getSentDate().getTime());
-            this.size         = message.getSize();
+            this.date         = new java.sql.Timestamp(imap_message.getSentDate().getTime());
+            this.size         = imap_message.getSize();
 
-            this.subject      = removeBadChars(message.getSubject());
+            this.subject      = removeBadChars(imap_message.getSubject());
             if (this.subject == null) { this.subject = " "; }
 
-            this.folder       = message.getFolder().getFullName();
+            this.folder       = imap_message.getFolder().getFullName();
             this.update       = new java.sql.Timestamp(new Date().getTime());
 
-            System.err.println(new Date());
-            System.err.println(new Date().getTime());
-            System.err.println(new java.sql.Timestamp(new Date().getTime()));
-
-            Flags.Flag myF = new Flags.Flag(1);
-
-            message.setFlag(myF,true);
-
-            if (message.isSet(Flags.Flag.DELETED )) { this.deleted = 1; }
-            if (message.isSet(Flags.Flag.ANSWERED)) { this.answred = 1; }
-            if (message.isSet(Flags.Flag.DRAFT   )) { this.draft   = 1; }
-            if (message.isSet(Flags.Flag.FLAGGED )) { this.flagged = 1; }
-            if (message.isSet(Flags.Flag.RECENT  )) { this.recent  = 1; }
-            if (message.isSet(Flags.Flag.SEEN    )) { this.seen    = 1; }
+            if (imap_message.isSet(Flags.Flag.DELETED )) { this.deleted = 1; }
+            if (imap_message.isSet(Flags.Flag.ANSWERED)) { this.answred = 1; }
+            if (imap_message.isSet(Flags.Flag.DRAFT   )) { this.draft   = 1; }
+            if (imap_message.isSet(Flags.Flag.FLAGGED )) { this.flagged = 1; }
+            if (imap_message.isSet(Flags.Flag.RECENT  )) { this.recent  = 1; }
+            if (imap_message.isSet(Flags.Flag.SEEN    )) { this.seen    = 1; }
 
 //            String from = InternetAddress.toString(message.getFrom());
 //            String reply-to =  InternetAddress.toString(message.getReplyTo());
@@ -177,7 +183,7 @@ public class Email {
         return client_id;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
@@ -205,7 +211,7 @@ public class Email {
         return references;
     }
 
-    public java.sql.Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
