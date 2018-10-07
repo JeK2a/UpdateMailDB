@@ -22,10 +22,10 @@ src/java/old.PopupAuthenticator.java
 .idea/*
 .DS_Store
 .idea/workspace.xml
-src/java/MyProperties.java
-src/java/MyProperties.java
+src/java/com.MyProperties.java
+src/java/com.MyProperties.java
 .idea/workspace.xml
-.idea/StartMail.iml
+.idea/com.StartMail.iml
 .idea/libraries/Java_EE_6_Java_EE_6.xml
 .idea/workspace.xml
 .idea/compiler.xml
