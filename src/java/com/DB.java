@@ -1,7 +1,9 @@
 package com;
 
 import com.classes.Email;
+import com.classes.MyMessage;
 import com.classes.User;
+import com.service.Settings;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -240,7 +242,6 @@ public class DB implements AutoCloseable {
                 "WHERE " +
                 "    `user_id` = '"+user_id+"' AND " +
                 "    `folder` = '"+folder_name+"' ";
-        System.out.println(query);
 
         long last_uid = 0;
 
@@ -390,5 +391,79 @@ public class DB implements AutoCloseable {
 
         return result;
     }
+
+    public ArrayList<MyMessage> getRandomMessages(int user_id, String folder_name, int count) {
+
+        String query = "" +
+                "SELECT" +
+                "    `id`, "          +
+                "    `direction`, "   +
+                "    `user_id`, "     +
+                "    `client_id`, "   +
+                "    `uid`,"          +
+                "    `message_id`, "  +
+                "    `msgno`, "       +
+                "    `from`, "        +
+                "    `to`, "          +
+                "    `in_reply_to`, " +
+                "    `references`, "  +
+                "    `date`, "        +
+                "    `size`, "        +
+                "    `subject`, "     +
+                "    `folder`, "      +
+                "    `recent`, "      +
+                "    `flagged`, "     +
+                "    `answered`, "    +
+                "    `deleted`, "     +
+                "    `seen`, "        +
+                "    `draft`, "       +
+                "    `udate` "        +
+                "FROM `a_my_emails` " +
+                "WHERE " +
+                "    `user_id` = '"+user_id +"' AND " +
+                "    `folder` = '"+folder_name+"' " +
+                "ORDER BY RAND() LIMIT 1";
+
+        ArrayList<MyMessage> myMessages = new ArrayList<>();
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                myMessages.add(
+                        new MyMessage(
+                                rs.getInt(1),
+                                rs.getString(2),
+                                rs.getInt(3),
+                                rs.getInt(4),
+                                rs.getLong(5),
+                                rs.getString(6),
+                                rs.getInt(7),
+                                rs.getString(8),
+                                rs.getString(9),
+                                rs.getString(10),
+                                rs.getString(11),
+                                rs.getTimestamp(12),
+                                rs.getInt(13),
+                                rs.getString(14),
+                                rs.getString(15),
+                                rs.getInt(16),
+                                rs.getInt(17),
+                                rs.getInt(18),
+                                rs.getInt(19),
+                                rs.getInt(20),
+                                rs.getInt(21),
+                                rs.getTimestamp(22)
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return myMessages;
+    }
+
 
 }

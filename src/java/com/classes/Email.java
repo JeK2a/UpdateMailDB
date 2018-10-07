@@ -143,7 +143,7 @@ public class Email {
 
     @Override
     public String toString() {
-        return "com.classes.Email {"                              + " \n" +
+        return "Email {"                              + " \n" +
                 "     id           = " + id           + ",\n" +
                 "     direction    = " + direction    + ",\n" +
                 "     user_id      = " + user_id      + ",\n" +

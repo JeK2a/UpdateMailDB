@@ -1,4 +1,4 @@
-package com;
+package com.service;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;

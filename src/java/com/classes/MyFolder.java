@@ -2,24 +2,38 @@ package com.classes;
 
 import com.sun.mail.imap.IMAPFolder;
 
+import javax.mail.MessagingException;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class MyFolder {
     private String folder_name;
-    private Thread thread;
+    private Thread threadAddNewMessages;
+    private Thread threadLisaningChangeMessage;
     private String status;
+    private Exception exception;
     private Timestamp last_event_time;
     private int event_counter;
     private IMAPFolder imap_folder;
+    private long messages_count;
 
-    public MyFolder(String folder_name, Thread thread, String status, Timestamp last_event_time, int event_counter, IMAPFolder imap_folder) {
+    private String email;
+
+    public MyFolder(String folder_name, Thread threadAddNewMessages, String status, Timestamp last_event_time, int event_counter, IMAPFolder imap_folder) {
         this.folder_name = folder_name;
-        this.thread = thread;
+        this.threadAddNewMessages = threadAddNewMessages;
         this.status = status;
         this.last_event_time = last_event_time;
         this.event_counter = event_counter;
         this.imap_folder = imap_folder;
+
+        try {
+            this.messages_count = imap_folder.getMessageCount();
+        } catch (MessagingException e) {
+            setException(e);
+            setStatus("error");
+            e.printStackTrace();
+        }
     }
 
     public MyFolder(IMAPFolder imap_folder) {
@@ -28,6 +42,14 @@ public class MyFolder {
         this.last_event_time = null;
         this.event_counter = 0;
         this.imap_folder = imap_folder;
+
+        try {
+            this.messages_count = imap_folder.getMessageCount();
+        } catch (MessagingException e) {
+            setException(e);
+            setStatus("error");
+            e.printStackTrace();
+        }
     }
 
     public String getFolder_name() {
@@ -38,12 +60,12 @@ public class MyFolder {
         this.folder_name = folder_name;
     }
 
-    public Thread getThread() {
-        return thread;
+    public Thread getThreadAddNewMessages() {
+        return threadAddNewMessages;
     }
 
-    public void setThread(Thread thread) {
-        this.thread = thread;
+    public void setThreadAddNewMessages(Thread threadAddNewMessages) {
+        this.threadAddNewMessages = threadAddNewMessages;
     }
 
     public String getStatus() {
@@ -78,30 +100,74 @@ public class MyFolder {
         this.imap_folder = imap_folder;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Thread getThreadLisaningChangeMessage() {
+        return threadLisaningChangeMessage;
+    }
+
+    public void setThreadLisaningChangeMessage(Thread threadLisaningChangeMessage) {
+        this.threadLisaningChangeMessage = threadLisaningChangeMessage;
+    }
+
+    public void eventCountIncriminate() {
+        this.event_counter++;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
+    }
+
+    public long getMessages_count() {
+        try {
+            this.messages_count = imap_folder.getMessageCount();
+        } catch (MessagingException e) {
+            setException(e);
+            setStatus("error");
+            e.printStackTrace();
+        }
+
+        return messages_count;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MyFolder myFolder = (MyFolder) o;
         return Objects.equals(folder_name, myFolder.folder_name) &&
-               Objects.equals(thread, myFolder.thread) &&
+               Objects.equals(threadAddNewMessages, myFolder.threadAddNewMessages) &&
                Objects.equals(imap_folder, myFolder.imap_folder);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(folder_name, thread, imap_folder);
+        return Objects.hash(folder_name, threadAddNewMessages, imap_folder);
     }
 
     @Override
     public String toString() {
-        return "MyFolder{" +
-                "folder_name='" + folder_name + '\'' +
-                ", com.threads=" + thread +
-                ", status='" + status + '\'' +
-                ", last_event_time=" + last_event_time +
-                ", event_counter=" + event_counter +
-                ", imap_folder=" + imap_folder +
-                '}';
+        return "MyFolder {" + "\n" +
+               "                        folder_name                 = " + folder_name + "\n" +
+               "                        threadAddNewMessages        = " + threadAddNewMessages + " name = " + threadAddNewMessages.getName() + " is_aleve = " + threadAddNewMessages.isAlive() + "\n" +
+               "                        threadLisaningChangeMessage = " + threadLisaningChangeMessage + " name = " + threadLisaningChangeMessage.getName() + " is_aleve = " + threadLisaningChangeMessage.isAlive() + "\n" +
+               "                        status                      = " + status + "\n" +
+               "                        exception                   = " + exception + "\n" +
+               "                        last_event_time             = " + last_event_time + "\n" +
+               "                        event_counter               = " + event_counter + "\n" +
+               "                        messages_counter            = " + messages_count + "\n" +
+               "                        imap_folder                 = " + imap_folder + "\n" +
+               "                        email                       = " + email + "\n" +
+               "            }";
     }
 }

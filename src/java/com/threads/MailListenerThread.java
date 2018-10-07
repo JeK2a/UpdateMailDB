@@ -3,6 +3,8 @@ package com.threads;
 import com.DB;
 import com.classes.Email;
 import com.StartMail;
+import com.classes.EmailAccount;
+import com.classes.MyFolder;
 import com.classes.User;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
@@ -17,22 +19,32 @@ public class MailListenerThread implements Runnable {
     private IMAPFolder imap_folder;
     private final ThreadLocal<Integer> thread_sleep_time = ThreadLocal.withInitial(() -> 1000);
     private DB db;
-    private User user;
+    private String email;
 
-    public MailListenerThread(User user, IMAPFolder imap_folder) {
-        this.user = user;
-        this.imap_folder = imap_folder;
+    private EmailAccount emailAccount;
+    private User user;
+    private MyFolder myFolder;
+
+    public MailListenerThread(EmailAccount emailAccount, MyFolder myFolder) {
         db = new DB();
+        this.emailAccount = emailAccount;
+        this.user         = emailAccount.getUser();
+        this.email        = emailAccount.getUser().getEmail();
+        this.myFolder     = myFolder;
+        this.imap_folder  = myFolder.getImap_folder();
     }
 
     @Override
     public void run() {
         try {
             if (!imap_folder.isOpen()) {
+                myFolder.eventCountIncriminate();
                 imap_folder.open(IMAPFolder.READ_ONLY);
             }
         } catch (MessagingException e) {
-            System.err.println("Problem with email " + user.getEmail() + " / imap_folder " + imap_folder.getFullName());
+            System.err.println("Problem with email " + email + " / imap_folder " + imap_folder.getFullName());
+            myFolder.setStatus("error");
+            myFolder.setException(e);
             e.printStackTrace();
         }
 
@@ -40,26 +52,40 @@ public class MailListenerThread implements Runnable {
 
             @Override
             public void opened(ConnectionEvent connectionEvent) {
-                StartMail.enterMessage("Connection opened");
+                try {
+                    myFolder.eventCountIncriminate();
+                    StartMail.enterMessage("Connection opened");
+                } catch (Exception e) {
+                    myFolder.setStatus("error");
+                    myFolder.setException(e);
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void disconnected(ConnectionEvent connectionEvent) {
                 StartMail.enterMessage("Connection disconnected");
                 try {
+                    myFolder.eventCountIncriminate();
                     imap_folder.open(Folder.READ_ONLY);
                 } catch (MessagingException e) {
-                    System.err.println(
-                            "Problem with email " + user.getEmail()
-                                   + " / imap_folder " + imap_folder.getFullName()
-                    );
+                    System.err.println("Problem with email " + email + " / imap_folder " + imap_folder.getFullName());
+                    myFolder.setStatus("error");
+                    myFolder.setException(e);
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void closed(ConnectionEvent connectionEvent) {
-                StartMail.enterMessage("Connection closed");
+                try {
+                    myFolder.eventCountIncriminate();
+                    StartMail.enterMessage("Connection closed");
+                } catch (Exception e) {
+                    myFolder.setStatus("error");
+                    myFolder.setException(e);
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -67,33 +93,58 @@ public class MailListenerThread implements Runnable {
         imap_folder.addMessageChangedListener(new MessageChangedListener() {
             @Override
             public void messageChanged(MessageChangedEvent messageChangedEvent) {
-                IMAPMessage imap_message = (IMAPMessage) messageChangedEvent.getMessage();
-                Email email = new Email(user, imap_message, imap_folder);
+                try {
+                    myFolder.eventCountIncriminate();
 
-                StartMail.enterMessage(email.toString());
+                    IMAPMessage imap_message = (IMAPMessage) messageChangedEvent.getMessage();
+                    Email email = new Email(user, imap_message, imap_folder);
 
-                db.changeMessage(email);
-                StartMail.enterMessage("messageChanged");
+                    StartMail.enterMessage(email.toString());
+
+                    db.changeMessage(email);
+                    StartMail.enterMessage("messageChanged");
+                } catch (Exception e) {
+                    myFolder.setStatus("error");
+                    myFolder.setException(e);
+                    e.printStackTrace();
+                }
             }
         });
 
         imap_folder.addMessageCountListener(new MessageCountListener() {
             @Override
             public void messagesAdded(MessageCountEvent messageCountEvent) {
-                for (Message message : messageCountEvent.getMessages()) {
-                    db.addEmail(new Email(user, (IMAPMessage)  message, imap_folder));
-                    StartMail.enterMessage("messagesAdded ");
+                try {
+                    myFolder.eventCountIncriminate();
+                    StartMail.enterMessage("messagesAdded");
+
+                    for (Message message : messageCountEvent.getMessages()) {
+                        db.addEmail(new Email(user, (IMAPMessage) message, imap_folder));
+
+                    }
+                } catch (Exception e) {
+                    myFolder.setStatus("error");
+                    myFolder.setException(e);
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void messagesRemoved(MessageCountEvent messageCountEvent) { // TODO messagesRemoved
-                for (Message message : messageCountEvent.getMessages()) {
-                    db.changeMessage(new Email(user, (IMAPMessage) message, imap_folder));
-                    StartMail.enterMessage("messagesRemoved");
+                try {
+                    for (Message message : messageCountEvent.getMessages()) {
+                        db.changeMessage(new Email(user, (IMAPMessage) message, imap_folder));
+                        StartMail.enterMessage("messagesRemoved");
+                    }
+                } catch (Exception e) {
+                    myFolder.setStatus("error");
+                    myFolder.setException(e);
+                    e.printStackTrace();
                 }
             }
         });
+
+        myFolder.setStatus("listening");
 
         try {
             while (true) {
@@ -104,7 +155,9 @@ public class MailListenerThread implements Runnable {
                 Thread.sleep(thread_sleep_time.get());
             }
         } catch (InterruptedException | MessagingException e) {
-            System.err.println("Problem with email " + user.getEmail() + " / imap_folder " + imap_folder.getFullName());
+            System.err.println("Problem with email " + email + " / imap_folder " + imap_folder.getFullName());
+            myFolder.setStatus("error");
+            myFolder.setException(e);
             e.printStackTrace();
         }
 

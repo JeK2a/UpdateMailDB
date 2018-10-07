@@ -1,6 +1,7 @@
 package com;
 
 import com.classes.User;
+import com.service.Settings;
 
 import java.util.Properties;
 
