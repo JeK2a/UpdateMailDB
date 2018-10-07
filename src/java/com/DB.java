@@ -422,7 +422,7 @@ public class DB implements AutoCloseable {
                 "WHERE " +
                 "    `user_id` = '"+user_id +"' AND " +
                 "    `folder` = '"+folder_name+"' " +
-                "ORDER BY RAND() LIMIT 1";
+                "ORDER BY RAND() LIMIT "+count+";";
 
         ArrayList<MyMessage> myMessages = new ArrayList<>();
 

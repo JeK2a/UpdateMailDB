@@ -1,8 +1,8 @@
 package com.threads;
 
 import com.DB;
-import com.classes.Email;
 import com.StartMail;
+import com.classes.Email;
 import com.classes.EmailAccount;
 import com.classes.MyFolder;
 import com.classes.User;
@@ -13,6 +13,8 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.event.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class MailListenerThread implements Runnable {
 
@@ -38,8 +40,9 @@ public class MailListenerThread implements Runnable {
     public void run() {
         try {
             if (!imap_folder.isOpen()) {
-                myFolder.eventCountIncriminate();
                 imap_folder.open(IMAPFolder.READ_ONLY);
+                myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
+                myFolder.eventCountIncriminate();
             }
         } catch (MessagingException e) {
             System.err.println("Problem with email " + email + " / imap_folder " + imap_folder.getFullName());
@@ -53,6 +56,7 @@ public class MailListenerThread implements Runnable {
             @Override
             public void opened(ConnectionEvent connectionEvent) {
                 try {
+                    myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
                     StartMail.enterMessage("Connection opened");
                 } catch (Exception e) {
@@ -66,6 +70,7 @@ public class MailListenerThread implements Runnable {
             public void disconnected(ConnectionEvent connectionEvent) {
                 StartMail.enterMessage("Connection disconnected");
                 try {
+                    myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
                     imap_folder.open(Folder.READ_ONLY);
                 } catch (MessagingException e) {
@@ -79,6 +84,7 @@ public class MailListenerThread implements Runnable {
             @Override
             public void closed(ConnectionEvent connectionEvent) {
                 try {
+                    myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
                     StartMail.enterMessage("Connection closed");
                 } catch (Exception e) {
@@ -94,6 +100,7 @@ public class MailListenerThread implements Runnable {
             @Override
             public void messageChanged(MessageChangedEvent messageChangedEvent) {
                 try {
+                    myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
 
                     IMAPMessage imap_message = (IMAPMessage) messageChangedEvent.getMessage();
@@ -115,6 +122,7 @@ public class MailListenerThread implements Runnable {
             @Override
             public void messagesAdded(MessageCountEvent messageCountEvent) {
                 try {
+                    myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
                     StartMail.enterMessage("messagesAdded");
 

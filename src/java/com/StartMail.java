@@ -26,7 +26,6 @@ public class StartMail {
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
 
     private static WSSChatClient wssChatClient;
-//    private static ArrayList<EmailAccount> emailAccounts = new ArrayList<>();
     private static HashMap<Integer, EmailAccount> emailAccounts = new HashMap<>();
 
     private StartMail() {
@@ -136,9 +135,6 @@ public class StartMail {
                     }
                     Thread.sleep(1000);
                 }
-
-
-
 //                myTreadAllMails.start(); // Запус потока
 
 
@@ -175,7 +171,7 @@ public class StartMail {
 //                }
             }
 
-            emailAccount.setStatus("success");
+            emailAccount.setStatus("listening");
 
         } catch (MessagingException | InterruptedException e) {
             enterMessage("Problems wish "  + emailAccount.getUser().getEmail());
@@ -206,6 +202,17 @@ public class StartMail {
             EmailAccount emailAccount = new EmailAccount(user);
             emailAccounts.put(++i, emailAccount);
             startMail.connectToMailAccount(emailAccount); // Подключение к почтовым аккаунтам
+
+            while (true) {
+                if (emailAccount.getStatus().equals("listening") || emailAccount.getStatus().equals("stop")) {
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         while (true) {

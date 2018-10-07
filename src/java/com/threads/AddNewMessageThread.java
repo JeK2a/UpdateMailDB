@@ -43,15 +43,16 @@ public class AddNewMessageThread implements Runnable {
 
             int part_count = (int) (Math.sqrt(messages_count) / 2);
 
-            ArrayList<MyMessage> myMessages = db.getRandomMessages(emailAccount.getUser().getUser_id(),
-                    myFolder.getFolder_name(), part_count);
+            ArrayList<MyMessage> myMessages = db.getRandomMessages(
+                    emailAccount.getUser().getUser_id(),
+                    myFolder.getFolder_name(),
+                    part_count
+            );
             long[] uids = new long[part_count];
             int i = 0;
 
-            System.out.println(" size = " +myMessages.size());
-
             for (MyMessage myMessage : myMessages) {
-                uids[++i] = myMessage.getUid();
+                uids[i++] = myMessage.getUid();
             }
 
             Message[] messages_tmp = imap_folder.getMessagesByUID(uids);
@@ -61,10 +62,7 @@ public class AddNewMessageThread implements Runnable {
             i = 0;
 
             for (MyMessage myMessage : myMessages) {
-
-                System.out.println(myMessages);
-
-                if (myMessage.compare(messages_tmp[++i])) {
+                if (myMessage.compare(messages_tmp[i++])) {
                     check_count++;
                 }
             }

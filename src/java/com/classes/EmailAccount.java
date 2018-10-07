@@ -28,9 +28,9 @@ public class EmailAccount implements Serializable {
     }
 
     public EmailAccount(User user, HashMap<String, MyFolder> myFoldersMap, String status) {
-        this.user    = user;
+        this.user         = user;
         this.myFoldersMap = myFoldersMap;
-        this.status  = status;
+        this.status       = status;
     }
 
     public User getUser() {
