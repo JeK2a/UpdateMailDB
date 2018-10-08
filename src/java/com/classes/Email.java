@@ -35,6 +35,7 @@ public class Email {
     private int    deleted = 0;
     private int    seen    = 0;
     private int    draft   = 0;
+    private int    user    = 0;
     private java.sql.Timestamp update;
 
     public Email(User user, IMAPMessage imap_message, IMAPFolder imap_folder) {
@@ -62,26 +63,30 @@ public class Email {
 //
 //            System.err.println();
 
-            String to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
-//            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
-//            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
-            String from = InternetAddress.toString(imap_message.getFrom());
-
-//            this.cc  = cc;
-//            this.bcc = bcc;
-
             if (
                 imap_message.getFrom() != null &&
                 InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
             ) {
                 this.direction    = "out";
 //                client_id = com.DB.getClientIDByAddress(to);
-                from = user.getEmail(); // TODO
+
+//                from = user.getEmail(); // TODO
+
             } else {
                 this.direction    = "in";
 //                client_id = com.DB.getClientIDByAddress(from);
-                to = user.getEmail();   // TODO
+//                to = user.getEmail();   // TODO
             }
+
+            //            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
+//            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
+            String to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
+            String from = InternetAddress.toString(imap_message.getFrom());
+            //            this.cc  = cc;
+//            this.bcc = bcc;
+            this.from = from;
+            this.to   = to;
+
 
             this.client_id = 0; // TODO client_id;
 
@@ -97,9 +102,10 @@ public class Email {
 
             this.uid          = imap_folder_tmp.getUID(imap_message);
             this.user_id      = user.getUser_id();
-            this.message_id   = imap_message.getHeader("Message-ID")[0]
-                                    .replace("<", "")
-                                    .replace(">", "");
+//            this.message_id   = imap_message.getHeader("Message-ID")[0]
+//                                    .replace("<", "")
+//                                    .replace(">", "");
+            this.message_id = imap_message.getMessageID();
             this.msgno        = 0;
             this.from         = from;
             this.to           = (to == null ? "" : to);
@@ -125,6 +131,7 @@ public class Email {
             if (imap_message.isSet(Flags.Flag.FLAGGED )) { this.flagged = 1; }
             if (imap_message.isSet(Flags.Flag.RECENT  )) { this.recent  = 1; }
             if (imap_message.isSet(Flags.Flag.SEEN    )) { this.seen    = 1; }
+            if (imap_message.isSet(Flags.Flag.USER    )) { this.user    = 1; }
 
 //            String from = InternetAddress.toString(message.getFrom());
 //            String reply-to =  InternetAddress.toString(message.getReplyTo());

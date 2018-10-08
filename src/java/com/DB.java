@@ -74,9 +74,10 @@ public class DB implements AutoCloseable {
                 "`deleted`,"     +
                 "`seen`,"        +
                 "`draft`,"       +
+                "`user`,"       +
                 "`udate`"        +
             ") "                 +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
                 "ON DUPLICATE KEY UPDATE `message_id` = VALUES(`message_id`);";
 
         try {
@@ -102,7 +103,8 @@ public class DB implements AutoCloseable {
             prep_stmt.setInt(18, email.getDeleted());
             prep_stmt.setInt(19, email.getSeen());
             prep_stmt.setInt(20, email.getDraft());
-            prep_stmt.setTimestamp(21, email.getUpdate());
+            prep_stmt.setInt(21, email.getDraft());
+            prep_stmt.setTimestamp(22, email.getUpdate());
 
             prep_stmt.executeLargeUpdate();
         } catch (SQLException e) {
@@ -140,6 +142,7 @@ public class DB implements AutoCloseable {
                 "`deleted`     = '" + email.getDeleted()      + "', " +
                 "`seen`        = '" + email.getSeen()         + "', " +
                 "`draft`       = '" + email.getDraft()        + "', " +
+                "`user`        = '" + email.getDraft()        + "', " +
                 "`udate`       = '" + email.getUpdate()       + "'  " +
             "WHERE `message_id` = '" + email.getMessage_id()  + "'; ";
 
@@ -250,12 +253,34 @@ public class DB implements AutoCloseable {
             rs = stmt.executeQuery(query);
 
             if (rs.next()) { last_uid = rs.getLong(1); }
-            System.out.println(last_uid);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return last_uid;
+    }
+
+    public int getCountMessages(int user_id, String folder_name) {
+
+        String query = "" +
+                "SELECT COUNT(`uid`) "            +
+                "FROM `" + Settings.getTable_emails() + "` " +
+                "WHERE " +
+                "    `user_id` = '"+user_id+"' AND " +
+                "    `folder` = '"+folder_name+"' ";
+
+        int count_messages = 0;
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+
+            if (rs.next()) { count_messages = rs.getInt(1); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count_messages;
     }
 
 
@@ -348,12 +373,13 @@ public class DB implements AutoCloseable {
         String query = "" +
                 "UPDATE `a_my_emails` " +
                 "SET " +
-                "    `recent`   = 0," +
-                "    `flagged`  = 0," +
-                "    `answered` = 0," +
-                "    `deleted`  = 0," +
-                "    `seen`     = 1," +
-                "    `draft`    = 0 " +
+                "    `recent`   = 0, " +
+                "    `flagged`  = 0, " +
+                "    `answered` = 0, " +
+                "    `deleted`  = 0, " +
+                "    `seen`     = 1, " +
+                "    `draft`    = 0, " +
+                "    `user`     = 0  " +
                 "WHERE TRUE ";
         if (user_id != 0) {
             query += String.format(" AND `user_id` = '%d' ", user_id);
@@ -392,6 +418,26 @@ public class DB implements AutoCloseable {
         return result;
     }
 
+    public int setFlags(int user_id, String folder_name, String flag_name, int flag_value, String uids) {
+        String query = "" +
+                "UPDATE `a_my_emails` " +
+                "SET `"+flag_name+"` = "+flag_value+" " +
+                "WHERE  " +
+                "   `user_id` = '"+user_id+"' AND" +
+                "   `folder` = '"+flag_name+"' AND " +
+                "   `uid` IN ("+uids+");";
+
+        int result = 0;
+
+        try {
+            result = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public ArrayList<MyMessage> getRandomMessages(int user_id, String folder_name, int count) {
 
         String query = "" +
@@ -417,6 +463,7 @@ public class DB implements AutoCloseable {
                 "    `deleted`, "     +
                 "    `seen`, "        +
                 "    `draft`, "       +
+                "    `user`, "        +
                 "    `udate` "        +
                 "FROM `a_my_emails` " +
                 "WHERE " +
@@ -454,7 +501,8 @@ public class DB implements AutoCloseable {
                                 rs.getInt(19),
                                 rs.getInt(20),
                                 rs.getInt(21),
-                                rs.getTimestamp(22)
+                                rs.getInt(22),
+                                rs.getTimestamp(23)
                         )
                 );
             }

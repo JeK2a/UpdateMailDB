@@ -112,6 +112,7 @@ public class StartMail {
                 if (!imap_folder.isOpen()) {
                     try {
                         imap_folder.open(IMAPFolder.READ_ONLY);
+
                     } catch (MessagingException e) {
                         emailAccount.setStatus("error");
                         emailAccount.setException(e);
@@ -129,12 +130,16 @@ public class StartMail {
                 myFolder.setThreadAddNewMessages(myTreadAllMails);
                 myTreadAllMails.start();
 
-                while (true) {
-                    if (myFolder.getStatus().equals("listening") || myFolder.getStatus().equals("stop")) {
-                        break;
-                    }
-                    Thread.sleep(1000);
-                }
+//                while (true) {
+//                    if (myFolder.getStatus().equals("listening") || myFolder.getStatus().equals("stop")) {
+//                        break;
+//                    }
+//                    Thread.sleep(1000);
+//                }
+
+
+
+
 //                myTreadAllMails.start(); // Запус потока
 
 
@@ -173,7 +178,7 @@ public class StartMail {
 
             emailAccount.setStatus("listening");
 
-        } catch (MessagingException | InterruptedException e) {
+        } catch (MessagingException e) {
             enterMessage("Problems wish "  + emailAccount.getUser().getEmail());
             emailAccount.setStatus("stop");
             emailAccount.setException(e);

@@ -1,6 +1,11 @@
 package com.classes;
 
+import com.sun.mail.imap.IMAPFolder;
+import com.sun.mail.imap.IMAPMessage;
+
 import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -26,6 +31,7 @@ public class MyMessage {
     private int       deleted;
     private int       seen;
     private int       draft;
+    private int       user;
     private Timestamp udate;
 
     public MyMessage(
@@ -50,6 +56,7 @@ public class MyMessage {
             int deleted,
             int seen,
             int draft,
+            int user,
             Timestamp udate
     ) {
         this.id = id;
@@ -73,6 +80,7 @@ public class MyMessage {
         this.deleted     = deleted;
         this.seen        = seen;
         this.draft       = draft;
+        this.user        = user;
         this.udate       = udate;
     }
 
@@ -153,6 +161,7 @@ public class MyMessage {
                 ", deleted=" + deleted +
                 ", seen=" + seen +
                 ", draft=" + draft +
+                ", user=" + user +
                 ", udate=" + udate +
                 '}';
     }
@@ -325,6 +334,14 @@ public class MyMessage {
         this.draft = draft;
     }
 
+    public int getUser() {
+        return user;
+    }
+
+    public void setUser(int user) {
+        this.user = user;
+    }
+
     public Timestamp getUdate() {
         return udate;
     }
@@ -333,7 +350,24 @@ public class MyMessage {
         this.udate = udate;
     }
 
-    public boolean compare(Message message) {
-        return true;
+    public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder) {
+        try {
+            if (
+                this.getUid()    ==  imapFolder.getUID(imap_message) &&
+                this.message_id  == imap_message.getMessageID() &&
+                this.from        == InternetAddress.toString(imap_message.getFrom()) &&
+                this.to          == InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO)) &&
+                this.in_reply_to == InternetAddress.toString(imap_message.getReplyTo()) &&
+                this.size        == imap_message.getSize() &&
+                this.subject     == imap_message.getSubject() &&
+                this.folder      == imap_message.getFolder().getFullName()
+            ) {
+                return true;
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
