@@ -6,12 +6,12 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="Добавлена поддержка работы через чат......">
+    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="Добавлена поддержка работы через чат.......user">
+      <change afterPath="$PROJECT_DIR$/src/java/com/ChilkatExample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/DB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/com/StartMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/StartMail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/com/classes/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/Email.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" afterDir="false" />
     </list>
@@ -125,35 +125,35 @@
     <session id="1920725746">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="15" />
+          <entry key="project.closed" value="18" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="3" />
           <entry key="project.open.time.11" value="2" />
-          <entry key="project.open.time.15" value="1" />
+          <entry key="project.open.time.15" value="3" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.53" value="1" />
           <entry key="project.open.time.6" value="2" />
-          <entry key="project.open.time.9" value="3" />
-          <entry key="project.opened" value="17" />
+          <entry key="project.open.time.9" value="4" />
+          <entry key="project.opened" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="class" value="2" />
-          <entry key="java" value="10814" />
+          <entry key="java" value="11571" />
           <entry key="sql" value="116" />
-          <entry key="txt" value="49" />
+          <entry key="txt" value="54" />
           <entry key="xml" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CLASS" value="2" />
-          <entry key="JAVA" value="10779" />
-          <entry key="PLAIN_TEXT" value="49" />
+          <entry key="JAVA" value="11536" />
+          <entry key="PLAIN_TEXT" value="54" />
           <entry key="SQL" value="35" />
           <entry key="Scratch" value="116" />
           <entry key="XML" value="15" />
@@ -164,10 +164,10 @@
           <entry key="MF" value="1" />
           <entry key="a_my_emails" value="3" />
           <entry key="a_my_users_emails" value="2" />
-          <entry key="class" value="33" />
+          <entry key="class" value="35" />
           <entry key="html" value="1" />
           <entry key="iml" value="1" />
-          <entry key="java" value="120" />
+          <entry key="java" value="129" />
           <entry key="js" value="2" />
           <entry key="md" value="1" />
           <entry key="sql" value="3" />
@@ -176,11 +176,11 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CLASS" value="33" />
+          <entry key="CLASS" value="35" />
           <entry key="Database Element" value="5" />
           <entry key="HTML" value="1" />
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="120" />
+          <entry key="JAVA" value="129" />
           <entry key="JavaScript" value="2" />
           <entry key="Manifest" value="1" />
           <entry key="Markdown" value="1" />
@@ -195,23 +195,14 @@
     <favorites_list name="UpdateMailDB" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.568256">
+    <splitter split-orientation="horizontal" split-proportion="0.7914754">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="356">
-                  <caret line="190" column="33" lean-forward="true" selection-start-line="190" selection-start-column="33" selection-end-line="190" selection-end-column="33" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1588">
-                  <caret line="179" column="101" selection-start-line="179" selection-start-column="101" selection-end-line="179" selection-end-column="101" />
+                <state relative-caret-position="432">
+                  <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -220,22 +211,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Flags.class">
+            <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3360">
-                  <caret line="239" column="39" selection-start-line="239" selection-start-column="39" selection-end-line="239" selection-end-column="39" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1710">
-                  <caret line="128" column="44" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
+                <state relative-caret-position="60">
+                  <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="44" />
                 </state>
               </provider>
             </entry>
@@ -243,33 +222,48 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-728">
-                  <caret line="380" column="37" selection-start-line="380" selection-start-column="37" selection-end-line="380" selection-end-column="37" />
+                <state relative-caret-position="879">
+                  <caret line="532" column="16" lean-forward="true" selection-start-line="532" selection-start-column="16" selection-end-line="532" selection-end-column="16" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuilder.java">
+            <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPFolder.class">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1305">
-                  <caret line="114" column="11" selection-start-line="114" selection-start-column="11" selection-end-line="114" selection-end-column="11" />
+                <state relative-caret-position="518">
+                  <caret line="1551" column="29" lean-forward="true" selection-start-line="1551" selection-start-column="25" selection-end-line="1551" selection-end-column="31" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
+            <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPMessage.class">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="750">
-                  <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+                <state relative-caret-position="195">
+                  <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
                   <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#1677#1678#0" expanded="true" />
-                    <element signature="e#1711#1712#0" expanded="true" />
-                    <element signature="e#3186#3187#0" expanded="true" />
-                    <element signature="e#3222#3223#0" expanded="true" />
+                    <element signature="e#3622#3623#0" expanded="true" />
+                    <element signature="e#3653#3654#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/java/com/ChilkatExample.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="375">
+                  <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/System.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="26625">
+                  <caret line="1873" column="23" selection-start-line="1873" selection-start-column="23" selection-end-line="1873" selection-end-column="23" />
                 </state>
               </provider>
             </entry>
@@ -290,13 +284,10 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyMessage.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3675">
-                  <caret line="336" column="26" selection-start-line="336" selection-start-column="26" selection-end-line="336" selection-end-column="26" />
+                <state relative-caret-position="347">
+                  <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#8452#8453#0" expanded="true" />
-                    <element signature="e#8489#8490#0" expanded="true" />
-                    <element signature="e#8521#8522#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -385,7 +376,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/out/artifacts/UpdateMailDB_jar/config.xml" />
         <option value="$PROJECT_DIR$/src/java/ws_client2/client.java" />
         <option value="$PROJECT_DIR$/src/java/ws_client2/client.js" />
         <option value="$PROJECT_DIR$/src/java/ws_client2/index.html" />
@@ -427,15 +417,16 @@
         <option value="$PROJECT_DIR$/config.xml" />
         <option value="$PROJECT_DIR$/src/java/com/MyPrint.java" />
         <option value="$PROJECT_DIR$/src/java/com/service/MyPrint.java" />
-        <option value="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/EmailAccount.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/User.java" />
-        <option value="$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/Email.java" />
+        <option value="$PROJECT_DIR$/src/java/com/ChilkatExample.java" />
+        <option value="$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java" />
+        <option value="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" />
+        <option value="$PROJECT_DIR$/src/java/com/StartMail.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" />
         <option value="$PROJECT_DIR$/src/java/com/DB.java" />
         <option value="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" />
-        <option value="$PROJECT_DIR$/src/java/com/StartMail.java" />
       </list>
     </option>
   </component>
@@ -452,8 +443,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1366" />
-    <option name="height" value="768" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -540,11 +531,11 @@
     <property name="SearchEverywhereHistoryKey" value="messageChangedEvent &#9;PSI&#9;JAVA://javax.mail.event.MessageChangedEvent" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539037029105" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539110061485" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.26091954" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -601,13 +592,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Client_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="old.ws_old.ws_client3.Client_1" />
+    <configuration name="ChilkatExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ChilkatExample" />
       <module name="UpdateMailDB" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="old.ws_old.ws_client3.*" />
+          <option name="PATTERN" value="com.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -668,15 +659,16 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Client_1" />
       <item itemvalue="Application.Client_2" />
       <item itemvalue="Application.StartMail" />
       <item itemvalue="Application.ChatConnector" />
       <item itemvalue="Application.MyTest" />
+      <item itemvalue="Application.ChilkatExample" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.StartMail" />
+        <item itemvalue="Application.ChilkatExample" />
         <item itemvalue="Application.MyTest" />
         <item itemvalue="Application.ChatConnector" />
         <item itemvalue="Application.Client_2" />
@@ -790,7 +782,10 @@
       <workItem from="1538913821566" duration="21915000" />
       <workItem from="1538944781894" duration="3650000" />
       <workItem from="1539012344139" duration="9927000" />
-      <workItem from="1539034867914" duration="1914000" />
+      <workItem from="1539034867914" duration="2000000" />
+      <workItem from="1539101671413" duration="5411000" />
+      <workItem from="1539113608598" duration="1648000" />
+      <workItem from="1539116300027" duration="1293000" />
     </task>
     <task id="LOCAL-00005" summary="Доработана структура.">
       <created>1531861586623</created>
@@ -883,11 +878,18 @@
       <option name="project" value="LOCAL" />
       <updated>1538950773979</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Добавлена поддержка работы через чат.......user">
+      <created>1539037125298</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1539037125299</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="348467000" />
+    <option name="totallyTimeSpent" value="356905000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -902,8 +904,8 @@
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.61683166" visible="true" weight="0.18477103" />
-      <window_info id="Structure" order="1" sideWeight="0.3831683" side_tool="true" visible="true" weight="0.18477103" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6138614" visible="true" weight="0.18956336" />
+      <window_info id="Structure" order="1" sideWeight="0.38613862" side_tool="true" visible="true" weight="0.18956336" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -933,7 +935,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="7" weight="0.24973376" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-      <window_info active="true" anchor="right" x="1920" y="45" width="1916" height="1035" id="Run" order="9" sideWeight="0.49848944" type="WINDOWED" visible="true" weight="0.24387646" />
+      <window_info anchor="right" x="1920" y="45" width="1920" height="1035" id="Run" order="9" sideWeight="0.49848944" type="WINDOWED" weight="0.24387646" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -956,27 +958,14 @@
     <MESSAGE value="Добавлена поддержка работы через чат...." />
     <MESSAGE value="Добавлена поддержка работы через чат....." />
     <MESSAGE value="Добавлена поддержка работы через чат......" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлена поддержка работы через чат......" />
+    <MESSAGE value="Добавлена поддержка работы через чат.......user" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлена поддержка работы через чат.......user" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Enumeration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59070">
-          <caret line="4271" column="27" selection-start-line="4271" selection-start-column="27" selection-end-line="4271" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Iterator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="750">
@@ -1098,9 +1087,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1132,20 +1118,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
           <caret line="46" column="30" lean-forward="true" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1170,16 +1146,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPMessage.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="153" column="21" selection-start-line="153" selection-start-column="21" selection-end-line="153" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1201,13 +1167,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="775">
           <caret line="63" column="46" selection-start-line="63" selection-start-column="46" selection-end-line="63" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPFolder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="1127" column="34" lean-forward="true" selection-start-line="1127" selection-start-column="34" selection-end-line="1127" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -1239,16 +1198,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="128" column="44" selection-start-line="128" selection-start-column="44" selection-end-line="128" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1305">
@@ -1256,10 +1205,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1395">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
+        <state relative-caret-position="1830">
+          <caret line="162" column="47" selection-start-line="162" selection-start-column="47" selection-end-line="162" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1677#1678#0" expanded="true" />
@@ -1270,6 +1226,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1680">
+          <caret line="126" column="36" selection-start-line="126" selection-start-column="36" selection-end-line="126" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/ChilkatExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/System.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26625">
+          <caret line="1873" column="23" selection-start-line="1873" selection-start-column="23" selection-end-line="1873" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/classes/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1005">
@@ -1277,19 +1257,6 @@
           <folding>
             <element signature="e#2511#2512#0" expanded="true" />
             <element signature="e#2541#2542#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3675">
-          <caret line="336" column="26" selection-start-line="336" selection-start-column="26" selection-end-line="336" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8452#8453#0" expanded="true" />
-            <element signature="e#8489#8490#0" expanded="true" />
-            <element signature="e#8521#8522#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1311,27 +1278,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-728">
-          <caret line="380" column="37" selection-start-line="380" selection-start-column="37" selection-end-line="380" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1588">
-          <caret line="179" column="101" selection-start-line="179" selection-start-column="101" selection-end-line="179" selection-end-column="101" />
+        <state relative-caret-position="347">
+          <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
+    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPFolder.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="190" column="33" lean-forward="true" selection-start-line="190" selection-start-column="33" selection-end-line="190" selection-end-column="33" />
+        <state relative-caret-position="518">
+          <caret line="1551" column="29" lean-forward="true" selection-start-line="1551" selection-start-column="25" selection-end-line="1551" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPMessage.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
+          <folding>
+            <element signature="e#3622#3623#0" expanded="true" />
+            <element signature="e#3653#3654#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="879">
+          <caret line="532" column="16" lean-forward="true" selection-start-line="532" selection-start-column="16" selection-end-line="532" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1403,7 +1398,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>WebSocket-1.0</last-edited>
+          <last-edited>chilkatjava-9.5</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

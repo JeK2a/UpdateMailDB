@@ -16,5 +16,6 @@
     <orderEntry type="library" name="WebSocket-1.0" level="project" />
     <orderEntry type="library" name="javax.json.processing-1.0" level="project" />
     <orderEntry type="library" name="nv-websocket-client-2.3" level="project" />
+    <orderEntry type="library" name="chilkatjava-9.5" level="project" />
   </component>
 </module>

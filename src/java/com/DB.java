@@ -513,5 +513,26 @@ public class DB implements AutoCloseable {
         return myMessages;
     }
 
+    public int checkDelete(int user_id, String folder_name, int uid_start, int uid_end, String uids) {
+        String query = "" +
+                "DELETE `a_my_emails` " +
+
+                "WHERE  " +
+                "   `uid` >= '"+uid_start+"' AND '"+uid_start+"' <= `uid`  AND" +
+                "   `folder` = '"+folder_name+"' AND `user_id` = '"+user_id+"' AND " +
+                "   `uid` NOT IN ("+uids+");";
+
+//        int result = 0;
+//
+//        try {
+//            result = stmt.executeUpdate(query);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+        return 1;
+    }
+
+
 
 }

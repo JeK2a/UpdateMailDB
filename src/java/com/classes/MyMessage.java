@@ -84,7 +84,7 @@ public class MyMessage {
         this.udate       = udate;
     }
 
-    public MyMessage(Message message) {
+    public MyMessage(Message message) { // TODO
 //        this.id = id;
 //        this.direction = direction;
 //        this.user_id = user_id;
@@ -351,16 +351,36 @@ public class MyMessage {
     }
 
     public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder) {
+
         try {
+
+            System.out.println(this.getUid() + " == " + imapFolder.getUID(imap_message));
+            System.out.println(this.message_id + " == " + imap_message.getMessageID());
+            System.out.println(this.from + " == " + InternetAddress.toString(imap_message.getFrom()));
+            System.out.println(this.to + " == " + InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO)));
+            System.out.println(this.in_reply_to + " == " + InternetAddress.toString(imap_message.getReplyTo()));
+            System.out.println(this.size + " == " + imap_message.getSize());
+            System.out.println(this.subject + " == " + imap_message.getSubject());
+            System.out.println(this.folder + " == " + imap_message.getFolder().getFullName());
+
+            System.out.println(this.getUid() ==  imapFolder.getUID(imap_message));
+            System.out.println(this.message_id.equals(imap_message.getMessageID()));
+            System.out.println(this.from.equals(InternetAddress.toString(imap_message.getFrom())));
+            System.out.println(this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))));
+            System.out.println(this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())));
+            System.out.println(this.size  ==  imap_message.getSize());
+            System.out.println(this.subject.equals(imap_message.getSubject()));
+            System.out.println(this.folder.equals(imap_message.getFolder().getFullName()));
+
             if (
                 this.getUid()    ==  imapFolder.getUID(imap_message) &&
-                this.message_id  == imap_message.getMessageID() &&
-                this.from        == InternetAddress.toString(imap_message.getFrom()) &&
-                this.to          == InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO)) &&
-                this.in_reply_to == InternetAddress.toString(imap_message.getReplyTo()) &&
+                this.message_id.equals(imap_message.getMessageID()) &&
+                this.from.equals(InternetAddress.toString(imap_message.getFrom())) &&
+                this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))) &&
+                this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())) &&
                 this.size        == imap_message.getSize() &&
-                this.subject     == imap_message.getSubject() &&
-                this.folder      == imap_message.getFolder().getFullName()
+                this.subject.equals(imap_message.getSubject()) &&
+                this.folder.equals(imap_message.getFolder().getFullName())
             ) {
                 return true;
             }
