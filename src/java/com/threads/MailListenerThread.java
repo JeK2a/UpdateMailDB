@@ -139,6 +139,7 @@ public class MailListenerThread implements Runnable {
 
             @Override
             public void messagesRemoved(MessageCountEvent messageCountEvent) { // TODO messagesRemoved
+                //todo add removed to db
                 try {
                     for (Message message : messageCountEvent.getMessages()) {
                         db.changeMessage(new Email(user, (IMAPMessage) message, imap_folder));

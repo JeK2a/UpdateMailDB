@@ -65,7 +65,7 @@ public class Email {
 
             if (
                 imap_message.getFrom() != null &&
-                InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
+                InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail()) // TODO если папка Отправленные -> out
             ) {
                 this.direction    = "out";
 //                client_id = com.DB.getClientIDByAddress(to);

@@ -48,7 +48,7 @@ public class AddNewMessageThread implements Runnable {
                 return;
             }
 
-            int part_count = (int) (Math.sqrt(messages_count_db) / 2);
+            int part_count = (int) (Math.sqrt(messages_count_db) / 2); // TODO > 0 Math.ceil
 
             ArrayList<MyMessage> myMessages = db.getRandomMessages(
                     emailAccount.getUser().getUser_id(),
