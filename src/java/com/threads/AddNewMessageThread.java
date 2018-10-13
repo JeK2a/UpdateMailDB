@@ -286,7 +286,7 @@ public class AddNewMessageThread implements Runnable {
                 if (!imap_folder.isOpen()) {
                     imap_folder.open(IMAPFolder.READ_ONLY);
                 }
-                db.addEmail(new Email(emailAccount.getUser(), (IMAPMessage) message, imap_folder));
+                db.changeMessage(new Email(emailAccount.getUser(), (IMAPMessage) message, imap_folder));
             }
         } catch (MessagingException e) {
             myFolder.setException(e);

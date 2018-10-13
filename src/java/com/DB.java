@@ -4,6 +4,7 @@ import com.classes.Email;
 import com.classes.MyMessage;
 import com.classes.User;
 import com.service.Settings;
+import com.sun.mail.imap.IMAPFolder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -50,101 +51,106 @@ public class DB implements AutoCloseable {
         }
     }
 
-    public boolean addEmail(Email email) {
-
-        String query = "" +
-            "INSERT INTO `" + Settings.getTable_emails() + "`(" +
-                "`direction`,"   +
-                "`user_id`,"     +
-                "`client_id`,"   +
-                "`uid`,"         +
-                "`message_id`,"  +
-                "`msgno`,"       +
-                "`from`,"        +
-                "`to`,"          +
-                "`in_reply_to`," +
-                "`references`,"  +
-                "`date`,"        +
-                "`size`,"        +
-                "`subject`,"     +
-                "`folder`,"      +
-                "`recent`,"      +
-                "`flagged`,"     +
-                "`answered`,"    +
-                "`deleted`,"     +
-                "`seen`,"        +
-                "`draft`,"       +
-                "`user`,"       +
-                "`udate`"        +
-            ") "                 +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
-                "ON DUPLICATE KEY UPDATE `message_id` = VALUES(`message_id`);";
-
-        try {
-            prep_stmt = con.prepareStatement(query);
-
-            prep_stmt.setString(1, email.getDirection());
-            prep_stmt.setInt(2, email.getUser_id());
-            prep_stmt.setInt(3, email.getClient_id());
-            prep_stmt.setLong(4, email.getUid());
-            prep_stmt.setString(5, email.getMessage_id());
-            prep_stmt.setInt(6, email.getMsgno());
-            prep_stmt.setString(7, email.getFrom() );
-            prep_stmt.setString(8, email.getTo());
-            prep_stmt.setString(9, email.getIn_replay_to());
-            prep_stmt.setString(10,email.getReferences());
-            prep_stmt.setTimestamp(11, email.getDate());
-            prep_stmt.setInt(12, email.getSize());
-            prep_stmt.setString(13, email.getSubject());
-            prep_stmt.setString(14, email.getFolder());
-            prep_stmt.setInt(15, email.getRecent());
-            prep_stmt.setInt(16, email.getFlagged());
-            prep_stmt.setInt(17, email.getAnswred());
-            prep_stmt.setInt(18, email.getDeleted());
-            prep_stmt.setInt(19, email.getSeen());
-            prep_stmt.setInt(20, email.getDraft());
-            prep_stmt.setInt(21, email.getDraft());
-            prep_stmt.setTimestamp(22, email.getUpdate());
-
-            prep_stmt.executeLargeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
+//    public boolean addEmail(Email email) {
+//
+//        String query = "" +
+//            "INSERT INTO `" + Settings.getTable_emails() + "`(" +
+//                "`direction`,"   +
+//                "`user_id`,"     +
+//                "`client_id`,"   +
+//                "`uid`,"         +
+//                "`message_id`,"  +
+//                "`msgno`,"       +
+//                "`from`,"        +
+//                "`to`,"          +
+//                "`in_reply_to`," +
+//                "`references`,"  +
+//                "`date`,"        +
+//                "`size`,"        +
+//                "`subject`,"     +
+//                "`folder`,"      +
+//                "`recent`,"      +
+//                "`flagged`,"     +
+//                "`answered`,"    +
+//                "`deleted`,"     +
+//                "`seen`,"        +
+//                "`draft`,"       +
+//                "`user`,"       +
+//                "`udate`"        +
+//            ") "                 +
+//            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
+//                "ON DUPLICATE KEY UPDATE `message_id` = VALUES(`message_id`);";
+//
+//        try {
+//            prep_stmt = con.prepareStatement(query);
+//
+//            prep_stmt.setString(1, email.getDirection());
+//            prep_stmt.setInt(2, email.getUser_id());
+//            prep_stmt.setInt(3, email.getClient_id());
+//            prep_stmt.setLong(4, email.getUid());
+//            prep_stmt.setString(5, email.getMessage_id());
+//            prep_stmt.setInt(6, email.getMsgno());
+//            prep_stmt.setString(7, email.getFrom() );
+//            prep_stmt.setString(8, email.getTo());
+//            prep_stmt.setString(9, email.getIn_replay_to());
+//            prep_stmt.setString(10,email.getReferences());
+//            prep_stmt.setTimestamp(11, email.getDate());
+//            prep_stmt.setInt(12, email.getSize());
+//            prep_stmt.setString(13, email.getSubject());
+//            prep_stmt.setString(14, email.getFolder());
+//            prep_stmt.setInt(15, email.getRecent());
+//            prep_stmt.setInt(16, email.getFlagged());
+//            prep_stmt.setInt(17, email.getAnswred());
+//            prep_stmt.setInt(18, email.getDeleted());
+//            prep_stmt.setInt(19, email.getSeen());
+//            prep_stmt.setInt(20, email.getDraft());
+//            prep_stmt.setInt(21, email.getDraft());
+//            prep_stmt.setTimestamp(22, email.getUpdate());
+//
+//            prep_stmt.executeLargeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return true;
+//    }
 
     public int changeMessage(Email email) {
-
         int result = 0;
 
         String query = "" +
             "UPDATE `" + Settings.getTable_emails() + "` " +
             "SET " +
-//              "`id`          = '" + email.getId()           + "', " +
-                "`direction`   = '" + email.getDirection()    + "', " +
-                "`user_id`     = '" + email.getUser_id()      + "', " +
-                "`client_id`   = '" + email.getClient_id()    + "', " +
-                "`uid`         = '" + email.getUid()          + "', " +
-//              "`message_id`  = '" + email.getMessage_id()   + "', " +
-                "`msgno`       = '" + email.getMsgno()        + "', " +
-                "`from`        = '" + email.getFrom()         + "', " +
-                "`to`          = '" + email.getTo()           + "', " +
-                "`in_reply_to` = '" + email.getIn_replay_to() + "', " +
-                "`references`  = '" + email.getReferences()   + "', " +
-                "`date`        = '" + email.getDate()         + "', " +
-                "`size`        = '" + email.getSize()         + "', " +
-                "`subject`     = ?                                , " +
-                "`folder`      = '" + email.getFolder()       + "', " +
-                "`recent`      = '" + email.getRecent()       + "', " +
-                "`flagged`     = '" + email.getFlagged()      + "', " +
-                "`answered`    = '" + email.getFlagged()      + "', " +
-                "`deleted`     = '" + email.getDeleted()      + "', " +
-                "`seen`        = '" + email.getSeen()         + "', " +
-                "`draft`       = '" + email.getDraft()        + "', " +
-                "`user`        = '" + email.getDraft()        + "', " +
-                "`udate`       = '" + email.getUpdate()       + "'  " +
-            "WHERE `message_id` = '" + email.getMessage_id()  + "'; ";
+//              "`id`             = '" + email.getId()           + "', " +
+                "`direction`      = '" + email.getDirection()    + "', " +
+                "`user_id`        = '" + email.getUser_id()      + "', " +
+                "`client_id`      = '" + email.getClient_id()    + "', " +
+                "`uid`            = '" + email.getUid()          + "', " +
+//              "`message_id`     = '" + email.getMessage_id()   + "', " +
+                "`msgno`          = '" + email.getMsgno()        + "', " +
+                "`from`           = '" + email.getFrom()         + "', " +
+                "`to`             = '" + email.getTo()           + "', " +
+                "`in_reply_to`    = '" + email.getIn_replay_to() + "', " +
+                "`references`     = '" + email.getReferences()   + "', " +
+                "`date`           = '" + email.getDate()         + "', " +
+                "`size`           = '" + email.getSize()         + "', " +
+                "`subject`        = ?                                , " +
+                "`folder`         = '" + email.getFolder()       + "', " +
+                "`recent`         = '" + email.getRecent()       + "', " +
+                "`flagged`        = '" + email.getFlagged()      + "', " +
+                "`answered`       = '" + email.getFlagged()      + "', " +
+                "`deleted`        = '" + email.getDeleted()      + "', " +
+                "`seen`           = '" + email.getSeen()         + "', " +
+                "`draft`          = '" + email.getDraft()        + "', " +
+                "`user`           = '" + email.getUser()         + "', " +
+                "`label1`         = '" + email.getLabel1()       + "', " +
+                "`label2`         = '" + email.getLabel2()       + "', " +
+                "`label3`         = '" + email.getLabel3()       + "', " +
+                "`label4`         = '" + email.getLabel4()       + "', " +
+                "`label5`         = '" + email.getLabel5()       + "', " +
+                "`has_attachment` = '" + email.getHas_attachment() + "', " +
+                "`udate`          = '" + email.getUpdate()       + "'  " +
+            "WHERE `message_id`   = '" + email.getMessage_id()   + "'; ";
 
 //        System.out.println(query);
 
@@ -340,15 +346,15 @@ public class DB implements AutoCloseable {
 
     }
 
-    public int changeDeleteFlag(Email email, int user_id) { // TODO изменение флага сообщенией на удаленное (проверить)
+    public int changeDeleteFlag(Email email, IMAPFolder imapFolder) { // TODO изменение флага сообщенией на удаленное (проверить)
         String query = "" +
                 "UPDATE `" + Settings.getTable_emails() + "` " +
                 "SET " +
                     "`deleted` = 1, " +
                     "`udate`  = '" + email.getUpdate() + "'  " +
                 "WHERE" +
-                    "`folder`     = '" + user_id               + "' AND " +
-                    "`message_id` = '" + email.getMessage_id() + "';";
+                    "`user_id`     = '" + email.getUser_id() + "' AND " +
+                    "`folder` = '" + imapFolder.getFullName() + "';";
 
         int result = 0;
 
@@ -379,7 +385,13 @@ public class DB implements AutoCloseable {
                 "    `deleted`  = 0, " +
                 "    `seen`     = 1, " +
                 "    `draft`    = 0, " +
-                "    `user`     = 0  " +
+                "    `user`     = 0, " +
+                "    `label1`   = 0, " +
+                "    `label2`   = 0, " +
+                "    `label3`   = 0, " +
+                "    `label4`   = 0, " +
+                "    `label5`   = 0, " +
+                "    `has_attachment` = 0 " +
                 "WHERE TRUE ";
         if (user_id != 0) {
             query += String.format(" AND `user_id` = '%d' ", user_id);
@@ -464,7 +476,13 @@ public class DB implements AutoCloseable {
                 "    `seen`, "        +
                 "    `draft`, "       +
                 "    `user`, "        +
-                "    `udate` "        +
+                "    `label1`, "      +
+                "    `label2`, "      +
+                "    `label3`, "      +
+                "    `label4`, "      +
+                "    `label5`, "      +
+                "    `label1`, "      +
+                "    `has_attachment` " +
                 "FROM `a_my_emails` " +
                 "WHERE " +
                 "    `user_id` = '"+user_id +"' AND " +
@@ -502,7 +520,15 @@ public class DB implements AutoCloseable {
                                 rs.getInt(20),
                                 rs.getInt(21),
                                 rs.getInt(22),
-                                rs.getTimestamp(23)
+
+                                rs.getInt(23),
+                                rs.getInt(24),
+                                rs.getInt(25),
+                                rs.getInt(26),
+                                rs.getInt(27),
+                                rs.getInt(28),
+
+                                rs.getTimestamp(29)
                         )
                 );
             }

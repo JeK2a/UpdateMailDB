@@ -127,8 +127,7 @@ public class MailListenerThread implements Runnable {
                     StartMail.enterMessage("messagesAdded");
 
                     for (Message message : messageCountEvent.getMessages()) {
-                        db.addEmail(new Email(user, (IMAPMessage) message, imap_folder));
-
+                        db.changeMessage(new Email(user, (IMAPMessage) message, imap_folder));
                     }
                 } catch (Exception e) {
                     myFolder.setStatus("error");
@@ -142,7 +141,7 @@ public class MailListenerThread implements Runnable {
                 //todo add removed to db
                 try {
                     for (Message message : messageCountEvent.getMessages()) {
-                        db.changeMessage(new Email(user, (IMAPMessage) message, imap_folder));
+                        db.changeDeleteFlag(new Email(user, (IMAPMessage) message, imap_folder), imap_folder);
                         StartMail.enterMessage("messagesRemoved");
                     }
                 } catch (Exception e) {
