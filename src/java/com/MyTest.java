@@ -74,10 +74,10 @@
 //            IMAPFolder[] imap_folders = (IMAPFolder[]) store.getDefaultFolder().list(); // Получение списка папок лоя текушего подключения
 //            for (IMAPFolder folder: imap_folders) {
 //
-////                Thread myTreadAllMails = new Thread(new com.threads.AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика // TODO 1 all
+////                Thread myTreadAllMails = new Thread(new com.threads.AddNewMessageThread(user, folder.getMessages())); // Создание потока для посинхронизации всего почтового ящика
 ////                myTreadAllMails.start(); // Запус потока
 //
-//                Thread myThreadEvent = new Thread(new MailListenerThread(user, folder)); // Создание потока для отслеживания действий с определенной папкой // TODO 2 lsn
+//                Thread myThreadEvent = new Thread(new MailListenerThread(user, folder)); // Создание потока для отслеживания действий с определенной папкой
 //                myThreadEvent.start(); // Запус потока
 //            }
 //

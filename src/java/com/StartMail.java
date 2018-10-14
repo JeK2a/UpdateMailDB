@@ -18,6 +18,7 @@ import javax.mail.event.FolderEvent;
 import javax.mail.event.FolderListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class StartMail {
 
@@ -70,7 +71,7 @@ public class StartMail {
                         IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
 
                         for (IMAPMessage imap_message : messages) {
-                            db.changeDeleteFlag(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), emailAccount.getUser().getUser_id()); // TODO изменение флага сообщенией на удаленное (проверить)
+                            db.setDeleteFlag(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), (IMAPFolder) folderEvent.getFolder()); // TODO изменение флага сообщенией на удаленное (проверить)
                         }
                     } catch (MessagingException e) {
                         emailAccount.setStatus("error");
@@ -144,39 +145,6 @@ public class StartMail {
                 }
 
                 myTreadAllMails.start(); // Запус потока
-
-
-
-//                Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder)); // Создание потока для посинхронизации всего почтового ящика // TODO 1 all
-//                myFolder.setThreadAddNewMessages(myTreadAllMails);
-//
-//                Thread myThreadEvent = new Thread(new MailListenerThread(emailAccount, myFolder)); // Создание потока для отслеживания действий с определенной папкой // TODO 2 lsn
-//                myFolder.setThreadLisaningChangeMessage(myThreadEvent);
-//
-//                if (true) {
-//                    myFolder.setStatus("create new thread -> add new message");
-//                    Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder)); // Создание потока для посинхронизации всего почтового ящика // TODO 1 all
-//                    myFolder.setThreadAddNewMessages(myTreadAllMails);
-//                    myTreadAllMails.start(); // Запус потока
-//                } else {
-//                    myFolder.setStatus("stop");
-//                }
-//
-//                while (true) {
-//                    try {
-//                        System.out.println("folder status = " + myFolder.getStatus());
-//                        if (myFolder.getStatus() != "create new thread -> add new message") {
-//                            Thread myThreadEvent = new Thread(new MailListenerThread(emailAccount, myFolder)); // Создание потока для отслеживания действий с определенной папкой // TODO 2 lsn
-//                            myFolder.setThreadLisaningChangeMessage(myThreadEvent);
-//                            myThreadEvent.start(); // Запус потока
-//                            break;
-//                        }
-//
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
             }
 
             emailAccount.setStatus("listening");
@@ -223,17 +191,222 @@ public class StartMail {
             }
         }
 
+//        Console console = System.console();
+        Scanner in = new Scanner(System.in);
+        String str_in;
+
         while (true) {
             System.out.println("---------------------------------------------------------------------------------");
 //            MyPrint.printArrayList(emailAccounts);
-            System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//            System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+            str_in = in.nextLine();
+
+            String[] commands = str_in.split(" ");
+
+            if (commands.length > 2) {
+
+                switch (commands[0]) {
+                    case "show":
+                        switch (commands[1]) {
+                            case "user":
+                                switch (commands[2]) {
+                                    case "all":
+                                        System.out.println(users);
+                                        break;
+                                    case "id":
+                                        int id = Integer.parseInt(commands[3]);
+                                        for (User user : users) {
+                                            if (user.getId() == id) {
+                                                System.out.println(user);
+                                            }
+                                        }
+                                        break;
+                                    case "user_id":
+                                        int user_id = Integer.parseInt(commands[3]);
+                                        for (User user : users) {
+                                            if (user.getUser_id() == user_id) {
+                                                System.out.println(user);
+                                            }
+                                        }
+                                        break;
+                                    case "email":
+                                        String email = commands[3];
+                                        for (User user : users) {
+                                            if (user.getEmail().equals(email)) {
+                                                System.out.println(user);
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        System.err.println("show user error");
+                                        break;
+                                }
+                                break;
+                            case "account":
+                                switch (commands[2]) {
+                                    case "all":
+                                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+                                        break;
+                                    case "id":
+                                        System.out.println(emailAccounts.get(commands[3]));
+                                        break;
+                                    default:
+                                        System.err.println("show user error");
+                                        break;
+                                }
+                                break;
+                            default:
+                                System.err.println("show error");
+                                break;
+                        }
+//                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+                        break;
+                    case "start":
+                        switch (commands[1]) {
+                            case "user":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    case "id":
+                                        break;
+                                    case "user_id":
+                                        break;
+                                    case "email":
+                                        break;
+                                    default:
+                                        System.err.println("start user error");
+                                        break;
+                                }
+                                break;
+                            case "account":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    default:
+                                        System.err.println("start account error");
+                                        break;
+                                }
+                                break;
+                            default:
+                                System.err.println("start error");
+                                break;
+                        }
+                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+                        break;
+                    case "stop":
+                        switch (commands[1]) {
+                            case "user":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    case "id":
+                                        break;
+                                    case "user_id":
+                                        break;
+                                    case "email":
+                                        break;
+                                    default:
+                                        System.err.println("stop user error");
+                                        break;
+                                }
+                                break;
+                            case "account":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    default:
+                                        System.err.println("stop account error");
+                                        break;
+                                }
+                                break;
+                            default:
+                                System.err.println("stop error");
+                                break;
+                        }
+                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+                        break;
+                    case "add":
+                        switch (commands[1]) {
+                            case "user":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    case "id":
+                                        break;
+                                    case "user_id":
+                                        break;
+                                    case "email":
+                                        break;
+                                    default:
+                                        System.err.println("add user error");
+                                        break;
+                                }
+                                break;
+                            case "account":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    default:
+                                        System.err.println("add user error");
+                                        break;
+                                }
+                                break;
+                            default:
+                                System.err.println("add error");
+                                break;
+                        }
+                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+                        break;
+                    case "delete":
+                        switch (commands[1]) {
+                            case "user":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    case "id":
+                                        break;
+                                    case "user_id":
+                                        break;
+                                    case "email":
+                                        break;
+                                    default:
+                                        System.err.println("delete user error");
+                                        break;
+                                }
+                                break;
+                            case "account":
+                                switch (commands[2]) {
+                                    case "all":
+                                        break;
+                                    default:
+                                        System.err.println("delete user error");
+                                        break;
+                                }
+                                break;
+                            default:
+                                System.err.println("delete error");
+                                break;
+                        }
+//                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+                        break;
+                    default:
+                        System.out.println(str_in);
+                        break;
+                }
+
+            } else {
+                System.err.println("Enter command");
+            }
+
+
+
             System.out.println("---------------------------------------------------------------------------------");
 
-            try {
-                Thread.sleep(30000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(30000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
 	}
 }

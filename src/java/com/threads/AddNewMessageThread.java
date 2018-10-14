@@ -5,19 +5,18 @@ import com.classes.Email;
 import com.classes.EmailAccount;
 import com.classes.MyFolder;
 import com.classes.MyMessage;
+import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 
-import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.search.FlagTerm;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddNewMessageThread implements Runnable {
 
     private DB db;
-//    private User user;
     private EmailAccount emailAccount;
     private IMAPFolder imap_folder;
     private MyFolder myFolder;
@@ -41,14 +40,71 @@ public class AddNewMessageThread implements Runnable {
             System.err.println("messages_count_mail = " + messages_count_mail);
             System.err.println("messages_count_db   = " + messages_count_db);
 
+            Message[] messages;
 
+            if (messages_count_db > 0) {
+
+                int user_id = emailAccount.getUser().getUser_id();
+                String folder_name = myFolder.getFolder_name();
+
+                // Если нет UID, то пометить как deleted
+                // 4
+                int query_buffer = 1000;
+                int query_count = (messages_count_db / query_buffer) + 1;
+
+                System.err.println(query_count);
+
+                for (int j = 0; j < query_count; j++) {
+
+                    int start = (j * query_buffer + 1);
+                    int end   = ((j + 1) * query_buffer + 1);
+
+                    if (end > messages_count_db) { end = messages_count_db; }
+                    if (start > end) { start = end; }
+
+                    int finalEnd   = end;
+                    int finalStart = start;
+
+                    ArrayList<Long> arr_uids = (ArrayList<Long>) imap_folder.doCommand(imapProtocol -> {
+                        Response[] responses;
+                        ArrayList<Long> arr_uids_tmp = new ArrayList<>();
+
+                        responses = imapProtocol.command("UID SEARCH " + finalStart + ":" + finalEnd, null);
+
+                        String[] out_str = responses[0].toString().split(" ");
+
+                        if (out_str.length > 2) {
+                            for (int n = 2; n < out_str.length; n++) {
+                                arr_uids_tmp.add(Long.parseLong(out_str[n]));
+                            }
+                        }
+
+                        return arr_uids_tmp;
+                    });
+
+                    if (arr_uids.size() > 0) {
+                        long uid_start = arr_uids.get(0);
+                        long uid_end = arr_uids.get(arr_uids.size() - 1);
+
+                        String str_uids = String.valueOf(arr_uids.get(0));
+                        for (int n = 1; n < arr_uids.size(); n++) {
+                            str_uids += "," + String.valueOf(arr_uids.get(n));
+                        }
+
+                        db.checkDelete(user_id, folder_name, uid_start, uid_end, str_uids);
+                    }
+                }
+
+                // 4 END
+
+            // 1
             if (messages_count_mail < 1) {
                 myEx = imap_folder.getFullName() + " - message count = " + messages_count_mail;
                 System.err.println(myEx);
                 return;
             }
 
-            int part_count = (int) (Math.sqrt(messages_count_db) / 2); // TODO > 0 Math.ceil
+            int part_count = (int) Math.ceil(Math.sqrt(messages_count_db) / 2);
 
             ArrayList<MyMessage> myMessages = db.getRandomMessages(
                     emailAccount.getUser().getUser_id(),
@@ -59,7 +115,6 @@ public class AddNewMessageThread implements Runnable {
             int i = 0;
 
             for (MyMessage myMessage : myMessages) {
-                System.err.println("Test =====" + myMessage.getUid());
                 if (myMessage.getUid() > 0) {
                     uids[i++] = myMessage.getUid();
                 }
@@ -81,214 +136,91 @@ public class AddNewMessageThread implements Runnable {
                 }
             }
 
-            String    what;
-            Message[] messages;
+            //2
+            if (check_count != part_count) {
 
-            what = (check_count == part_count) ? "NEW" : "ALL";
-            System.out.println(check_count + " /// " +  part_count);
-            what = "NEW";
+                db.setFlags(emailAccount.getUser().getUser_id(), imap_folder.getFullName());
 
+                HashMap<String, String> flags = new HashMap<>();
 
-            System.err.println(what);
+                flags.put("KEYWORD $label1", null);
+                flags.put("KEYWORD $label2", null);
+                flags.put("KEYWORD $label3", null);
+                flags.put("KEYWORD $label4", null);
+                flags.put("KEYWORD $label5", null);
+                flags.put("KEYWORD $HasAttachment", null);
+                flags.put("FLAGGED", null);
+                flags.put("ANSWERED", null);
+                flags.put("DELETED", null);
+                flags.put("DRAFT", null);
+                flags.put("RECENT", null);
+                flags.put("UNSEEN", null);
 
-            switch (what) {
-                case "ALL":
-                    db.setFlags(emailAccount.getUser().getUser_id(), imap_folder.getFullName());
+                for (HashMap.Entry<String, String> flag : flags.entrySet()) {
+                    flag.setValue((String) imap_folder.doCommand(imapProtocol -> {
+                        String str_uids = "";
+                        Response[] responses = imapProtocol.command("UID SEARCH " + flag.getKey(), null);
+                        String[] arr_out_str = responses[0].toString().split(" ");
 
-//                    ANSWERED
-//                    DELETED
-//                    DRAFT
-//                    FLAGGED
-//                    RECENT
-//                    SEEN
-//                    USER
+                        if (arr_out_str.length > 2) {
+                            str_uids = arr_out_str[2];
 
-//                    IMAPMessage messages_no_seen[] = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
-
-//                    folder.getPermanentFlags().contains(Flags.Flag.USER)
-
-                    IMAPMessage[] imes = (IMAPMessage[]) imap_folder.getMessages();
-
-//                    long[] muids = imap_folder.getui
-
-                    IMAPMessage messages_answered[] = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.ANSWERED), true));
-                    System.out.println("messages_answered = " + messages_answered.length);
-                    IMAPMessage messages_deleter[]  = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.DELETED),  true));
-                    System.out.println("messages_deleter = " + messages_deleter.length);
-                    IMAPMessage messages_draft[]    = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.DRAFT),    true));
-                    System.out.println("messages_draft = " + messages_draft.length);
-                    IMAPMessage messages_flagged[]  = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.FLAGGED),  true));
-                    System.out.println("messages_flagged = " + messages_flagged.length);
-                    IMAPMessage messages_recent[]   = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.RECENT),   true));
-                    System.out.println("messages_recent = " + messages_recent.length);
-                    IMAPMessage messages_no_seen[]  = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN),     false));
-                    System.out.println("messages_no_seen = " + messages_no_seen.length);
-                    IMAPMessage messages_user[]     = (IMAPMessage[]) imap_folder.search(new FlagTerm(new Flags(Flags.Flag.USER),     true));
-                    System.out.println("messages_user = " + messages_user.length);
-
-                    if (messages_answered.length > 0) {
-                        String messages_uid_answered = String.valueOf(imap_folder.getUID(messages_answered[0]));
-                        for (int n = 1; n < messages_answered.length; n++) {
-                            messages_uid_answered += "," + String.valueOf(imap_folder.getUID(messages_answered[n]));
+                            for (int n = 3; n < arr_out_str.length; n++) {
+                                str_uids += "," + arr_out_str[n];
+                            }
                         }
-                        System.out.println(messages_uid_answered);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "answered", 1, messages_uid_answered);
-                    }
-                    if (messages_deleter.length > 0) {
-                        String messages_uid_deleter = String.valueOf(imap_folder.getUID(messages_deleter[0]));
-                        for (int n = 1; n < messages_deleter.length; n++) {
-    //                        messages_uid_deleter[n] = messages_a_uid_answered[n].uid;
-                            messages_uid_deleter += "," + String.valueOf(imap_folder.getUID(messages_deleter[n]));
-                        }
-                        System.out.println(messages_uid_deleter);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "deleted", 1, messages_uid_deleter);
-                    }
-                    if (messages_draft.length > 0) {
-                        String messages_uid_draft = String.valueOf(imap_folder.getUID(messages_draft[0]));
-                        for (int n = 1; n < messages_draft.length; n++) {
-                            messages_uid_draft += "," + String.valueOf(imap_folder.getUID(messages_draft[n]));
-                        }
-                        System.out.println(messages_uid_draft);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "draft", 1, messages_uid_draft);
-                    }
 
-                    if (messages_flagged.length > 0) {
-                        String messages_uid_flagged = String.valueOf(imap_folder.getUID(messages_flagged[0]));
-                        for (int n = 1; n < messages_flagged.length; n++) {
-                            messages_uid_flagged += "," + String.valueOf(imap_folder.getUID(messages_flagged[n]));
-                        }
-                        System.out.println(messages_uid_flagged);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "flagged", 1, messages_uid_flagged);
-                    }
-                    if (messages_recent.length > 0) {
-                        String messages_uid_recent = String.valueOf(imap_folder.getUID(messages_recent[0]));
-                        for (int n = 1; n < messages_recent.length; n++) {
-                            messages_uid_recent += "," + String.valueOf(imap_folder.getUID(messages_recent[n]));
-                        }
-                        System.out.println(messages_uid_recent);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "recent", 1, messages_uid_recent);
-                    }
-
-                    if (messages_no_seen.length > 0) {
-                        String messages_uid_no_seen = String.valueOf(imap_folder.getUID(messages_no_seen[0]));
-                        for (int n = 1; n < messages_no_seen.length; n++) {
-                            messages_uid_no_seen += "," + String.valueOf(imap_folder.getUID(messages_no_seen[n]));
-                        }
-                        System.out.println(messages_uid_no_seen);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "seen", 0, messages_uid_no_seen);
-                    }
-                    if (messages_user.length > 0) {
-                        String messages_uid_user = String.valueOf(imap_folder.getUID(messages_user[0]));
-
-                        for (int n = 1; n < messages_user.length; n++) {
-                            messages_uid_user += "," + String.valueOf(imap_folder.getUID(messages_user[n]));
-                        }
-                        System.out.println(messages_uid_user);
-                        db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "user", 1, messages_uid_user);
-                    }
-
-
-//                    AppendUID[] messages_a_uid_answered = imap_folder.uid appendUIDMessages(messages_answered);
-//                    System.out.println("messages_a_uid_answered = " + messages_a_uid_answered.length);
-//                    AppendUID[] messages_a_uid_deleter  = imap_folder.appendUIDMessages(messages_deleter);
-//                    System.out.println("messages_a_uid_deleter = " + messages_a_uid_deleter.length);
-//                    AppendUID[] messages_a_uid_draft    = imap_folder.appendUIDMessages(messages_draft);
-//                    System.out.println("messages_a_uid_draft = " + messages_a_uid_draft.length);
-//                    AppendUID[] messages_a_uid_flagged  = imap_folder.appendUIDMessages(messages_flagged);
-//                    System.out.println("messages_a_uid_flagged = " + messages_a_uid_flagged.length);
-//                    AppendUID[] messages_a_uid_recent   = imap_folder.appendUIDMessages(messages_recent);
-//                    System.out.println("messages_a_uid_recent = " + messages_a_uid_recent.length);
-//                    AppendUID[] messages_a_uid_no_seen  = imap_folder.appendUIDMessages(messages_no_seen);
-//                    System.out.println("messages_a_uid_no_seen = " + messages_a_uid_no_seen.length);
-//                    AppendUID[] messages_a_uid_user     = imap_folder.appendUIDMessages(messages_user);
-//                    System.out.println("messages_a_uid_user = " + messages_a_uid_user.length);
-
-
-////                    long[] messages_uid_answered = new long[messages_a_uid_answered.length];
-//                    StringBuilder messages_uid_answered = new StringBuilder(String.valueOf(messages_a_uid_answered[0].uid));
-//                    for (int n = 1; n < messages_a_uid_answered.length; n++) {
-////                        messages_uid_answered[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_answered.append(",").append(String.valueOf(messages_a_uid_answered[n].uid));
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "answered", 1, messages_uid_answered.toString());
-//
-////                    long[] messages_uid_deleter = new long[messages_a_uid_deleter.length];
-//                    StringBuilder messages_uid_deleter = new StringBuilder(String.valueOf(messages_a_uid_deleter[0].uid));
-//                    for (int n = 1; n < messages_a_uid_deleter.length; n++) {
-////                        messages_uid_deleter[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_deleter.append(",").append(String.valueOf(messages_a_uid_deleter[n].uid));
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "deleted", 1, messages_uid_deleter.toString());
-//
-////                    long[] messages_uid_draft = new long[messages_a_uid_draft.length];
-//                    StringBuilder messages_uid_draft = new StringBuilder(String.valueOf(messages_a_uid_draft[0].uid));
-//                    for (int n = 1; n < messages_a_uid_draft.length; n++) {
-////                        messages_uid_draft[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_draft.append(",").append(String.valueOf(messages_a_uid_draft[n].uid));
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "draft", 1, messages_uid_draft.toString());
-//
-////                    long[] messages_uid_flagged = new long[messages_a_uid_flagged.length];
-//                    StringBuilder messages_uid_flagged = new StringBuilder(String.valueOf(messages_a_uid_flagged[0].uid));
-//                    for (int n = 1; n < messages_a_uid_flagged.length; n++) {
-////                        messages_uid_flagged[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_flagged.append(",").append(String.valueOf(messages_a_uid_flagged[n].uid));
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "flagged", 1, messages_uid_flagged.toString());
-//
-////                    long[] messages_uid_recent = new long[messages_a_uid_recent.length];
-//                    StringBuilder messages_uid_recent = new StringBuilder(String.valueOf(messages_a_uid_recent[0].uid));
-//                    for (int n = 1; n < messages_a_uid_recent.length; n++) {
-////                        messages_uid_recent[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_recent.append(",").append(String.valueOf(messages_a_uid_recent[n].uid));
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "recent", 1, messages_uid_recent.toString());
-//
-////                    long[] messages_uid_no_seen = new long[messages_a_uid_no_seen.length];
-//                    StringBuilder messages_uid_no_seen = new StringBuilder(String.valueOf(messages_a_uid_no_seen[0].uid));
-//                    for (int n = 1; n < messages_a_uid_no_seen.length; n++) {
-////                        messages_uid_no_seen[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_no_seen.append(",").append(String.valueOf(messages_a_uid_no_seen[n].uid));
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "seen", 0, messages_uid_no_seen.toString());
-//
-////                    long[] messages_uid_user = new long[messages_a_uid_user.length];
-//                    String messages_uid_user = String.valueOf(messages_a_uid_user[0].uid);
-//                    for (int n = 1; n < messages_a_uid_user.length; n++) {
-////                        messages_uid_user[n] = messages_a_uid_answered[n].uid;
-//                        messages_uid_user += "," + String.valueOf(messages_a_uid_user[n].uid);
-//                    }
-//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "user", 1, messages_uid_user.toString());
-
-                    messages = imap_folder.getMessages();
-
-                    break;
-                case "NEW":
-
-                    if (messages_count_db > 0) {
-
-                        IMAPMessage last_imap_message = (IMAPMessage) imap_folder.getMessage(messages_count_mail);
-                        long mail_last_uid = imap_folder.getUID(last_imap_message);
-                        long db_last_uid = db.getLastUID(emailAccount.getUser().getUser_id(), imap_folder.getFullName());
-
-                        messages = imap_folder.getMessagesByUID(db_last_uid + 1, mail_last_uid);
-//                    System.out.println(messages.length + " из " + imap_folder.getMessages().length);
-                    } else {
-                        messages = imap_folder.getMessages();
-                    }
-                    break;
-                default:
-                    myFolder.setStatus("error");
-                    return;
-            }
-
-            for (Message message : messages) {
-                if (!imap_folder.isOpen()) {
-                    imap_folder.open(IMAPFolder.READ_ONLY);
+                        return str_uids;
+                    }));
                 }
-                db.changeMessage(new Email(emailAccount.getUser(), (IMAPMessage) message, imap_folder));
+
+                for (HashMap.Entry<String, String> flag : flags.entrySet()) {
+                    System.out.println(flag.getKey() + " = " + flag.getValue()); // TODO
+                }
+
+                if (!flags.get("ANSWERED").equals("")) { db.setFlags(user_id, folder_name, "answered", 1, flags.get("ANSWERED")); }
+                if (!flags.get("DELETED").equals("")) { db.setFlags(user_id, folder_name, "deleted", 1, flags.get("DELETED")); }
+                if (!flags.get("FLAGGED").equals("")) { db.setFlags(user_id, folder_name, "flagged", 1, flags.get("FLAGGED")); }
+                if (!flags.get("DRAFT").equals("")) { db.setFlags(user_id, folder_name, "draft", 1, flags.get("DRAFT")); }
+                if (!flags.get("RECENT").equals("")) { db.setFlags(user_id, folder_name, "recent", 1, flags.get("RECENT")); }
+                if (!flags.get("UNSEEN").equals("")) { db.setFlags(user_id, folder_name, "seen", 0, flags.get("UNSEEN"));}
+//                    db.setFlags(emailAccount.getUser().getUser_id(), myFolder.getFolder_name(), "user", 1, flags.get(""));
+
+                if (!flags.get("KEYWORD $label1").equals("")) { db.setFlags(user_id, folder_name, "label1", 1, flags.get("KEYWORD $label1")); }
+                if (!flags.get("KEYWORD $label2").equals("")) { db.setFlags(user_id, folder_name, "label2", 1, flags.get("KEYWORD $label2")); }
+                if (!flags.get("KEYWORD $label3").equals("")) { db.setFlags(user_id, folder_name, "label3", 1, flags.get("KEYWORD $label3")); }
+                if (!flags.get("KEYWORD $label4").equals("")) { db.setFlags(user_id, folder_name, "label4", 1, flags.get("KEYWORD $label4")); }
+                if (!flags.get("KEYWORD $label5").equals("")) { db.setFlags(user_id, folder_name, "label5", 1, flags.get("KEYWORD $label5")); }
+                if (!flags.get("KEYWORD $HasAttachment").equals("")) { db.setFlags(user_id, folder_name, "has_attachment", 1, flags.get("KEYWORD $HasAttachment"));}
             }
-        } catch (MessagingException e) {
+
+            // 3
+            IMAPMessage last_imap_message = (IMAPMessage) imap_folder.getMessage(messages_count_mail);
+            long mail_last_uid = imap_folder.getUID(last_imap_message);
+            long db_last_uid   = db.getLastUID(emailAccount.getUser().getUser_id(), imap_folder.getFullName());
+
+            if (mail_last_uid <= db_last_uid) { return; }
+
+            messages = imap_folder.getMessagesByUID(db_last_uid, mail_last_uid);
+            System.out.println("Start UID = " + db_last_uid + " END UID = " + mail_last_uid);
+            System.out.println(messages.length + " из " + imap_folder.getMessages().length);
+
+
+        } else {
+            messages = imap_folder.getMessages();
+        }
+
+        for (Message message : messages) {
+                if (!imap_folder.isOpen()) {
+                    try {
+                        imap_folder.open(IMAPFolder.READ_ONLY);
+                    } catch (MessagingException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                db.addEmail(new Email(emailAccount.getUser(), (IMAPMessage) message, imap_folder));
+            }
+        } catch (Exception e) {
             myFolder.setException(e);
             e.printStackTrace();
         }

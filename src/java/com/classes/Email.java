@@ -72,32 +72,15 @@ public class Email {
 //
 //            System.err.println();
 
-            if (
-                imap_message.getFrom() != null &&
-                InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail()) // TODO если папка Отправленные -> out
-            ) {
-                this.direction    = "out";
-//                client_id = com.DB.getClientIDByAddress(to);
-
-//                from = user.getEmail(); // TODO
-
-            } else {
-                this.direction    = "in";
-//                client_id = com.DB.getClientIDByAddress(from);
-//                to = user.getEmail();   // TODO
-            }
+//            if (imap_message.getFrom() != null && InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
+            this.direction = (imap_folder.getFullName().equals("Исходящие") ? "out" : "in");
 
             //            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
-//            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
-            String to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
-            String from = InternetAddress.toString(imap_message.getFrom());
+            //            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
             //            this.cc  = cc;
-//            this.bcc = bcc;
-            this.from = from;
-            this.to   = to;
-
-
-            this.client_id = 0; // TODO client_id;
+            //            this.bcc = bcc;
+            this.from = InternetAddress.toString(imap_message.getFrom());
+            this.to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
 
             if (!imap_folder.isOpen()) {
                 try {
@@ -109,11 +92,8 @@ public class Email {
 
             IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
 
-//            this.uid          = imap_folder_tmp.getUID(imap_message);
             this.user_id      = user.getUser_id();
-//            this.message_id   = imap_message.getHeader("Message-ID")[0]
-//                                    .replace("<", "")
-//                                    .replace(">", "");
+//            this.message_id   = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
             this.message_id = imap_message.getMessageID();
             this.msgno        = 0;
             this.from         = from;
@@ -143,28 +123,31 @@ public class Email {
 //            if (imap_message.isSet(Flags.Flag.USER    )) { this.user    = 1; }
 
             String out = (String) imap_folder.doCommand(imapProtocol -> {
-                Response[] responses = imapProtocol.command("FETCH 117101 (FLAGS UID)", null);
+                Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
                 return responses[0].toString();
             });
 
-            if (out.contains("\\Deleted"))      { this.deleted = 1; }
-            if (out.contains("\\Answered"))     { this.answred = 1; }
-            if (out.contains("\\Draft"))        { this.draft   = 1; }
-            if (out.contains("\\Flagged"))      { this.flagged = 1; }
-            if (out.contains("\\Recent"))       { this.recent  = 1; }
-            if (out.contains("\\Seen"))         { this.seen    = 1; }
-            if (out.contains("\\User"))         { this.user    = 1; }
-            if (out.contains("$label1"))        { this.user    = 1; }
-            if (out.contains("$label2"))        { this.user    = 1; }
-            if (out.contains("$label3"))        { this.user    = 1; }
-            if (out.contains("$label4"))        { this.user    = 1; }
-            if (out.contains("$label5"))        { this.user    = 1; }
-            if (out.contains("has_attachment")) { this.user    = 1; }
-
+            if (out.contains("\\Deleted"))     { this.deleted = 1; }
+            if (out.contains("\\Answered"))    { this.answred = 1; }
+            if (out.contains("\\Draft"))       { this.draft   = 1; }
+            if (out.contains("\\Flagged"))     { this.flagged = 1; }
+            if (out.contains("\\Recent"))      { this.recent  = 1; }
+            if (out.contains("\\Seen"))        { this.seen    = 1; }
+            if (out.contains("\\User"))        { this.user    = 1; }
+            if (out.contains("$label1"))       { this.label1  = 1; }
+            if (out.contains("$label2"))       { this.label2  = 1; }
+            if (out.contains("$label3"))       { this.label3  = 1; }
+            if (out.contains("$label4"))       { this.label4  = 1; }
+            if (out.contains("$label5"))       { this.label5  = 1; }
+            if (out.contains("HasAttachment")) { this.has_attachment = 1; }
 
             String[] out_str = out.split(" ");
 
-            this.uid = Long.parseLong(out_str[3]);
+//            if (out.length() > 3) {
+                this.uid = Long.parseLong(out_str[4]);
+//            } else {
+//                this.uid = imap_folder.getUID(imap_message);
+//            }
 
 //            String from = InternetAddress.toString(message.getFrom());
 //            String reply-to =  InternetAddress.toString(message.getReplyTo());

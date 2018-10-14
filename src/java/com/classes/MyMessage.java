@@ -25,6 +25,7 @@ public class MyMessage {
     private int       size;
     private String    subject;
     private String    folder;
+
     private int       recent;
     private int       flagged;
     private int       answered;
@@ -58,6 +59,7 @@ public class MyMessage {
             int size,
             String subject,
             String folder,
+
             int recent,
             int flagged,
             int answered,
@@ -166,28 +168,34 @@ public class MyMessage {
     public String toString() {
         return "MyMessage{" +
                 "id=" + id +
-                ", direction='" + direction + '\'' +
-                ", user_id=" + user_id +
-                ", client_id=" + client_id +
-                ", uid=" + uid +
-                ", message_id='" + message_id + '\'' +
-                ", msgno=" + msgno +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", in_reply_to='" + in_reply_to + '\'' +
-                ", references='" + references + '\'' +
-                ", date=" + date +
-                ", size=" + size +
-                ", subject='" + subject + '\'' +
-                ", folder='" + folder + '\'' +
-                ", recent=" + recent +
-                ", flagged=" + flagged +
-                ", answered=" + answered +
-                ", deleted=" + deleted +
-                ", seen=" + seen +
-                ", draft=" + draft +
-                ", user=" + user +
-                ", udate=" + udate +
+                "direction='" + direction + '\'' +
+                "user_id=" + user_id +
+                "client_id=" + client_id +
+                "uid=" + uid +
+                "message_id='" + message_id + '\'' +
+                "msgno=" + msgno +
+                "from='" + from + '\'' +
+                "to='" + to + '\'' +
+                "in_reply_to='" + in_reply_to + '\'' +
+                "references='" + references + '\'' +
+                "date=" + date +
+                "size=" + size +
+                "subject='" + subject + '\'' +
+                "folder='" + folder + '\'' +
+                "recent=" + recent +
+                "flagged=" + flagged +
+                "answered=" + answered +
+                "deleted=" + deleted +
+                "seen=" + seen +
+                "draft=" + draft +
+                "user=" + user +
+                "label1=" + label1 +
+                "label2=" + label2 +
+                "label3=" + label3 +
+                "label4=" + label4 +
+                "label5=" + label5 +
+                "label1=" + label1 +
+                "udate=" + udate +
                 '}';
     }
 
@@ -375,35 +383,82 @@ public class MyMessage {
         this.udate = udate;
     }
 
+    public int getLabel1() {
+        return label1;
+    }
+
+    public void setLabel1(int label1) {
+        this.label1 = label1;
+    }
+
+    public int getLabel2() {
+        return label2;
+    }
+
+    public void setLabel2(int label2) {
+        this.label2 = label2;
+    }
+
+    public int getLabel3() {
+        return label3;
+    }
+
+    public void setLabel3(int label3) {
+        this.label3 = label3;
+    }
+
+    public int getLabel4() {
+        return label4;
+    }
+
+    public void setLabel4(int label4) {
+        this.label4 = label4;
+    }
+
+    public int getLabel5() {
+        return label5;
+    }
+
+    public void setLabel5(int label5) {
+        this.label5 = label5;
+    }
+
+    public int getHas_attachment() {
+        return has_attachment;
+    }
+
+    public void setHas_attachment(int has_attachment) {
+        this.has_attachment = has_attachment;
+    }
+
     public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder) {
 
         try {
-
-            System.out.println(this.getUid() + " == " + imapFolder.getUID(imap_message));
-            System.out.println(this.message_id + " == " + imap_message.getMessageID());
-            System.out.println(this.from + " == " + InternetAddress.toString(imap_message.getFrom()));
-            System.out.println(this.to + " == " + InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO)));
-            System.out.println(this.in_reply_to + " == " + InternetAddress.toString(imap_message.getReplyTo()));
-            System.out.println(this.size + " == " + imap_message.getSize());
-            System.out.println(this.subject + " == " + imap_message.getSubject());
-            System.out.println(this.folder + " == " + imap_message.getFolder().getFullName());
-
-            System.out.println(this.getUid() ==  imapFolder.getUID(imap_message));
-            System.out.println(this.message_id.equals(imap_message.getMessageID()));
-            System.out.println(this.from.equals(InternetAddress.toString(imap_message.getFrom())));
-            System.out.println(this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))));
-            System.out.println(this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())));
-            System.out.println(this.size  ==  imap_message.getSize());
-            System.out.println(this.subject.equals(imap_message.getSubject()));
-            System.out.println(this.folder.equals(imap_message.getFolder().getFullName()));
+//            System.out.println(this.getUid()    + " == " + imapFolder.getUID(imap_message));
+//            System.out.println(this.message_id  + " == " + imap_message.getMessageID());
+//            System.out.println(this.from        + " == " + InternetAddress.toString(imap_message.getFrom()));
+//            System.out.println(this.to          + " == " + InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO)));
+//            System.out.println(this.in_reply_to + " == " + InternetAddress.toString(imap_message.getReplyTo()));
+//            System.out.println(this.size        + " == " + imap_message.getSize());
+//            System.out.println(this.subject     + " == " + imap_message.getSubject());
+//            System.out.println(this.folder      + " == " + imap_message.getFolder().getFullName());
+//
+//            System.out.println(this.getUid() ==  imapFolder.getUID(imap_message));
+//            System.out.println(this.message_id.equals(imap_message.getMessageID()));
+//            System.out.println(this.from.equals(InternetAddress.toString(imap_message.getFrom())));
+//            System.out.println(this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))));
+//            System.out.println(this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())));
+//            System.out.println(this.size  ==  imap_message.getSize());
+//            System.out.println(this.subject.equals(imap_message.getSubject()));
+//            System.out.println(this.folder.equals(imap_message.getFolder().getFullName()));
 
             if (
-                this.getUid()    ==  imapFolder.getUID(imap_message) &&
+                this.getUid() == imapFolder.getUID(imap_message) &&
                 this.message_id.equals(imap_message.getMessageID()) &&
                 this.from.equals(InternetAddress.toString(imap_message.getFrom())) &&
                 this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))) &&
                 this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())) &&
-                this.size        == imap_message.getSize() &&
+                this.size == imap_message.getSize() &&
                 this.subject.equals(imap_message.getSubject()) &&
                 this.folder.equals(imap_message.getFolder().getFullName())
             ) {
