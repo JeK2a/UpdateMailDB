@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class MyMessage {
-    private int       id;
     private String    direction;
     private int       user_id;
     private int       client_id;
@@ -42,15 +41,15 @@ public class MyMessage {
     private int       has_attachment;
 
     private Timestamp udate;
+    private String email_acount;
+
 
     public MyMessage(
-            int id,
             String direction,
             int user_id,
             int client_id,
             long uid,
             String message_id,
-            int msgno,
             String from,
             String to,
             String in_reply_to,
@@ -60,14 +59,14 @@ public class MyMessage {
             String subject,
             String folder,
 
-            int recent,
+
             int flagged,
             int answered,
             int deleted,
             int seen,
             int draft,
-            int user,
 
+            int forwarded,
             int label1,
             int label2,
             int label3,
@@ -75,15 +74,15 @@ public class MyMessage {
             int label5,
             int has_attachment,
 
-            Timestamp udate
+            Timestamp udate,
+            String email_account
     ) {
-        this.id = id;
+
         this.direction   = direction;
         this.user_id     = user_id;
         this.client_id   = client_id;
         this.uid         = uid;
         this.message_id  = message_id;
-        this.msgno       = msgno;
         this.from        = from;
         this.to          = to;
         this.in_reply_to = in_reply_to;
@@ -108,7 +107,8 @@ public class MyMessage {
         this.has_attachment = label1;
 
 
-        this.udate       = udate;
+        this.udate        = udate;
+        this.email_acount = email_account;
     }
 
     public MyMessage(Message message) { // TODO
@@ -167,7 +167,6 @@ public class MyMessage {
     @Override
     public String toString() {
         return "MyMessage{" +
-                "id=" + id +
                 "direction='" + direction + '\'' +
                 "user_id=" + user_id +
                 "client_id=" + client_id +
@@ -197,14 +196,6 @@ public class MyMessage {
                 "label1=" + label1 +
                 "udate=" + udate +
                 '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDirection() {

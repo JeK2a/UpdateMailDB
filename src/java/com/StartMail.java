@@ -54,6 +54,7 @@ public class StartMail {
                 @Override
                 public void folderCreated(FolderEvent folderEvent) { // Действие при создании папки
                     try {
+						//TODO ilya начать слушать эту папку
                         StartMail.enterMessage("folder created");
                     } catch (Exception e) {
                         emailAccount.setStatus("error");

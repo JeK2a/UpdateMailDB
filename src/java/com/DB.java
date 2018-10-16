@@ -56,40 +56,39 @@ public class DB implements AutoCloseable {
 
         String query = "" +
 //            "INSERT INTO `" + Settings.getTable_emails() + "`(" +
-            "INSERT INTO `a_my_emails`(" +
+            "INSERT INTO `a_api_emails`(" +
                 "`direction`, "   + // 1
                 "`user_id`, "     + // 2
                 "`client_id`, "   + // 3
                 "`uid`, "         + // 4
                 "`message_id`, "  + // 5
-                "`msgno`, "       + // 6
                 "`from`, "        + // 7
                 "`to`, "          + // 8
                 "`in_reply_to`, " + // 9
                 "`references`, "  + //10
-                "`date`, "        + //11
+                "`message_date`, "        + //11
                 "`size`, "        + //12
                 "`subject`, "     + //13
                 "`folder`, "      + //14
 
-                "`recent`, "      + //15
                 "`flagged`, "     + //16
                 "`answered`, "    + //17
                 "`deleted`, "     + //18
                 "`seen`, "        + //19
                 "`draft`, "       + //20
-                "`user`, "        + //21
 
-                "`label1`, "      + //22
-                "`label2`, "      + //23
-                "`label3`, "      + //24
-                "`label4`, "      + //25
-                "`label5`, "      + //26
-                "`has_attachment`, " + //27
+                "`forwarded`, "   + //22
+                "`label_1`, "      + //23
+                "`label_2`, "      + //24
+                "`label_3`, "      + //25
+                "`label_4`, "      + //26
+                "`label_5`, "      + //27
+                "`has_attachment`, " + //28
 
-                "`udate`"        + //28
+                "`time`, "        + //29
+                "`email_account`"  + //30
             ") "                 +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE `message_id` = VALUES(`message_id`);";
 //                + " OR (`user_id` = VALUES(`user_id`), `folder` = VALUES(`folder`), `uid` = VALUES(`uid`));";
 
@@ -101,32 +100,33 @@ public class DB implements AutoCloseable {
             prep_stmt.setInt(3, email.getClient_id());
             prep_stmt.setLong(4, email.getUid());
             prep_stmt.setString(5, email.getMessage_id());
-            prep_stmt.setInt(6, email.getMsgno());
-            prep_stmt.setString(7, email.getFrom() );
-            prep_stmt.setString(8, email.getTo());
-            prep_stmt.setString(9, email.getIn_replay_to());
-            prep_stmt.setString(10,email.getReferences());
-            prep_stmt.setTimestamp(11, email.getDate());
-            prep_stmt.setInt(12, email.getSize());
-            prep_stmt.setString(13, email.getSubject());
-            prep_stmt.setString(14, email.getFolder());
+            prep_stmt.setString(6, email.getFrom() );
+            prep_stmt.setString(7, email.getTo());
+            prep_stmt.setString(8, email.getIn_replay_to());
+            prep_stmt.setString(9,email.getReferences());
+            prep_stmt.setTimestamp(10, email.getDate());
+            prep_stmt.setInt(11, email.getSize());
+            prep_stmt.setString(12, email.getSubject());
+            prep_stmt.setString(13, email.getFolder());
 
-            prep_stmt.setInt(15, email.getRecent());
-            prep_stmt.setInt(16, email.getFlagged());
-            prep_stmt.setInt(17, email.getAnswred());
-            prep_stmt.setInt(18, email.getDeleted());
-            prep_stmt.setInt(19, email.getSeen());
-            prep_stmt.setInt(20, email.getDraft());
-            prep_stmt.setInt(21, email.getUser());
 
-            prep_stmt.setInt(22, email.getLabel1());
-            prep_stmt.setInt(23, email.getLabel2());
-            prep_stmt.setInt(24, email.getLabel3());
-            prep_stmt.setInt(25, email.getLabel4());
-            prep_stmt.setInt(26, email.getLabel5());
-            prep_stmt.setInt(27, email.getHas_attachment());
+            prep_stmt.setInt(14, email.getFlagged());
+            prep_stmt.setInt(15, email.getAnswred());
+            prep_stmt.setInt(16, email.getDeleted());
+            prep_stmt.setInt(17, email.getSeen());
+            prep_stmt.setInt(18, email.getDraft());
 
-            prep_stmt.setTimestamp(28, email.getUpdate());
+
+            prep_stmt.setInt(19, email.getForwarded());
+            prep_stmt.setInt(20, email.getLabel1());
+            prep_stmt.setInt(21, email.getLabel2());
+            prep_stmt.setInt(22, email.getLabel3());
+            prep_stmt.setInt(23, email.getLabel4());
+            prep_stmt.setInt(24, email.getLabel5());
+            prep_stmt.setInt(25, email.getHas_attachment());
+
+            prep_stmt.setTimestamp(26, email.getUpdate());
+            prep_stmt.setString(27, email.getEmail_account());
 
             prep_stmt.executeLargeUpdate();
         } catch (SQLException e) {
@@ -319,7 +319,7 @@ public class DB implements AutoCloseable {
                 "UPDATE `" + Settings.getTable_emails() + "` " +
                 "SET " +
                     "`folder` = '" + new_folder_name   + "', " +
-                    "`udate`  = '" + email.getUpdate() + "'  " +
+                    "`time`  = '" + email.getUpdate() + "'  " +
                 "WHERE" +
                     "`folder`     = '" + user_id               + "' AND " +
                     "`message_id` = '" + email.getMessage_id() + "';";
@@ -365,7 +365,7 @@ public class DB implements AutoCloseable {
                 "UPDATE `" + Settings.getTable_emails() + "` " +
                 "SET " +
                     "`deleted` = 1, " +
-                    "`udate`  = '" + email.getUpdate() + "'  " +
+                    "`time`  = '" + email.getUpdate() + "'  " +
                 "WHERE" +
                     "`user_id`     = '" + email.getUser_id() + "' AND " +
                     "`folder` = '" + imapFolder.getFullName() + "';";
@@ -383,20 +383,20 @@ public class DB implements AutoCloseable {
 
     public int setFlags(int user_id, String folder_name) {
         String query = "" +
-                "UPDATE `a_my_emails` " +
+                "UPDATE `a_api_emails` " +
                 "SET " +
-                "    `recent`   = 0, " +
+
                 "    `flagged`  = 0, " +
                 "    `answered` = 0, " +
                 "    `deleted`  = 0, " +
                 "    `seen`     = 1, " +
                 "    `draft`    = 0, " +
-                "    `user`     = 0, " +
-                "    `label1`   = 0, " +
-                "    `label2`   = 0, " +
-                "    `label3`   = 0, " +
-                "    `label4`   = 0, " +
-                "    `label5`   = 0, " +
+                "    `forwarded` = 0, " +
+                "    `label_1`   = 0, " +
+                "    `label_2`   = 0, " +
+                "    `label_3`   = 0, " +
+                "    `label_4`   = 0, " +
+                "    `label_5`   = 0, " +
                 "    `has_attachment` = 0 " +
                 "WHERE TRUE ";
         if (user_id != 0) {
@@ -419,7 +419,7 @@ public class DB implements AutoCloseable {
 
     public int setFlags(int user_id, String folder_name, String flag_name, byte flag_value) {
         String query = "" +
-                "UPDATE `a_my_emails` " +
+                "UPDATE `a_api_emails` " +
                 "SET `"+flag_name+"` = "+flag_value+" " +
                 "WHERE  " +
                 "   `user_id` = '"+user_id+"' AND" +
@@ -438,7 +438,7 @@ public class DB implements AutoCloseable {
 
     public int setFlags(int user_id, String folder_name, String flag_name, int flag_value, String uids) {
         String query = "" +
-                "UPDATE `a_my_emails` " +
+                "UPDATE `a_api_emails` " +
                 "SET `"+flag_name+"` = "+flag_value+" " +
                 "WHERE  " +
                 "   `user_id` = '"+user_id+"' AND" +
@@ -450,6 +450,7 @@ public class DB implements AutoCloseable {
         try {
             result = stmt.executeUpdate(query);
         } catch (SQLException e) {
+            System.out.println(query);
             e.printStackTrace();
         }
 
@@ -460,39 +461,42 @@ public class DB implements AutoCloseable {
 
         String query = "" +
                 "SELECT" +
-                "    `id`, "          +  //1
-                "    `direction`, "   +  //2
-                "    `user_id`, "     +  //3
-                "    `client_id`, "   +  //4
-                "    `uid`,"          +  //5
-                "    `message_id`, "  +  //6
-                "    `msgno`, "       +  //7
-                "    `from`, "        +  //8
-                "    `to`, "          +  //9
-                "    `in_reply_to`, " +  //10
-                "    `references`, "  +  //11
-                "    `date`, "        +  //12
-                "    `size`, "        +  //13
-                "    `subject`, "     +  //14
-                "    `folder`, "      +  //15
+                "    `direction`, "   +  //1
+                "    `user_id`, "     +  //2
+                "    `client_id`, "   +  //3
+                "    `uid`,"          +  //4
+                "    `message_id`, "  +  //5
 
-                "    `recent`, "      +  //16
-                "    `flagged`, "     +  //17
-                "    `answered`, "    +  //18
-                "    `deleted`, "     +  //19
-                "    `seen`, "        +  //20
-                "    `draft`, "       +  //21
-                "    `user`, "        +  //22
+                "    `from`, "        +  //6
+                "    `to`, "          +  //7
+                "    `in_reply_to`, " +  //8
+                "    `references`, "  +  //9
+                "    `message_date`, "+  //10
+                "    `size`, "        +  //11
+                "    `subject`, "     +  //12
+                "    `folder`, "      +  //13
 
-                "    `label1`, "      +  //23
-                "    `label2`, "      +  //24
-                "    `label3`, "      +  //25
-                "    `label4`, "      +  //26
-                "    `label5`, "      +  //27
-                "    `has_attachment`, " +//28
 
-                "    `udate` "        +  //29
-                "FROM `a_my_emails` " +
+                "    `flagged`, "     +  //14
+                "    `answered`, "    +  //15
+                "    `deleted`, "     +  //16
+                "    `seen`, "        +  //17
+                "    `draft`, "       +  //18
+
+
+                "    `forwarded`, "      +  //19
+                "    `label_1`, "      +  //20
+                "    `label_2`, "      +  //21
+                "    `label_3`, "      +  //22
+                "    `label_4`, "      +  //23
+                "    `label_5`, "      +  //24
+                "    `has_attachment`, " +//25
+
+                "    `time`, "       +  //26
+
+                "    `email_account` "        +  //27
+
+                "FROM `a_api_emails` " +
                 "WHERE " +
                 "    `user_id` = '"+user_id +"' AND " +
                 "    `folder` = '"+folder_name+"' " +
@@ -507,38 +511,36 @@ public class DB implements AutoCloseable {
             while (rs.next()) {
                 myMessages.add(
                     new MyMessage(
-                        rs.getInt(1),
-                        rs.getString(2),
+                        rs.getString(1),
+                        rs.getInt(2),
                         rs.getInt(3),
-                        rs.getInt(4),
-                        rs.getLong(5),
+                        rs.getLong(4),
+                        rs.getString(5),
                         rs.getString(6),
-                        rs.getInt(7),
+                        rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
-                        rs.getString(10),
-                        rs.getString(11),
-                        rs.getTimestamp(12),
-                        rs.getInt(13),
-                        rs.getString(14),
-                        rs.getString(15),
+                        rs.getTimestamp(10),
+                        rs.getInt(11),
+                        rs.getString(12),
+                        rs.getString(13),
 
+                        rs.getInt(14),
+                        rs.getInt(15),
                         rs.getInt(16),
                         rs.getInt(17),
                         rs.getInt(18),
+
                         rs.getInt(19),
                         rs.getInt(20),
                         rs.getInt(21),
                         rs.getInt(22),
-
                         rs.getInt(23),
                         rs.getInt(24),
                         rs.getInt(25),
-                        rs.getInt(26),
-                        rs.getInt(27),
-                        rs.getInt(28),
 
-                        rs.getTimestamp(29)
+                        rs.getTimestamp(26),
+                        rs.getString(27)
                     )
                 );
             }
@@ -551,9 +553,9 @@ public class DB implements AutoCloseable {
 
     public int checkDelete(int user_id, String folder_name, long uid_start, long uid_end, String uids) {
         String query = "" +
-                "UPDATE `a_my_emails` " +
+                "UPDATE `a_api_emails` " +
                 "SET `deleted` = 1, " +
-                "    `udate` = '" + new java.sql.Timestamp(new Date().getTime()) + "' " +
+                "    `time` = '" + new java.sql.Timestamp(new Date().getTime()) + "' " +
                 "WHERE  " +
                 "   `uid` >= '"+uid_start+"' AND '"+uid_start+"' <= `uid`  AND " +
                 "   `folder` = '"+folder_name+"' AND `user_id` = '"+user_id+"' AND " +
@@ -572,9 +574,9 @@ public class DB implements AutoCloseable {
 
     public int deleteMessage(int user_id, String folder_name, long uid) {
         String query = "" +
-                "DELETE `a_my_emails` " +
+                "DELETE `a_api_emails` " +
                 "SET `deleted` = 1, " +
-                "    `udate` = '" + new java.sql.Timestamp(new Date().getTime()) + "' " +
+                "    `time` = '" + new java.sql.Timestamp(new Date().getTime()) + "' " +
                 "WHERE  `user_id` = '"+user_id+"' AND " +
                 "       `folder` = '"+folder_name+"' AND " +
                 "       `uid` = '"+uid+"'";

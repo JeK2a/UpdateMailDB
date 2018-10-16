@@ -13,12 +13,13 @@ import java.util.Date;
 public class Email {
 
     private int    id = 0;
+    private String email_account;
     private String direction;
     private int    user_id;
     private int    client_id = 0;
     private long   uid;
     private String message_id;
-    private int    msgno;
+    private int    msgno = 0;
     private String from;
     private String to;
 
@@ -40,6 +41,7 @@ public class Email {
     private int    draft   = 0;
     private int    user    = 0;
 
+    private int    forwarded  = 0;
     private int    label1  = 0;
     private int    label2  = 0;
     private int    label3  = 0;
@@ -72,13 +74,12 @@ public class Email {
 //
 //            System.err.println();
 
+            this.email_account = user.getEmail();
+
 //            if (imap_message.getFrom() != null && InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
             this.direction = (imap_folder.getFullName().equals("Исходящие") ? "out" : "in");
-
-            //            String cc   = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
-            //            String bcc  = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
-            //            this.cc  = cc;
-            //            this.bcc = bcc;
+            this.cc   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.CC));
+            this.bcc  = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.BCC));
             this.from = InternetAddress.toString(imap_message.getFrom());
             this.to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
 
@@ -90,14 +91,12 @@ public class Email {
                 }
             }
 
-            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
+//            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
 
             this.user_id      = user.getUser_id();
-//            this.message_id   = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
-            this.message_id = imap_message.getMessageID();
-            this.msgno        = 0;
-            this.from         = from;
-            this.to           = (to == null ? "" : to);
+            this.message_id   = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+//            this.message_id = imap_message.getMessageID();
+//            this.msgno        = 0;
 
             this.in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
 
@@ -105,22 +104,14 @@ public class Email {
                 this.in_replay_to = " ";
             }
 
-            this.date         = new java.sql.Timestamp(imap_message.getSentDate().getTime());
+            this.date         = new Timestamp(imap_message.getSentDate().getTime());
             this.size         = imap_message.getSize();
 
             this.subject      = removeBadChars(imap_message.getSubject());
             if (this.subject == null) { this.subject = " "; }
 
             this.folder       = imap_message.getFolder().getFullName();
-            this.update       = new java.sql.Timestamp(new Date().getTime());
-
-//            if (imap_message.isSet(Flags.Flag.DELETED )) { this.deleted = 1; }
-//            if (imap_message.isSet(Flags.Flag.ANSWERED)) { this.answred = 1; }
-//            if (imap_message.isSet(Flags.Flag.DRAFT   )) { this.draft   = 1; }
-//            if (imap_message.isSet(Flags.Flag.FLAGGED )) { this.flagged = 1; }
-//            if (imap_message.isSet(Flags.Flag.RECENT  )) { this.recent  = 1; }
-//            if (imap_message.isSet(Flags.Flag.SEEN    )) { this.seen    = 1; }
-//            if (imap_message.isSet(Flags.Flag.USER    )) { this.user    = 1; }
+            this.update       = new Timestamp(new Date().getTime());
 
             String out = (String) imap_folder.doCommand(imapProtocol -> {
                 Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
@@ -131,15 +122,16 @@ public class Email {
             if (out.contains("\\Answered"))    { this.answred = 1; }
             if (out.contains("\\Draft"))       { this.draft   = 1; }
             if (out.contains("\\Flagged"))     { this.flagged = 1; }
-            if (out.contains("\\Recent"))      { this.recent  = 1; }
+//            if (out.contains("\\Recent"))      { this.recent  = 1; }
             if (out.contains("\\Seen"))        { this.seen    = 1; }
-            if (out.contains("\\User"))        { this.user    = 1; }
+//            if (out.contains("\\User"))        { this.user    = 1; }
+            if (out.contains("$Forvard"))      { this.forwarded = 1; }
             if (out.contains("$label1"))       { this.label1  = 1; }
             if (out.contains("$label2"))       { this.label2  = 1; }
             if (out.contains("$label3"))       { this.label3  = 1; }
             if (out.contains("$label4"))       { this.label4  = 1; }
             if (out.contains("$label5"))       { this.label5  = 1; }
-            if (out.contains("HasAttachment")) { this.has_attachment = 1; }
+            if (out.contains("$HasAttachment")) { this.has_attachment = 1; }
 
             String[] out_str = out.split(" ");
 
@@ -189,6 +181,7 @@ public class Email {
                 "     seen           = " + seen           + ",\n" +
                 "     draft          = " + draft          + ",\n" +
                 "     user           = " + user           + ",\n" +
+                "     forwarded      = " + forwarded      + ",\n" +
                 "     label1         = " + label1         + ",\n" +
                 "     label2         = " + label2         + ",\n" +
                 "     label3         = " + label3         + ",\n" +
@@ -196,6 +189,7 @@ public class Email {
                 "     label5         = " + label5         + ",\n" +
                 "     has_attachment = " + has_attachment + ",\n" +
                 "     update         = " + update         + " \n" +
+                "     email_account  = " + email_account  + " \n" +
                 "}\n";
     }
 
@@ -445,6 +439,22 @@ public class Email {
 
     public java.sql.Timestamp getUpdate() {
         return update;
+    }
+
+    public int getForwarded() {
+        return forwarded;
+    }
+
+    public void setForwarded(int forwarded) {
+        this.forwarded = forwarded;
+    }
+
+    public String getEmail_account() {
+        return email_account;
+    }
+
+    public void setEmail_account(String email_account) {
+        this.email_account = email_account;
     }
 
     public static String removeBadChars(String s) {
