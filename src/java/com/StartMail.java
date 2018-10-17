@@ -56,6 +56,21 @@ public class StartMail {
                     try {
 						//TODO ilya начать слушать эту папку
                         StartMail.enterMessage("folder created");
+                        IMAPFolder new_folder = (IMAPFolder) folderEvent.getFolder();
+
+                        MyFolder myFolder = new MyFolder(new_folder);
+
+                        emailAccount.addMyFolder(myFolder);
+
+                        if (!new_folder.isOpen()) {
+                            new_folder.open(IMAPFolder.READ_ONLY);
+                        }
+
+                        StartMail.enterMessage("Connect to -> " + emailAccount.getUser().getEmail() + " -> " + new_folder.getFullName());
+
+                        Thread myThreadEvent = new Thread(new MailListenerThread(emailAccount, myFolder));
+                        myFolder.setThreadLisaningChangeMessage(myThreadEvent);
+                        myThreadEvent.start();
                     } catch (Exception e) {
                         emailAccount.setStatus("error");
                         emailAccount.setException(e);
