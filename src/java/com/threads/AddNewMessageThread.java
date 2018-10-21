@@ -23,7 +23,6 @@ public class AddNewMessageThread implements Runnable {
 
     private String myEx;
 
-
     public AddNewMessageThread(EmailAccount emailAccount, MyFolder myFolder) {
         db = new DB();
         this.emailAccount = emailAccount;
@@ -224,7 +223,6 @@ public class AddNewMessageThread implements Runnable {
                     db.setFlags(user_id, folder_name, "has_attachment", 1, flags.get("KEYWORD $HasAttachment"));
                 }
 
-
                 //} else {
                 //messages = imap_folder.getMessages();
                 //}
@@ -273,4 +271,5 @@ public class AddNewMessageThread implements Runnable {
             e.printStackTrace();
         }
     }
+
 }
