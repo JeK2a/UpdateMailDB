@@ -273,3 +273,4 @@ public class AddNewMessageThread implements Runnable {
             e.printStackTrace();
         }
     }
+}
