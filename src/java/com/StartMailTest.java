@@ -135,21 +135,23 @@ public class StartMailTest {
 
             System.out.println("--------------------------------------Test--------------------------------------");
 
-
+            imapFolder.getMessages();
 
             String str = (String) imapFolder.doCommand(imapProtocol -> {
                 Response[] responses;
 
-//                responses = imapProtocol.command("UID FETCH 1 (FLAGS UID)", null);
+                responses = imapProtocol.command("UID FETCH 1 (FLAGS UID)", null);
 //                long uid_start = Long.parseLong(out_str[4]);
 
-                responses = imapProtocol.command("UID SEARCH 1:1001", null);
+//                responses = imapProtocol.command("UID SEARCH 998,1001", null);
 //                responses = imapProtocol.command("UID FETCH 117101 (FLAGS UID)", null);
                 return responses[0].toString();
             });
 
 
             System.out.println(str);
+
+            System.exit(0);
 
 //            ArrayList<Long> arr_uids = (ArrayList<Long>) imapFolder.doCommand(imapProtocol -> {
 //                Response[] responses;
@@ -274,7 +276,7 @@ public class StartMailTest {
 
         new Settings();
 
-        wssChatClient = new WSSChatClient();
+//        wssChatClient = new WSSChatClient();
         db = new DB();
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
         StartMailTest startMail = new StartMailTest(); //

@@ -313,6 +313,28 @@ public class DB implements AutoCloseable {
         return count_messages;
     }
 
+    public int getLastUIDMessages(int user_id, String folder_name) {
+
+        String query = "" +
+                "SELECT MAX(`uid`) "            +
+                "FROM `" + Settings.getTable_emails() + "` " +
+                "WHERE " +
+                "    `user_id` = '"+user_id+"' AND " +
+                "    `folder` = '"+folder_name+"' ";
+
+        int count_messages = 0;
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+
+            if (rs.next()) { count_messages = rs.getInt(1); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count_messages;
+    }
 
     public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
         String query = "" +

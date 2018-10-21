@@ -176,14 +176,14 @@ public class StartMail {
     // Вывод сообщения
     public static void enterMessage(String text) {
         System.out.println(text);
-        wssChatClient.sendText(text);
+//        wssChatClient.sendText(text);
     }
 
 	public static void main(String[] args) {
 
         new Settings();
 
-        wssChatClient = new WSSChatClient();
+//        wssChatClient = new WSSChatClient();
         db = new DB();
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
         StartMail startMail = new StartMail(); //
@@ -196,7 +196,7 @@ public class StartMail {
             startMail.connectToMailAccount(emailAccount); // Подключение к почтовым аккаунтам
 
             while (true) {
-                if (emailAccount.getStatus().equals("listening") || emailAccount.getStatus().equals("stop")) {
+                if (emailAccount.getStatus().equals("end_add_message")) {
                     break;
                 }
                 try {
