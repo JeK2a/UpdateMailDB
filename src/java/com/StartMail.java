@@ -148,9 +148,10 @@ public class StartMail {
                 Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder)); // Создание потока для синхронизации всего почтового ящика // TODO 1 all
                 myFolder.setThreadAddNewMessages(myTreadAllMails);
 //                myTreadAllMails.start();
+                myTreadAllMails.start(); // Запус потока
 
                 while (true) {
-                    if (myFolder.getStatus().equals("listening") || myFolder.getStatus().equals("stop")) {
+                    if (myFolder.getStatus().equals("end_add_message_folder") || myFolder.getStatus().equals("stop")) {
                         break;
                     }
                     try {
@@ -160,16 +161,19 @@ public class StartMail {
                     }
                 }
 
-                myTreadAllMails.start(); // Запус потока
             }
 
-            emailAccount.setStatus("listening");
+
+
+//            emailAccount.setStatus("end_add_message_emailAccount");
 
         } catch (MessagingException e) {
             enterMessage("Problems wish "  + emailAccount.getUser().getEmail());
             emailAccount.setStatus("stop");
             emailAccount.setException(e);
             e.printStackTrace();
+        } finally {
+            emailAccount.setStatus("end_add_message_emailAccount");
         }
     }
 
@@ -196,7 +200,7 @@ public class StartMail {
             startMail.connectToMailAccount(emailAccount); // Подключение к почтовым аккаунтам
 
             while (true) {
-                if (emailAccount.getStatus().equals("end_add_message")) {
+                if (emailAccount.getStatus().equals("end_add_message_emailAccount")) {
                     break;
                 }
                 try {

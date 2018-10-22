@@ -220,7 +220,8 @@ public class AddNewMessageThread implements Runnable {
             myFolder.setException(e);
             e.printStackTrace();
         } finally {
-            emailAccount.setStatus("end_add_message");
+//            emailAccount.setStatus("end_add_message_folder");
+            myFolder.setStatus("end_add_message_folder");
         }
     }
 
@@ -280,7 +281,8 @@ public class AddNewMessageThread implements Runnable {
         } catch (MessagingException e) {
             e.printStackTrace();
         } finally {
-            emailAccount.setStatus("end_add_message");
+//            emailAccount.setStatus("end_add_message_folder");
+            myFolder.setStatus("end_add_message_folder");
         }
     }
 

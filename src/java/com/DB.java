@@ -134,7 +134,7 @@ public class DB implements AutoCloseable {
             e.printStackTrace();
         }
 
-//        System.err.println("INSERT / UPDATE");
+        System.err.println("INSERT / UPDATE");
 
         return true;
     }
