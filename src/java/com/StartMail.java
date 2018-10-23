@@ -418,8 +418,6 @@ public class StartMail {
                 System.err.println("Enter command");
             }
 
-
-
             System.out.println("---------------------------------------------------------------------------------");
 
 //            try {

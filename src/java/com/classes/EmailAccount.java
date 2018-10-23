@@ -12,14 +12,11 @@ public class EmailAccount implements Serializable {
     private String status;
     private Exception exception;
     private int event_count = 0;
-
-    public EmailAccount() {
-        this.user   = null;
-        this.status = "new";
-    }
+    private String emailAddress;
 
     public EmailAccount(User user) {
         this.user = user;
+        this.emailAddress = user.getEmail();
         this.status = "new";
     }
 
@@ -31,6 +28,7 @@ public class EmailAccount implements Serializable {
         this.user         = user;
         this.myFoldersMap = myFoldersMap;
         this.status       = status;
+        this.emailAddress = user.getEmail();
     }
 
     public User getUser() {
@@ -75,6 +73,14 @@ public class EmailAccount implements Serializable {
 
     public void setEvent_count(int event_count) {
         this.event_count = event_count;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public void eventCounterIncriminate() {

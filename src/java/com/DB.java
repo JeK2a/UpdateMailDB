@@ -134,8 +134,6 @@ public class DB implements AutoCloseable {
             e.printStackTrace();
         }
 
-        System.err.println("INSERT / UPDATE");
-
         return true;
     }
 
@@ -613,6 +611,211 @@ public class DB implements AutoCloseable {
 
         return result;
     }
+
+    public boolean updateFolderLastAddUID(Email email, String email_address) {
+
+        String query = "" +
+            "INSERT INTO `a_api_email_folders`(" +
+            "    `user_id`,        " +
+            "    `account_email`,  " +
+            "    `folder_name`,    " +
+            "    `last_add_uid`,   " +
+            "    `update_time`     " +
+            ") VALUES ( " +
+            " "  + email.getUser_id() + ", "  +
+            " '" + email_address      + "', " +
+            " '" + email.getFolder()  + "', " +
+            " "  + email.getUid()     + ", "  +
+            " '" + new Timestamp(new Date().getTime()) + "' " +
+            ") ON DUPLICATE KEY UPDATE" +
+            " `last_add_uid` = VALUES(`last_add_uid`)," +
+            " `update_time`  = VALUES(`update_time`);";
+        try {
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public long getLastAddUID(int user_id, String account_email, String folder_name) {
+        long last_add_uid = 0;
+
+        String query = "" +
+                "SELECT `last_add_uid` " +
+                "FROM `a_api_email_folders` " +
+                "WHERE " +
+                "    `user_id`       = '"+ user_id +"' AND " +
+                "    `account_email` = '"+ account_email +"' AND " +
+                "    `folder_name`   = '"+ folder_name+"' ;";
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                last_add_uid = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return last_add_uid;
+    }
+
+    public boolean updateFolderLastEventUID(Email email, String email_address) {
+        String query = "" +
+            "INSERT INTO `a_api_email_folders`(" +
+            "    `user_id`,        " +
+            "    `account_email`,  " +
+            "    `folder_name`,    " +
+            "    `last_event_uid`, " +
+            "    `update_time`     " +
+            ") VALUES ( " +
+            " "  + email.getUser_id() + ", "  +
+            " '" + email_address      + "', " +
+            " '" + email.getFolder()  + "', " +
+            " "  + email.getUid()     + ", "  +
+            " '" + new Timestamp(new Date().getTime()) + "' " +
+            ") ON DUPLICATE KEY UPDATE" +
+            " `last_event_uid` = VALUES(`last_event_uid`);";
+        try {
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public long getLastEventUID(int user_id, String account_email, String folder_name) {
+        long last_event_uid = 0;
+
+        String query = "" +
+            "SELECT `last_event_uid` " +
+            "FROM `a_api_email_folders` " +
+            "WHERE " +
+            "    `user_id` = '"+user_id +"' AND " +
+            "    `account_email` = '"+account_email +"' AND " +
+            "    `folder` = '"+folder_name+"' ;";
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                last_event_uid = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return last_event_uid;
+    }
+
+    public boolean deleteMessages(String email_address, String folder_name) {
+        String query = "" +
+                "DELETE FROM `a_api_emails` " +
+                "WHERE" +
+                "    `email_account` = '" + email_address + "' AND " +
+                "    `folder` = '" + folder_name + "';";
+        try {
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public MyMessage getMyMessages(String messageID) {
+
+        String query = "" +
+            "SELECT" +
+            "    `direction`, " +  //1
+            "    `user_id`, " +  //2
+            "    `client_id`, " +  //3
+            "    `uid`," +  //4
+            "    `message_id`, " +  //5
+
+            "    `from`, " +  //6
+            "    `to`, " +  //7
+            "    `in_reply_to`, " +  //8
+            "    `references`, " +  //9
+            "    `message_date`, " +  //10
+            "    `size`, " +  //11
+            "    `subject`, " +  //12
+            "    `folder`, " +  //13
+
+            "    `flagged`, " +  //14
+            "    `answered`, " +  //15
+            "    `deleted`, " +  //16
+            "    `seen`, " +  //17
+            "    `draft`, " +  //18
+
+            "    `forwarded`, " +  //19
+            "    `label_1`, " +  //20
+            "    `label_2`, " +  //21
+            "    `label_3`, " +  //22
+            "    `label_4`, " +  //23
+            "    `label_5`, " +  //24
+            "    `has_attachment`, " +//25
+
+            "    `time`, " +  //26
+
+            "    `email_account` " +  //27
+
+            "FROM `a_api_emails` " +
+            "WHERE `message_id` = '" + messageID + "';";
+
+        MyMessage myMessage = null;
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+
+            if (!rs.next()) {
+                return null;
+            }
+
+            myMessage = new MyMessage(
+                    rs.getString(1),
+                    rs.getInt(2),
+                    rs.getInt(3),
+                    rs.getLong(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getString(8),
+                    rs.getString(9),
+                    rs.getTimestamp(10),
+                    rs.getInt(11),
+                    rs.getString(12),
+                    rs.getString(13),
+
+                    rs.getInt(14),
+                    rs.getInt(15),
+                    rs.getInt(16),
+                    rs.getInt(17),
+                    rs.getInt(18),
+
+                    rs.getInt(19),
+                    rs.getInt(20),
+                    rs.getInt(21),
+                    rs.getInt(22),
+                    rs.getInt(23),
+                    rs.getInt(24),
+                    rs.getInt(25),
+
+                    rs.getTimestamp(26),
+                    rs.getString(27)
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return myMessage;
+    }
+
+
 
 
 

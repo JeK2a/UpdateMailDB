@@ -2,7 +2,6 @@ package com.classes;
 
 import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
-import com.sun.mail.imap.IMAPMessage;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -51,7 +50,7 @@ public class Email {
 
     private java.sql.Timestamp update;
 
-    public Email(User user, IMAPMessage imap_message, IMAPFolder imap_folder) {
+    public Email(User user, Message imap_message, IMAPFolder imap_folder) {
 
         try {
 
@@ -94,7 +93,8 @@ public class Email {
 //            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
 
             this.user_id      = user.getUser_id();
-            this.message_id   = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+//            this.message_id   = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+            this.message_id   = imap_message.getHeader("Message-ID")[0];
 //            this.message_id = imap_message.getMessageID();
 //            this.msgno        = 0;
 
