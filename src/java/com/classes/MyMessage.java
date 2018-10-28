@@ -21,7 +21,7 @@ public class MyMessage {
     private String    in_reply_to;
     private String    references;
     private Timestamp date;
-    private int       size;
+    private long      size;
     private String    subject;
     private String    folder;
 
@@ -31,7 +31,7 @@ public class MyMessage {
     private int       deleted;
     private int       seen;
     private int       draft;
-    private int       user;
+    private int       forwarded;
 
     private int       label1;
     private int       label2;
@@ -42,7 +42,6 @@ public class MyMessage {
 
     private Timestamp udate;
     private String email_acount;
-
 
     public MyMessage(
             String direction,
@@ -55,10 +54,9 @@ public class MyMessage {
             String in_reply_to,
             String references,
             Timestamp date,
-            int size,
+            long size,
             String subject,
             String folder,
-
 
             int flagged,
             int answered,
@@ -75,9 +73,9 @@ public class MyMessage {
             int has_attachment,
 
             Timestamp udate,
+
             String email_account
     ) {
-
         this.direction   = direction;
         this.user_id     = user_id;
         this.client_id   = client_id;
@@ -91,49 +89,23 @@ public class MyMessage {
         this.size        = size;
         this.subject     = subject;
         this.folder      = folder;
-        this.recent      = recent;
+
         this.flagged     = flagged;
         this.answered    = answered;
         this.deleted     = deleted;
         this.seen        = seen;
         this.draft       = draft;
-        this.user        = user;
 
+        this.forwarded   = forwarded;
         this.label1 = label1;
-        this.label2 = label1;
-        this.label3 = label1;
-        this.label4 = label1;
-        this.label5 = label1;
-        this.has_attachment = label1;
-
+        this.label2 = label2;
+        this.label3 = label3;
+        this.label4 = label4;
+        this.label5 = label5;
+        this.has_attachment = has_attachment;
 
         this.udate        = udate;
         this.email_acount = email_account;
-    }
-
-    public MyMessage(Message message) { // TODO
-//        this.id = id;
-//        this.direction = direction;
-//        this.user_id = user_id;
-//        this.client_id = client_id;
-//        this.uid = uid;
-//        this.message_id = message_id;
-//        this.msgno = msgno;
-//        this.from = from;
-//        this.to = to;
-//        this.in_reply_to = in_reply_to;
-//        this.references = references;
-//        this.date = date;
-//        this.size = size;
-//        this.subject = subject;
-//        this.folder = folder;
-//        this.recent = recent;
-//        this.flagged = flagged;
-//        this.answered = answered;
-//        this.deleted = deleted;
-//        this.seen = seen;
-//        this.draft = draft;
-//        this.udate = udate;
     }
 
     @Override
@@ -187,7 +159,7 @@ public class MyMessage {
                 "deleted=" + deleted +
                 "seen=" + seen +
                 "draft=" + draft +
-                "user=" + user +
+                "forwarded=" + forwarded +
                 "label1=" + label1 +
                 "label2=" + label2 +
                 "label3=" + label3 +
@@ -286,7 +258,7 @@ public class MyMessage {
         this.date = date;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 
@@ -359,11 +331,11 @@ public class MyMessage {
     }
 
     public int getUser() {
-        return user;
+        return forwarded;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setForwarded(int user) {
+        this.forwarded = forwarded;
     }
 
     public Timestamp getUdate() {
@@ -422,36 +394,118 @@ public class MyMessage {
         this.has_attachment = has_attachment;
     }
 
-    public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder) {
+    public boolean compareString(String str1, String str2) {
+        if ((str1 == null || str2 == null) || (str1 == "null" || str2 == "null")) {
+            return ((str1 == null || str1.equals("null")) && (str2 == null || str2.equals("null")));
+        }
+
+        if (str1.length() > str2.length()) {
+            System.out.println(str1 + "length= " + str1.length());
+            System.out.println(str2 + "length= " + str2.length());
+            return false;
+        } else {
+            char[] c1 = str1.toCharArray();
+            char[] c2 = str2.toCharArray();
+
+            for (int i = 0, j = 0; i < c1.length; i++, j++) {
+                if ((((int) c1[i])) != (((int) c2[j]) * 1)) {
+                    System.out.println(str1 + "!===================================================================");
+                    System.out.println(str2);
+                    if (c1[i] == '?') {
+                        j++;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean compareInteger(Integer i1, Integer i2) {
+        return compareString(i1.toString(), i2.toString());
+    }
+
+    public boolean compareLong(Long l1, Long l2) {
+        return compareString(l1.toString(), l2.toString());
+    }
+
+    public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder, boolean is_show_debag) {
 
         try {
-//            System.out.println(this.getUid()    + " == " + imapFolder.getUID(imap_message));
-//            System.out.println(this.message_id  + " == " + imap_message.getMessageID());
-//            System.out.println(this.from        + " == " + InternetAddress.toString(imap_message.getFrom()));
-//            System.out.println(this.to          + " == " + InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO)));
-//            System.out.println(this.in_reply_to + " == " + InternetAddress.toString(imap_message.getReplyTo()));
-//            System.out.println(this.size        + " == " + imap_message.getSize());
-//            System.out.println(this.subject     + " == " + imap_message.getSubject());
-//            System.out.println(this.folder      + " == " + imap_message.getFolder().getFullName());
-//
-//            System.out.println(this.getUid() ==  imapFolder.getUID(imap_message));
-//            System.out.println(this.message_id.equals(imap_message.getMessageID()));
-//            System.out.println(this.from.equals(InternetAddress.toString(imap_message.getFrom())));
-//            System.out.println(this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))));
-//            System.out.println(this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())));
-//            System.out.println(this.size  ==  imap_message.getSize());
-//            System.out.println(this.subject.equals(imap_message.getSubject()));
-//            System.out.println(this.folder.equals(imap_message.getFolder().getFullName()));
+            if (!imapFolder.isOpen()) {
+                imapFolder.open(IMAPFolder.READ_ONLY);
+            }
+
+            long   mail_UID         = imapFolder.getUID(imap_message);
+            String mail_MID         = imap_message.getMessageID();
+            String mail_from        = InternetAddress.toString(imap_message.getFrom());
+            String mail_to          = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
+            String mail_reply_to    = InternetAddress.toString(imap_message.getReplyTo());
+            long   mail_size        = imap_message.getSize();
+            String mail_subject     = imap_message.getSubject();
+            String mail_folder_name = imap_message.getFolder().getFullName();
+
+            if (is_show_debag) {
+                if (!compareLong(this.getUid(), mail_UID)) {
+                    System.out.println("UID(" + this.getUid() + "!=" + mail_UID + ")");
+                }
+
+                if (!compareString(this.message_id, mail_MID)) {
+                    System.out.println("Message_id(");
+                    System.out.println(this.message_id + "!=" );
+                    System.out.println(mail_MID + ")");
+
+                    if (this.message_id.length() == mail_MID.length()) {
+                        char[] c1 = this.message_id.toCharArray();
+                        char[] c2 = mail_MID.toCharArray();
+
+                        for (int i=0; i < this.message_id.length(); i++) {
+                            if (String.valueOf(c1[i]).equals(String.valueOf(c2[i]))) {
+                                System.out.println(String.valueOf(c1[i]) + "===" + String.valueOf(c2[i]));
+                            }
+                        }
+                    }
+                }
+
+                if (!compareString(this.from, mail_from)) {
+                    System.out.println("From(" + this.from + "!=" + mail_from + ")");
+                }
+
+                if (!compareString(this.to, mail_to)) {
+                    System.out.println("To 1 " + this.to);
+                    System.out.println("To 2 " + mail_to);
+                    System.out.println("To(" + this.to + "!=" + mail_to + ")");
+                }
+
+                if (!compareString(this.in_reply_to, mail_reply_to)) {
+                    System.out.println("In_reply_to(" + this.in_reply_to + "!=" + mail_reply_to + ")");
+                }
+
+                if (!compareLong(this.size, mail_size)) {
+                    System.out.println("getSize(" + this.size + "!=" + mail_size + ")");
+                }
+
+                if (!compareString(this.subject, mail_subject)) {
+                    System.out.println(this.subject + " != " + mail_subject);
+                }
+
+                if (!compareString(this.folder, mail_folder_name)) {
+                    System.out.println("Folder name(" + this.folder + "!=" + mail_folder_name+")");
+                }
+            }
 
             if (
-                this.getUid() == imapFolder.getUID(imap_message) &&
-                this.message_id.equals(imap_message.getMessageID()) &&
-                this.from.equals(InternetAddress.toString(imap_message.getFrom())) &&
-                this.to.equals(InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO))) &&
-                this.in_reply_to.equals(InternetAddress.toString(imap_message.getReplyTo())) &&
-                this.size == imap_message.getSize() &&
-                this.subject.equals(imap_message.getSubject()) &&
-                this.folder.equals(imap_message.getFolder().getFullName())
+                compareLong(this.getUid(),      mail_UID)      &&
+                compareString(this.message_id,  mail_MID)      &&
+                compareString(this.from,        mail_from)     &&
+                compareString(this.to,          mail_to)       &&
+                compareString(this.in_reply_to, mail_reply_to) &&
+                compareLong(this.size,          mail_size)     &&
+                compareString(this.subject,     mail_subject)  &&
+                compareString(this.folder,      mail_folder_name)
+
             ) {
                 return true;
             }

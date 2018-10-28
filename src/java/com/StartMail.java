@@ -23,15 +23,9 @@ import java.util.Scanner;
 public class StartMail {
 
     private static DB db;
-
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
-
     private static WSSChatClient wssChatClient;
     private static HashMap<Integer, EmailAccount> emailAccounts = new HashMap<>();
-
-    private StartMail() {
-
-    }
 
     private void connectToMailAccount(EmailAccount emailAccount) {
         MyProperties myProperties = new MyProperties(emailAccount.getUser()); // Настройка подключение текущего пользователя
@@ -87,7 +81,8 @@ public class StartMail {
                         IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
 
                         for (IMAPMessage imap_message : messages) {
-                            db.setDeleteFlag(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), (IMAPFolder) folderEvent.getFolder()); // TODO изменение флага сообщенией на удаленное (проверить)
+                            db.setDeleteFlag(emailAccount.getEmailAddress(), imapFolder.getFullName(), imap_message.getHeader("Message-ID")[0]); // TODO изменение флага сообщенией на удаленное (проверить)
+//                            db.setDeleteFlag(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), (IMAPFolder) folderEvent.getFolder()); // TODO изменение флага сообщенией на удаленное (проверить)
                         }
                     } catch (MessagingException e) {
                         emailAccount.setStatus("error");
@@ -147,7 +142,6 @@ public class StartMail {
 
                 Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder)); // Создание потока для синхронизации всего почтового ящика // TODO 1 all
                 myFolder.setThreadAddNewMessages(myTreadAllMails);
-//                myTreadAllMails.start();
                 myTreadAllMails.start(); // Запус потока
 
                 while (true) {
@@ -160,10 +154,7 @@ public class StartMail {
                         e.printStackTrace();
                     }
                 }
-
             }
-
-
 
 //            emailAccount.setStatus("end_add_message_emailAccount");
 
@@ -208,6 +199,35 @@ public class StartMail {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        ArrayList<User> users_update = db.getUsersUpdate(); // Получение списка пользователей
+
+        if (users_update == null) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            for (User user : users_update) {
+                if (user.isIs_monitoring()) {
+                    EmailAccount emailAccount = new EmailAccount(user);
+                    emailAccounts.put(++i, emailAccount);
+                    startMail.connectToMailAccount(emailAccount);
+                } else {
+                    for (HashMap.Entry<Integer, EmailAccount> entry :  emailAccounts.entrySet()) {
+                        if (entry.getValue().getUser().getEmail().equals(user.getEmail())) {
+
+                        }
+                    }
+                }
+
+                EmailAccount emailAccount = new EmailAccount(user);
+
+                emailAccounts.put(++i, emailAccount);
+                startMail.connectToMailAccount(emailAccount); // Подключение к почтовым аккаунтам
             }
         }
 

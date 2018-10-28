@@ -26,9 +26,9 @@ public class Email {
     private String bcc;
 
     private String in_replay_to;
-    private String references = "";
+    private String references = "null";
     private java.sql.Timestamp date;
-    private int    size;
+    private long    size;
     private String subject;
     private String folder;
 
@@ -53,34 +53,7 @@ public class Email {
     public Email(User user, Message imap_message, IMAPFolder imap_folder) {
 
         try {
-
-//            Address[] arr_cc  = message.getRecipients(Message.RecipientType.CC);
-//            Address[] arr_bcc = message.getRecipients(Message.RecipientType.BCC);
-//
-//            System.err.println("------------------------ CC ------------------------");
-//            if (arr_cc.length != 0) {
-//                for (Address element : arr_cc) {
-//                    System.err.println(element.toString());
-//                }
-//            }
-//
-//            System.err.println("------------------------ BCC ------------------------");
-//            if (arr_bcc.length != 0) {
-//                for (Address element : arr_bcc) {
-//                    System.err.println(element.toString());
-//                }
-//            }
-//
-//            System.err.println();
-
             this.email_account = user.getEmail();
-
-//            if (imap_message.getFrom() != null && InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
-            this.direction = (imap_folder.getFullName().equals("Исходящие") ? "out" : "in");
-            this.cc   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.CC));
-            this.bcc  = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.BCC));
-            this.from = InternetAddress.toString(imap_message.getFrom());
-            this.to   = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
 
             if (!imap_folder.isOpen()) {
                 try {
@@ -90,28 +63,41 @@ public class Email {
                 }
             }
 
-//            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
+//            if (imap_message.getFrom() != null && InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
+            this.direction = (imap_folder.getFullName().equals("Исходящие") ? "out" : "in");
+            String cc = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.CC));
+            this.cc   = (cc == null || cc.equals("") ? "null" : cc);
+            String bcc = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.BCC));
+            this.bcc  = (bcc == null || bcc.equals("") ? "null" : bcc);
+            String from = InternetAddress.toString(imap_message.getFrom());
+            this.from = (from == null || from.equals("") ? "null" : from);
+            String to = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
+            this.to   = (to == null || to.equals("") ? "null" : to);
 
+//            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
             this.user_id      = user.getUser_id();
-//            this.message_id   = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
-            this.message_id   = imap_message.getHeader("Message-ID")[0];
+//            this.message_id = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+            String message_id = imap_message.getHeader("Message-ID")[0];
+            this.message_id   = (message_id == null || message_id.equals("") ? "null" : message_id);
 //            this.message_id = imap_message.getMessageID();
 //            this.msgno        = 0;
 
-            this.in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
+            String in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
+            this.in_replay_to = (in_replay_to == null || in_replay_to.equals("") ? "null" : in_replay_to);
 
-            if (this.in_replay_to == null || this.in_replay_to.equals("")) {
-                this.in_replay_to = " ";
-            }
+            Timestamp date = new Timestamp(imap_message.getSentDate().getTime());
+            this.date = (date == null ? new Timestamp(0) : new Timestamp(imap_message.getSentDate().getTime()));
 
-            this.date         = new Timestamp(imap_message.getSentDate().getTime());
-            this.size         = imap_message.getSize();
+            int size  = imap_message.getSize();
+            this.size = size;
 
-            this.subject      = removeBadChars(imap_message.getSubject());
-            if (this.subject == null) { this.subject = " "; }
+            String subject = removeBadChars(imap_message.getSubject());
+            this.subject = (subject == null || subject.equals("") ? "null" : subject);
 
-            this.folder       = imap_message.getFolder().getFullName();
-            this.update       = new Timestamp(new Date().getTime());
+            String folder = imap_message.getFolder().getFullName();
+            this.folder = (folder == null || folder.equals("") ? "null" : folder);
+
+            this.update = new Timestamp(new Date().getTime());
 
             String out = (String) imap_folder.doCommand(imapProtocol -> {
                 Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
@@ -135,19 +121,8 @@ public class Email {
 
             String[] out_str = out.split(" ");
 
-//            if (out.length() > 3) {
-                this.uid = Long.parseLong(out_str[4]);
-//            } else {
-//                this.uid = imap_folder.getUID(imap_message);
-//            }
+            this.uid = (out.length() > 3 ? Long.parseLong(out_str[4]) : imap_folder.getUID(imap_message));
 
-//            String from = InternetAddress.toString(message.getFrom());
-//            String reply-to =  InternetAddress.toString(message.getReplyTo());
-//            String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
-//            String cc = InternetAddress.toString(message.getRecipients(Message.RecipientType.CC));
-//            String bcc = InternetAddress.toString(message.getRecipients(Message.RecipientType.BCC));
-//            String Subject = message.getSubject();
-//
 //            Date sent = message.getSentDate();         // когда отправлено
 //            Date received = message.getReceivedDate(); // когда получено
 
@@ -241,7 +216,7 @@ public class Email {
         return date;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 
@@ -460,8 +435,8 @@ public class Email {
     public static String removeBadChars(String s) {
         if (s == null) return null;
         StringBuilder sb = new StringBuilder();
-        for(int i = 0 ; i < s.length() ; i++){
-            if (Character.isHighSurrogate(s.charAt(i))) continue;
+        for (int i = 0 ; i < s.length() ; i++) {
+            if (Character.isHighSurrogate(s.charAt(i))) { continue; }
             sb.append(s.charAt(i));
         }
         return sb.toString();

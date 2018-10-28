@@ -141,7 +141,7 @@ public class MailListenerThread implements Runnable {
                 //todo add removed to db
                 try {
                     for (Message message : messageCountEvent.getMessages()) {
-                        db.setDeleteFlag(new Email(user, (IMAPMessage) message, imap_folder), imap_folder);
+                        db.setDeleteFlag(user.getEmail(), imap_folder.getFullName(), message.getHeader("Message-ID")[0]);
                         StartMail.enterMessage("messagesRemoved");
                     }
                 } catch (Exception e) {

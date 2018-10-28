@@ -32,13 +32,13 @@ public class AddNewMessageThread implements Runnable {
     public void run() {
         try {
             int  messages_count_mail = imap_folder.getMessageCount();
-            int  messages_count_db = db.getCountMessages(emailAccount.getUser().getUser_id(), myFolder.getFolder_name());
+            int  messages_count_db = db.getCountMessages(emailAccount.getUser().getEmail(), myFolder.getFolder_name());
 
             int user_id = emailAccount.getUser().getUser_id();
             String folder_name = myFolder.getFolder_name();
 
-            System.err.println("messages_count_mail = " + messages_count_mail);
-            System.err.println("messages_count_db   = " + messages_count_db);
+            System.out.println("messages_count_mail = " + messages_count_mail);
+            System.out.println("messages_count_db   = " + messages_count_db);
 
             Message[] messages;
 
@@ -51,25 +51,32 @@ public class AddNewMessageThread implements Runnable {
                 }
             } else {
                 if (messages_count_mail == 0) {
-                    db.deleteMessages(emailAccount.getEmailAddress(), folder_name); // Пометить или удалить все сообщения // TODO
+                    System.out.println("delete mc = 0");
+                    cheackDelete(user_id, folder_name, messages_count_db); // Пометить удаленные сообщения в базе
+//                    db.deleteMessages(emailAccount.getEmailAddress(), folder_name); // Пометить или удалить все сообщения // TODO
                 } else {
 //                    long  messages_last_UID_db = db.getCountMessages(emailAccount.getUser().getUser_id(), myFolder.getFolder_name());
                     long last_uid_db   = db.getLastAddUID(user_id, emailAccount.getEmailAddress(), folder_name);
                     long last_uid_mail = imap_folder.LASTUID; // imap_folder.getUID(imap_folder.getMessage(imap_folder.getMessageCount()));
 
-                    if (last_uid_db > 0 && cheackRandomMessages(messages_count_db)) {
+                    if (last_uid_db > 0 && cheackRandomMessages(last_uid_db)) {
                         checkFlags(user_id, folder_name); // Обновить флаги
                         messages = imap_folder.getMessagesByUID(last_uid_db, last_uid_mail);
                         addMessages(messages);
                     } else {
-                        db.deleteMessages(emailAccount.getEmailAddress(), folder_name); // Пометить или удалить все сообщения // TODO
+                        System.out.println("last_uid_db = 0 " + last_uid_db);
+//                        System.out.println("random =  " + cheackRandomMessages(last_uid_db));
+                        System.out.println("delete");
+//                        System.exit(0);
+//                        db.deleteMessages(emailAccount.getEmailAddress(), folder_name); // Пометить или удалить все сообщения // TODO
+                        cheackDelete(user_id, folder_name, messages_count_db); // Пометить удаленные сообщения в базе
                         messages = imap_folder.getMessages();
                         addMessages(messages);
                     }
                 }
-            }
 
-            cheackDelete(user_id, folder_name, messages_count_db); // Пометить удаленные сообщения в базе
+                cheackDelete(user_id, folder_name, messages_count_db); // Пометить удаленные сообщения в базе
+            }
 
         } catch (Exception e) {
             myFolder.setException(e);
@@ -184,9 +191,9 @@ public class AddNewMessageThread implements Runnable {
             }));
         }
 
-        for (HashMap.Entry<String, String> flag : flags.entrySet()) {
-            System.out.println(flag.getKey() + " = " + flag.getValue()); // TODO
-        }
+//        for (HashMap.Entry<String, String> flag : flags.entrySet()) {
+//            System.out.println(flag.getKey() + " = " + flag.getValue()); // TODO
+//        }
 
         if (!flags.get("ANSWERED").equals("")) {
             db.setFlags(user_id, folder_name, "answered", 1, flags.get("ANSWERED"));
@@ -282,35 +289,43 @@ public class AddNewMessageThread implements Runnable {
 
     private boolean cheackRandomMessages(long last_uid_db) {
         int check_count = 0;
-        int part_count  = 0;
+        int sqrt  = 0;
 
         try {
+
+            System.out.println("last_uid_db = " + last_uid_db);
+            System.out.println("messages count = " + imap_folder.getMessageCount());
+
             Message last_message = imap_folder.getMessageByUID(last_uid_db);
             int last_id = last_message.getMessageNumber();
 
-            part_count = (int) Math.ceil(Math.sqrt(last_id) / 2); // Корень квадратный /2
+            sqrt = (int) Math.ceil(Math.sqrt(last_id) / 2); // Корень квадратный /2
 
-            for (int i = 1; i <= part_count; i++) {
-                Message message = imap_folder.getMessage(1 + (int) (Math.random() * part_count));
-                String messageID = message.getHeader("Message-ID")[0];
-                MyMessage myMessage = db.getMyMessages(messageID);
+            int i = 1;
+
+            while (i <= sqrt) {
+                Message message = imap_folder.getMessage(1 + (int) (Math.random() * sqrt));
+                long uid = imap_folder.getUID(message);
+                MyMessage myMessage = db.getMyMessage(emailAccount.getEmailAddress(), imap_folder.getFullName(), uid);
+
                 if (myMessage == null) {
-                 return false;
+                    continue;
                 } else {
-                    if (myMessage.compare((IMAPMessage) message, imap_folder)) {
+                    if (myMessage.compare((IMAPMessage) message, imap_folder, false)) {
                         check_count++;
                     }
+                    i++;
                 }
             }
 
-            System.out.println("part_count ====== " + part_count + "  check_count ====== " + check_count);
+            System.out.println("sqrt ====== " + sqrt + "  check_count ====== " + check_count);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             myFolder.setStatus("end_add_message_folder");
         }
 
-        return (part_count == check_count);
+        return (sqrt == check_count);
     }
 
     private void addMessages(Message[] messages) {
@@ -326,10 +341,11 @@ public class AddNewMessageThread implements Runnable {
                     }
                 }
 
-                Email email = new Email(emailAccount.getUser(), (IMAPMessage) message, imap_folder);
+                Email email = new Email(emailAccount.getUser(), message, imap_folder);
 
-                db.addEmail(email);
-                db.updateFolderLastAddUID(email, emailAccount.getUser().getEmail());
+                if (db.addEmail(email)) {
+                    db.updateFolderLastAddUID(email, emailAccount.getUser().getEmail());
+                }
             }
         } catch (Exception e) {
             emailAccount.setException(e);
