@@ -714,18 +714,11 @@ public class DB implements AutoCloseable {
 
 //            count_col = meta.getColumnCount();
 //            count_row = rs.getRow();
-//
-//            System.err.println("---------------------------------");
-//            System.err.println("count col = " + count_col);
-//            System.err.println("count row = " + count_row);
-//            System.err.println("---------------------------------");
 
             if (rs.next()) {
                 count_row = rs.getRow();
 
-                if (count_row < 1) {
-                    return null;
-                }
+                if (count_row < 1) { return null; }
 
                 return new MyMessage(
                     rs.getString("direction"),

@@ -105,6 +105,7 @@ public class MyMessage {
         this.has_attachment = has_attachment;
 
         this.udate        = udate;
+
         this.email_acount = email_account;
     }
 
@@ -113,21 +114,21 @@ public class MyMessage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MyMessage myMessage = (MyMessage) o;
-        return size == myMessage.size &&
-                recent == myMessage.recent &&
-                flagged == myMessage.flagged &&
-                answered == myMessage.answered &&
-                deleted == myMessage.deleted &&
-                seen == myMessage.seen &&
-                draft == myMessage.draft &&
-                Objects.equals(message_id, myMessage.message_id) &&
-                Objects.equals(from, myMessage.from) &&
-                Objects.equals(to, myMessage.to) &&
-                Objects.equals(in_reply_to, myMessage.in_reply_to) &&
-                Objects.equals(references, myMessage.references) &&
-                Objects.equals(date, myMessage.date) &&
-                Objects.equals(subject, myMessage.subject) &&
-                Objects.equals(folder, myMessage.folder);
+        return size     == myMessage.size     &&
+               recent   == myMessage.recent   &&
+               flagged  == myMessage.flagged  &&
+               answered == myMessage.answered &&
+               deleted  == myMessage.deleted  &&
+               seen     == myMessage.seen     &&
+               draft    == myMessage.draft    &&
+               Objects.equals(message_id, myMessage.message_id)   &&
+               Objects.equals(from, myMessage.from)               &&
+               Objects.equals(to, myMessage.to)                   &&
+               Objects.equals(in_reply_to, myMessage.in_reply_to) &&
+               Objects.equals(references, myMessage.references)   &&
+               Objects.equals(date, myMessage.date)               &&
+               Objects.equals(subject, myMessage.subject)         &&
+               Objects.equals(folder, myMessage.folder);
     }
 
     @Override
@@ -400,8 +401,8 @@ public class MyMessage {
         }
 
         if (str1.length() > str2.length()) {
-            System.out.println(str1 + "length= " + str1.length());
-            System.out.println(str2 + "length= " + str2.length());
+//            System.out.println(str1 + "length= " + str1.length());
+//            System.out.println(str2 + "length= " + str2.length());
             return false;
         } else {
             char[] c1 = str1.toCharArray();
@@ -409,8 +410,8 @@ public class MyMessage {
 
             for (int i = 0, j = 0; i < c1.length; i++, j++) {
                 if ((((int) c1[i])) != (((int) c2[j]) * 1)) {
-                    System.out.println(str1 + "!===================================================================");
-                    System.out.println(str2);
+//                    System.out.println(str1 + "!===================================================================");
+//                    System.out.println(str2);
                     if (c1[i] == '?') {
                         j++;
                     } else {

@@ -41,8 +41,8 @@ public class StartMail {
                 emailAccount.getUser().getPassword()
             );
 
-            IMAPFolder imapFolder = (IMAPFolder) store.getFolder("INBOX");
-            imapFolder.open(IMAPFolder.READ_ONLY);
+//            IMAPFolder imapFolder = (IMAPFolder) store.getFolder("INBOX");
+//            imapFolder.open(IMAPFolder.READ_ONLY);
 
             store.addFolderListener(new FolderListener() { // Подключение отслеживания действий с падками в текущем подключении пользователя
                 @Override
@@ -81,7 +81,7 @@ public class StartMail {
                         IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
 
                         for (IMAPMessage imap_message : messages) {
-                            db.setDeleteFlag(emailAccount.getEmailAddress(), imapFolder.getFullName(), imap_message.getHeader("Message-ID")[0]); // TODO изменение флага сообщенией на удаленное (проверить)
+                            db.setDeleteFlag(emailAccount.getEmailAddress(), folderEvent.getFolder().getFullName(), imap_message.getHeader("Message-ID")[0]); // TODO изменение флага сообщенией на удаленное (проверить)
 //                            db.setDeleteFlag(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), (IMAPFolder) folderEvent.getFolder()); // TODO изменение флага сообщенией на удаленное (проверить)
                         }
                     } catch (MessagingException e) {

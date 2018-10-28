@@ -292,7 +292,6 @@ public class AddNewMessageThread implements Runnable {
         int sqrt  = 0;
 
         try {
-
             System.out.println("last_uid_db = " + last_uid_db);
             System.out.println("messages count = " + imap_folder.getMessageCount());
 
@@ -318,7 +317,7 @@ public class AddNewMessageThread implements Runnable {
                 }
             }
 
-            System.out.println("sqrt ====== " + sqrt + "  check_count ====== " + check_count);
+//            System.out.println("sqrt ====== " + sqrt + "  check_count ====== " + check_count);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
