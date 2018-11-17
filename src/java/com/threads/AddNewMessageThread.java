@@ -17,22 +17,24 @@ import java.util.HashMap;
 public class AddNewMessageThread implements Runnable {
 
     private DB db;
+
+    private MyFolder     myFolder;
+    private IMAPFolder   imap_folder;
     private EmailAccount emailAccount;
-    private IMAPFolder imap_folder;
-    private MyFolder myFolder;
 
     public AddNewMessageThread(EmailAccount emailAccount, MyFolder myFolder) {
         db = new DB();
-        this.emailAccount = emailAccount;
         this.myFolder     = myFolder;
+        this.emailAccount = emailAccount;
         this.imap_folder  = myFolder.getImap_folder();
     }
 
     @Override
     public void run() {
         try {
-            int  messages_count_mail = imap_folder.getMessageCount();
-            int  messages_count_db = db.getCountMessages(emailAccount.getUser().getEmail(), myFolder.getFolder_name());
+            long messages_count_mail = imap_folder.getMessageCount();
+            long messages_count_db = db.getCountMessages(emailAccount.getUser().getEmail(), myFolder.getFolder_name());
+            System.err.println("messages_count_db = " + messages_count_db);
 
             int user_id = emailAccount.getUser().getUser_id();
             String folder_name = myFolder.getFolder_name();
@@ -87,16 +89,16 @@ public class AddNewMessageThread implements Runnable {
         }
     }
 
-    private void cheackDelete(int user_id, String folder_name, int messages_count_db) {
+    private void cheackDelete(int user_id, String folder_name, long messages_count_db) {
         try {
             // Если нет UID, то пометить как deleted
             int query_buffer = 1000;
-            int query_count = (messages_count_db / query_buffer) + 1;
+            long query_count = (messages_count_db / query_buffer) + 1;
 
             for (int j = 0; j < query_count; j++) {
 
-                int start = (j * query_buffer + 1);
-                int end = ((j + 1) * query_buffer + 1);
+                long start = (j * query_buffer + 1);
+                long end = ((j + 1) * query_buffer + 1);
 
                 if (end > messages_count_db) {
                     end = messages_count_db;
@@ -105,14 +107,14 @@ public class AddNewMessageThread implements Runnable {
                     start = end;
                 }
 
-                int finalEnd   = end;
-                int finalStart = start;
+                long finalEnd   = end;
+                long finalStart = start;
 
                 if (finalStart == 0 || finalEnd == 0) {
                     return;
                 }
 
-                ArrayList<Long> arr_uids = null;
+                ArrayList<Long> arr_uids;
 
                     arr_uids = (ArrayList<Long>) imap_folder.doCommand(imapProtocol -> {
                         Response[] responses;
@@ -296,6 +298,9 @@ public class AddNewMessageThread implements Runnable {
             System.out.println("messages count = " + imap_folder.getMessageCount());
 
             Message last_message = imap_folder.getMessageByUID(last_uid_db);
+            if (last_message == null) {
+                return Boolean.parseBoolean(null);
+            }
             int last_id = last_message.getMessageNumber();
 
             sqrt = (int) Math.ceil(Math.sqrt(last_id) / 2); // Корень квадратный /2

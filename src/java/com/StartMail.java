@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 public class StartMail {
 
-    private static DB db;
+    private DB db;
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
     private static WSSChatClient wssChatClient;
     private static HashMap<Integer, EmailAccount> emailAccounts = new HashMap<>();
@@ -40,9 +40,6 @@ public class StartMail {
                 emailAccount.getUser().getEmail(),
                 emailAccount.getUser().getPassword()
             );
-
-//            IMAPFolder imapFolder = (IMAPFolder) store.getFolder("INBOX");
-//            imapFolder.open(IMAPFolder.READ_ONLY);
 
             store.addFolderListener(new FolderListener() { // Подключение отслеживания действий с падками в текущем подключении пользователя
                 @Override
@@ -101,7 +98,7 @@ public class StartMail {
                         IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
 
                         for (IMAPMessage imap_message : messages) {
-                            db.changeFolderName(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), user_id, new_folder_name); // TODO проверить, добавить проверку результата
+                            db.changeFolderName(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), new_folder_name); // TODO проверить, добавить проверку результата
                         }
 
                     } catch (MessagingException e) {
@@ -144,16 +141,16 @@ public class StartMail {
                 myFolder.setThreadAddNewMessages(myTreadAllMails);
                 myTreadAllMails.start(); // Запус потока
 
-                while (true) {
-                    if (myFolder.getStatus().equals("end_add_message_folder") || myFolder.getStatus().equals("stop")) {
-                        break;
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                while (true) {
+//                    if (myFolder.getStatus().equals("end_add_message_folder") || myFolder.getStatus().equals("stop")) {
+//                        break;
+//                    }
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
 
 //            emailAccount.setStatus("end_add_message_emailAccount");
@@ -162,7 +159,7 @@ public class StartMail {
             enterMessage("Problems wish "  + emailAccount.getUser().getEmail());
             emailAccount.setStatus("stop");
             emailAccount.setException(e);
-            e.printStackTrace();
+//            e.printStackTrace();
         } finally {
             emailAccount.setStatus("end_add_message_emailAccount");
         }
@@ -179,7 +176,7 @@ public class StartMail {
         new Settings();
 
 //        wssChatClient = new WSSChatClient();
-        db = new DB();
+        DB db = new DB();
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
         StartMail startMail = new StartMail(); //
 
@@ -190,16 +187,16 @@ public class StartMail {
             emailAccounts.put(++i, emailAccount);
             startMail.connectToMailAccount(emailAccount); // Подключение к почтовым аккаунтам
 
-            while (true) {
-                if (emailAccount.getStatus().equals("end_add_message_emailAccount")) {
-                    break;
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//            while (true) {
+//                if (emailAccount.getStatus().equals("end_add_message_emailAccount")) {
+//                    break;
+//                }
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
 
         ArrayList<User> users_update = db.getUsersUpdate(); // Получение списка пользователей

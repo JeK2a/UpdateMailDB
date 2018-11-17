@@ -7,10 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="Добавлена поддержка работы через чат........label.......................">
-      <change afterPath="$PROJECT_DIR$/src/java/sql/a_api_email_folders.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/java/sql/a_api_emails.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UpdateMailDB.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/sql/a_my_users_emails.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/sql/a_my_users_emails.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/UpdateMailDB/sql/a_my_users_emails.sql" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/UpdateMailDB/sql/a_my_users_emails.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/DB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/StartMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/StartMail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/StartMailTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/StartMailTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/sql/java 15.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/sql/new 14.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,36 +44,36 @@
     <expand>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="test@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="MySQL - test@localhost" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="test@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="MySQL - test@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="test@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="MySQL - test@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="test: schema" type="c314c289:MysqlImplModel$Schema" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="test@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="MySQL - test@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="test: schema" type="c314c289:MysqlImplModel$Schema" />
         <item name="a_api_email_folders: table" type="98d5ac3d:MysqlImplModel$Table" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="test@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="MySQL - test@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="test: schema" type="c314c289:MysqlImplModel$Schema" />
         <item name="a_api_emails: table" type="98d5ac3d:MysqlImplModel$Table" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="test@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="MySQL - test@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="test: schema" type="c314c289:MysqlImplModel$Schema" />
         <item name="a_my_users_emails: table" type="98d5ac3d:MysqlImplModel$Table" />
@@ -75,12 +83,12 @@
   </component>
   <component name="ExecutionTargetDialog">
     <checked>
-      <node key="f6e389d1-07dc-4723-aa3d-7bd9128b2b97">
+      <node key="3e6c6fe9-15ff-458a-adeb-f6063dea180d">
         <node key="test" />
       </node>
     </checked>
     <expanded>
-      <node key="f6e389d1-07dc-4723-aa3d-7bd9128b2b97" />
+      <node key="3e6c6fe9-15ff-458a-adeb-f6063dea180d" />
     </expanded>
   </component>
   <component name="ExportToHTMLSettings">
@@ -215,184 +223,167 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="-1164154350">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="8" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.11" value="2" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.9" value="2" />
+          <entry key="project.opened" value="9" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="552" />
+          <entry key="sql" value="167" />
+          <entry key="txt" value="4" />
+          <entry key="xml" value="8" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="552" />
+          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="Scratch" value="167" />
+          <entry key="XML" value="8" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="a_api_email_folders" value="3" />
+          <entry key="a_api_emails" value="9" />
+          <entry key="a_my_users_emails" value="2" />
+          <entry key="class" value="1" />
+          <entry key="java" value="14" />
+          <entry key="sql" value="24" />
+          <entry key="xml" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="CLASS" value="1" />
+          <entry key="Database Element" value="14" />
+          <entry key="JAVA" value="14" />
+          <entry key="SQL" value="8" />
+          <entry key="Scratch" value="16" />
+          <entry key="XML" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="UpdateMailDB" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.62515724">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="975">
-                  <caret line="83" column="38" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/StartMailTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1935">
-                  <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="148" selection-end-column="15" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/classes/User.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1095">
-                  <caret line="81" column="19" selection-start-line="81" selection-start-column="19" selection-end-line="81" selection-end-column="19" />
-                  <folding>
-                    <element signature="e#2360#2361#0" expanded="true" />
-                    <element signature="e#2385#2386#0" expanded="true" />
-                    <element signature="e#2416#2417#0" expanded="true" />
-                    <element signature="e#2446#2447#0" expanded="true" />
-                    <element signature="e#2478#2479#0" expanded="true" />
-                    <element signature="e#2506#2507#0" expanded="true" />
-                    <element signature="e#2541#2542#0" expanded="true" />
-                    <element signature="e#2572#2573#0" expanded="true" />
-                    <element signature="e#2612#2613#0" expanded="true" />
-                    <element signature="e#2648#2649#0" expanded="true" />
-                    <element signature="e#2685#2686#0" expanded="true" />
-                    <element signature="e#2718#2719#0" expanded="true" />
-                    <element signature="e#2749#2750#0" expanded="true" />
-                    <element signature="e#2776#2777#0" expanded="true" />
-                    <element signature="e#2804#2805#0" expanded="true" />
-                    <element signature="e#2831#2832#0" expanded="true" />
-                    <element signature="e#2863#2864#0" expanded="true" />
-                    <element signature="e#2891#2892#0" expanded="true" />
-                    <element signature="e#2927#2928#0" expanded="true" />
-                    <element signature="e#2959#2960#0" expanded="true" />
-                    <element signature="e#2993#2994#0" expanded="true" />
-                    <element signature="e#3023#3024#0" expanded="true" />
-                    <element signature="e#3056#3057#0" expanded="true" />
-                    <element signature="e#3085#3086#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4635">
-                  <caret line="321" column="29" selection-start-line="321" selection-start-column="14" selection-end-line="321" selection-end-column="29" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyMessage.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4665">
-                  <caret line="434" column="22" selection-start-line="434" selection-start-column="22" selection-end-line="434" selection-end-column="22" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/java/com/classes/Email.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="135">
-                  <caret line="67" selection-start-line="67" selection-end-line="67" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#8241#8242#0" expanded="true" />
-                    <element signature="e#8269#8270#0" expanded="true" />
-                    <element signature="e#8739#8740#0" expanded="true" />
-                    <element signature="e#8768#8769#0" expanded="true" />
-                    <element signature="e#10028#10029#0" expanded="true" />
-                    <element signature="e#10058#10059#0" expanded="true" />
-                    <element signature="e#10114#10115#0" expanded="true" />
-                    <element signature="e#10162#10163#0" expanded="true" />
-                    <element signature="e#10767#10768#0" expanded="true" />
-                    <element signature="e#10805#10806#0" expanded="true" />
-                    <element signature="e#10848#10849#0" expanded="true" />
-                    <element signature="e#10886#10887#0" expanded="true" />
-                    <element signature="e#11120#11121#0" expanded="true" />
-                    <element signature="e#11152#11153#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1935">
-                  <caret line="143" column="48" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/classes/EmailAccount.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="4695">
-                  <caret line="320" column="32" selection-start-line="320" selection-start-column="22" selection-end-line="320" selection-end-column="32" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="630">
-                  <caret line="46" selection-start-line="46" selection-end-line="46" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="581">
-                  <caret line="692" column="31" selection-start-line="692" selection-start-column="18" selection-end-line="692" selection-end-column="31" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="jar://$USER_HOME$/.ideaLibSources/mysql-connector-java-5.1.46-sources.jar!/com/mysql/jdbc/ResultSetImpl.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="10575">
-                  <caret line="758" column="25" selection-start-line="758" selection-start-column="25" selection-end-line="758" selection-end-column="25" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="945">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2850">
+              <caret line="197" column="4" selection-start-line="197" selection-start-column="4" selection-end-line="197" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="143" column="48" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console_2.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2700">
+              <caret line="180" column="10" lean-forward="true" selection-start-line="180" selection-start-column="10" selection-end-line="180" selection-end-column="10" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/WSSChatClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/MyTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="941">
+              <caret line="79" column="157" selection-start-line="79" selection-start-column="157" selection-end-line="79" selection-end-column="157" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/StartMailTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="333">
+              <caret line="279" column="10" selection-start-line="279" selection-start-column="10" selection-end-line="279" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -406,9 +397,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>err</find>
-      <find>Connect to</find>
-      <find>.isOpen()</find>
       <find>isOpen</find>
       <find>connectToServer</find>
       <find>message</find>
@@ -436,6 +424,9 @@
       <find>references</find>
       <find>messages count</find>
       <find>messagesRemoved</find>
+      <find>store notification</find>
+      <find>en</find>
+      <find>open</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -449,9 +440,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/java/ws_client3/WeatherClient.java" />
-        <option value="$PROJECT_DIR$/src/java/ws_client3/Client.java" />
-        <option value="$PROJECT_DIR$/src/java/ws_client3/AnnotatedChatClient.java" />
         <option value="$PROJECT_DIR$/src/java/websocket_client/Client_1.java" />
         <option value="$PROJECT_DIR$/src/java/websocket_client/MyClientEndpoint.java" />
         <option value="$PROJECT_DIR$/src/java/ws_client4/ChatClientEndpoint.java" />
@@ -484,22 +472,25 @@
         <option value="$PROJECT_DIR$/src/java/com/MyProperties.java" />
         <option value="$PROJECT_DIR$/src/java/com/MyPrint.java" />
         <option value="$PROJECT_DIR$/src/java/com/ChilkatExample.java" />
-        <option value="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" />
         <option value="$PROJECT_DIR$/src/java/com/MyTest.java" />
         <option value="$PROJECT_DIR$/src/java/com/service/MyPrint.java" />
-        <option value="$PROJECT_DIR$/config.xml" />
         <option value="$PROJECT_DIR$/src/java/sql/java 15.java" />
         <option value="$PROJECT_DIR$/src/java/sql/new 14.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/User.java" />
-        <option value="$PROJECT_DIR$/src/java/com/StartMailTest.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/EmailAccount.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/Email.java" />
         <option value="$PROJECT_DIR$/src/java/com/Test.java" />
         <option value="$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java" />
-        <option value="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" />
-        <option value="$PROJECT_DIR$/src/java/com/DB.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" />
+        <option value="$PROJECT_DIR$/config.xml" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console_1.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console.sql" />
+        <option value="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" />
+        <option value="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console_2.sql" />
         <option value="$PROJECT_DIR$/src/java/com/StartMail.java" />
+        <option value="$PROJECT_DIR$/src/java/com/StartMailTest.java" />
+        <option value="$PROJECT_DIR$/src/java/com/DB.java" />
       </list>
     </option>
   </component>
@@ -515,11 +506,29 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="134" />
-    <option name="y" value="24" />
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1920" />
-    <option name="height" value="992" />
+    <option name="height" value="1080" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>MagicConstant</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -530,8 +539,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -583,14 +592,16 @@
             </path>
             <path>
               <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
-              <item name="UpdateMailDB" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
             <path>
               <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Database Consoles" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
@@ -613,7 +624,7 @@
     <property name="SearchEverywhereHistoryKey" value="messageChangedEvent &#9;PSI&#9;JAVA://javax.mail.event.MessageChangedEvent" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540751092709" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542493187770" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -621,7 +632,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.26091954" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -892,6 +903,15 @@
       <workItem from="1540715971168" duration="23275000" />
       <workItem from="1540759562150" duration="1684000" />
       <workItem from="1540840032859" duration="437000" />
+      <workItem from="1541621350503" duration="740000" />
+      <workItem from="1541622475436" duration="155000" />
+      <workItem from="1541625747387" duration="135000" />
+      <workItem from="1541701706379" duration="5802000" />
+      <workItem from="1541707986156" duration="1135000" />
+      <workItem from="1542216861913" duration="19000" />
+      <workItem from="1542217019975" duration="5096000" />
+      <workItem from="1542306457520" duration="1161000" />
+      <workItem from="1542485236086" duration="7544000" />
     </task>
     <task id="LOCAL-00005" summary="Доработана структура.">
       <created>1531861586623</created>
@@ -1037,9 +1057,9 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="492724000" />
+    <option name="totallyTimeSpent" value="514511000" />
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -1049,40 +1069,41 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="134" y="24" width="1920" height="992" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5888889" visible="true" weight="0.15495208" />
-      <window_info id="Structure" order="1" sideWeight="0.41111112" side_tool="true" visible="true" weight="0.15495208" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5826193" visible="true" weight="0.16932908" />
+      <window_info id="Structure" order="1" sideWeight="0.41548386" side_tool="true" weight="0.16134185" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
-      <window_info id="Favorites" order="5" sideWeight="0.47041848" side_tool="true" weight="0.16767372" />
+      <window_info id="Favorites" order="5" sideWeight="0.41738066" side_tool="true" weight="0.16613418" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Java Enterprise" order="0" />
-      <window_info anchor="bottom" id="Messages" order="1" weight="0.2069307" />
-      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50151056" side_tool="true" weight="0.1990099" />
-      <window_info anchor="bottom" id="Database Changes" order="3" weight="0.32970297" />
-      <window_info anchor="bottom" id="Version Control" order="4" weight="0.247851" />
-      <window_info anchor="bottom" id="Terminal" order="5" weight="0.32871288" />
+      <window_info anchor="bottom" id="Messages" order="1" sideWeight="0.49946752" weight="0.15346535" />
+      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.63045794" side_tool="true" weight="0.19108911" />
+      <window_info anchor="bottom" id="Database Changes" order="3" sideWeight="0.49893504" weight="0.17029703" />
+      <window_info anchor="bottom" id="Version Control" order="4" sideWeight="0.49946752" weight="0.27227724" />
+      <window_info anchor="bottom" id="Terminal" order="5" weight="0.21584159" />
       <window_info anchor="bottom" id="Message" order="6" />
       <window_info anchor="bottom" id="Find" order="7" sideWeight="0.49946752" weight="0.32475248" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="11" weight="0.104950495" />
-      <window_info anchor="bottom" id="Database Console" order="12" weight="0.23267327" />
-      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.3283582" />
-      <window_info anchor="bottom" id="SQL Generator" order="14" weight="0.32970297" />
+      <window_info anchor="bottom" id="TODO" order="11" weight="0.1980198" />
+      <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.3283582" />
+      <window_info anchor="bottom" id="SQL Generator" order="13" weight="0.32970297" />
+      <window_info active="true" anchor="bottom" x="2109" y="102" width="1163" height="822" id="Run" order="14" sideWeight="0.49848944" type="WINDOWED" visible="true" weight="0.24356435" />
+      <window_info anchor="bottom" auto_hide="true" x="397" y="470" width="628" height="361" id="Database Console" order="15" sideWeight="0.36954206" weight="0.19108911" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="right" id="Capture Analysis" order="2" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.1773163" />
-      <window_info anchor="right" id="Database" order="4" weight="0.17518637" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.20127796" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="7" weight="0.24973376" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.18157615" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-      <window_info anchor="right" x="487" y="190" width="1182" height="738" id="Run" order="9" sideWeight="0.49848944" type="WINDOWED" weight="0.24387646" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6103152" visible="true" weight="0.1925982" />
@@ -1122,6 +1143,32 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -1148,138 +1195,22 @@
     <MESSAGE value="Добавлена поддержка работы через чат........label......................." />
     <option name="LAST_COMMIT_MESSAGE" value="Добавлена поддержка работы через чат........label......................." />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/java/sql/java 15.java</url>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>SELECT t.* FROM test.a_api_emails t
+LIMIT 11</expression-string>
+        <language-id>MySQL</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/java/com/service/Settings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Throwable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="637" column="16" selection-start-line="637" selection-start-column="16" selection-end-line="637" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="477" column="19" selection-start-line="477" selection-start-column="19" selection-end-line="477" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f6e389d1-07dc-4723-aa3d-7bd9128b2b97/schema/test/table/a_my_emails.sql" />
-    <entry file="file://$PROJECT_DIR$/src/UpdateMailDB.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Message.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="125" column="18" selection-start-line="125" selection-start-column="18" selection-end-line="125" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/FetchProfile.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="775">
-          <caret line="63" column="46" selection-start-line="63" selection-start-column="46" selection-end-line="63" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/AppendUID.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/CharSequence.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="58" column="17" selection-start-line="58" selection-start-column="17" selection-end-line="58" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Flags.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3360">
-          <caret line="239" column="39" selection-start-line="239" selection-start-column="39" selection-end-line="239" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="114" column="11" selection-start-line="114" selection-start-column="11" selection-end-line="114" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/iap/Protocol.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2865">
-          <caret line="225" column="16" selection-start-line="225" selection-start-column="16" selection-end-line="225" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/System.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26625">
-          <caret line="1873" column="23" selection-start-line="1873" selection-start-column="23" selection-end-line="1873" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/iap/Response.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/ChilkatExample.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="19" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Math.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="442" column="25" selection-start-line="442" selection-start-column="25" selection-end-line="442" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/reflect/Constructor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="487" selection-start-line="487" selection-end-line="487" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/reflect/Constructor.java" />
     <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/MessagingException.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1295,58 +1226,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/sql/new 14.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="62" selection-start-column="2" selection-end-line="241" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/WSSChatClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/sql/a_api_emails (1).sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/NumberFormatException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/jdk/internal/reflect/NativeConstructorAccessorImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/sql/java 15.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/MyTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="79" column="157" selection-start-line="79" selection-start-column="157" selection-end-line="79" selection-end-column="157" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/new 14.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/NumberFormatException.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/jdk/internal/reflect/NativeConstructorAccessorImpl.java" />
+    <entry file="file://$PROJECT_DIR$/src/java/sql/java 15.java" />
     <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Part.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1354,20 +1237,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11805">
-          <caret line="843" selection-start-line="843" selection-end-line="843" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Thread.java" />
     <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPFolder.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22395">
@@ -1375,13 +1245,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14085">
-          <caret line="1000" column="19" selection-start-line="1000" selection-start-column="19" selection-end-line="1000" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/String.java" />
     <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Folder.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -1396,88 +1260,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/mysql-connector-java-5.1.46.jar!/com/mysql/jdbc/ResultSetImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="375" selection-start-line="375" selection-end-line="375" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ideaLibSources/mysql-connector-java-5.1.46-sources.jar!/com/mysql/jdbc/SQLError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="964" selection-start-line="964" selection-end-line="964" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/ResultSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="867" column="22" selection-start-line="867" selection-start-column="22" selection-end-line="867" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/mysql-connector-java-5.1.46-sources.jar!/com/mysql/jdbc/SQLError.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/ResultSet.java" />
     <entry file="file://$PROJECT_DIR$/src/java/com/Test.java" />
-    <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="83" column="38" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/StartMailTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1935">
-          <caret line="139" column="12" selection-start-line="139" selection-start-column="12" selection-end-line="148" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/mysql-connector-java-5.1.46-sources.jar!/com/mysql/jdbc/ResultSetImpl.java" />
     <entry file="file://$PROJECT_DIR$/src/java/com/classes/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1095">
           <caret line="81" column="19" selection-start-line="81" selection-start-column="19" selection-end-line="81" selection-end-column="19" />
-          <folding>
-            <element signature="e#2360#2361#0" expanded="true" />
-            <element signature="e#2385#2386#0" expanded="true" />
-            <element signature="e#2416#2417#0" expanded="true" />
-            <element signature="e#2446#2447#0" expanded="true" />
-            <element signature="e#2478#2479#0" expanded="true" />
-            <element signature="e#2506#2507#0" expanded="true" />
-            <element signature="e#2541#2542#0" expanded="true" />
-            <element signature="e#2572#2573#0" expanded="true" />
-            <element signature="e#2612#2613#0" expanded="true" />
-            <element signature="e#2648#2649#0" expanded="true" />
-            <element signature="e#2685#2686#0" expanded="true" />
-            <element signature="e#2718#2719#0" expanded="true" />
-            <element signature="e#2749#2750#0" expanded="true" />
-            <element signature="e#2776#2777#0" expanded="true" />
-            <element signature="e#2804#2805#0" expanded="true" />
-            <element signature="e#2831#2832#0" expanded="true" />
-            <element signature="e#2863#2864#0" expanded="true" />
-            <element signature="e#2891#2892#0" expanded="true" />
-            <element signature="e#2927#2928#0" expanded="true" />
-            <element signature="e#2959#2960#0" expanded="true" />
-            <element signature="e#2993#2994#0" expanded="true" />
-            <element signature="e#3023#3024#0" expanded="true" />
-            <element signature="e#3056#3057#0" expanded="true" />
-            <element signature="e#3085#3086#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4635">
-          <caret line="321" column="29" selection-start-line="321" selection-start-column="14" selection-end-line="321" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1488,48 +1278,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1935">
-          <caret line="143" column="48" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/classes/EmailAccount.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4695">
-          <caret line="320" column="32" selection-start-line="320" selection-start-column="22" selection-end-line="320" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.ideaLibSources/mysql-connector-java-5.1.46-sources.jar!/com/mysql/jdbc/ResultSetImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10575">
-          <caret line="758" column="25" selection-start-line="758" selection-start-column="25" selection-end-line="758" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/classes/Email.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="1005">
+          <caret line="74" column="29" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#8241#8242#0" expanded="true" />
@@ -1550,6 +1302,204 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_my_emails.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_my_users_emails.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/classes/EmailAccount.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_1c_client_emails.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_api_email_folders.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_api_emails.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://3e6c6fe9-15ff-458a-adeb-f6063dea180d/schema/test/table/a_api_emails.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_ex_client_emails.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/a_api_emails (1).sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://3e6c6fe9-15ff-458a-adeb-f6063dea180d/schema/test/table/a_my_users_emails">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://3e6c6fe9-15ff-458a-adeb-f6063dea180d/schema/test/table/a_api_email_folders">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/ResultSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="176" column="12" selection-start-line="176" selection-start-column="12" selection-end-line="176" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://3e6c6fe9-15ff-458a-adeb-f6063dea180d/schema/test/table/a_api_emails">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console_1.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="59" selection-start-line="2" selection-start-column="59" selection-end-line="2" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="46" column="40" lean-forward="true" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JavaLib/mysql-connector-java-5.1.46.jar!/com/mysql/jdbc/ResultSetImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="859">
+          <caret line="604" selection-start-line="604" selection-end-line="604" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Thread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="833" selection-start-line="833" selection-end-line="833" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/System.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="91" column="19" selection-start-line="91" selection-start-column="19" selection-end-line="91" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/MyTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="941">
+          <caret line="79" column="157" selection-start-line="79" selection-start-column="157" selection-end-line="79" selection-end-column="157" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/StartMailTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="279" column="10" selection-start-line="279" selection-start-column="10" selection-end-line="279" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/WSSChatClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListenerThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="143" column="48" selection-start-line="143" selection-start-column="48" selection-end-line="143" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/StartMail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2700">
+          <caret line="180" column="10" lean-forward="true" selection-start-line="180" selection-start-column="10" selection-end-line="180" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3e6c6fe9-15ff-458a-adeb-f6063dea180d/console_2.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2850">
+          <caret line="197" column="4" selection-start-line="197" selection-start-column="4" selection-end-line="197" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
@@ -1561,7 +1511,6 @@
             <option name="proportions">
               <list>
                 <option value="0.26091954" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -1593,7 +1542,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>10</last-edited>
+          <last-edited>11</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1618,7 +1567,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>chilkatjava-9.5</last-edited>
+          <last-edited>mysql-connector-java-5.1.46</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

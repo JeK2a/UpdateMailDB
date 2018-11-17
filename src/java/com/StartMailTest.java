@@ -14,10 +14,9 @@ import java.util.HashMap;
 
 public class StartMailTest {
 
-    private static DB db;
+    private DB db;
 
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
-
     private static WSSChatClient wssChatClient;
     private static HashMap<Integer, EmailAccount> emailAccounts = new HashMap<>();
 
@@ -277,7 +276,7 @@ public class StartMailTest {
         new Settings();
 
 //        wssChatClient = new WSSChatClient();
-        db = new DB();
+        DB db = new DB();
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
         StartMailTest startMail = new StartMailTest(); //
 

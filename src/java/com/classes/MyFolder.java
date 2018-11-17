@@ -44,6 +44,9 @@ public class MyFolder {
         this.imap_folder = imap_folder;
 
         try {
+            if (!imap_folder.isOpen()) {
+                imap_folder.open(IMAPFolder.READ_ONLY);
+            }
             this.messages_count = imap_folder.getMessageCount();
         } catch (MessagingException e) {
             setException(e);

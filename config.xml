@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <setings>
     <user>root</user>
-    <password>root</password>
+    <password>rootroot</password>
     <host>localhost</host>
-    <port>8889</port>
+    <port>3306</port>
     <schema>test</schema>
     <usessl>false</usessl>
     <useunicode>true</useunicode>

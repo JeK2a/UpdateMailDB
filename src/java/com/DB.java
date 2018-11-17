@@ -16,11 +16,11 @@ public class DB implements AutoCloseable {
                                                "useUnicode=true",
                                                "characterEncoding=utf-8"
                                            };
-    private static Connection        con;
-    private static Statement         stmt;
-    private static PreparedStatement prep_stmt;
-    private static ResultSet         rs;
-    private static ResultSetMetaData rsmd;
+    private Connection        con;
+    private Statement         stmt;
+    private PreparedStatement prep_stmt;
+    private ResultSet         rs;
+    private ResultSetMetaData rsmd;
 
     public DB() {
         new Settings();
@@ -49,13 +49,13 @@ public class DB implements AutoCloseable {
             stmt = con.createStatement(); // getting Statement object to execute query
         } catch(SQLException | ClassNotFoundException e) {
             System.err.println(e);
+            e.printStackTrace();
         }
     }
 
     public boolean addEmail(Email email) {
 
         String query = "" +
-//            "INSERT INTO `" + Settings.getTable_emails() + "`(" +
             "INSERT INTO `a_api_emails`(\n" +
             "    `direction`, \n"   + // 1
             "    `user_id`, \n"     + // 2
@@ -131,8 +131,8 @@ public class DB implements AutoCloseable {
         } catch (SQLException e) {
 //            System.err.println("==================================" + email.getSubject() + "==================================");
 //            System.err.println(query);
-//            e.printStackTrace();
-            return false;
+            e.printStackTrace();
+            return addEmail(email);
         }
 
         return true;
@@ -143,19 +143,19 @@ public class DB implements AutoCloseable {
 
         String query = "" +
             "SELECT " +
-                " `id`, "            +
-                " `user_id`, "       +
-                " `email`, "         +
-                " `password`, "      +
-                " `is_monitoring`, " +
-                " `is_default`, "    +
-                " `host`, "          +
-                " `port`, "          +
-                " `login`, "         +
-                " `name_from`, "     +
-                " `charset`, "       +
-                " `secure`, "        +
-                " `success` "        +
+            "    `id`, "            +
+            "    `user_id`, "       +
+            "    `email`, "         +
+            "    `password`, "      +
+            "    `is_monitoring`, " +
+            "    `is_default`, "    +
+            "    `host`, "          +
+            "    `port`, "          +
+            "    `login`, "         +
+            "    `name_from`, "     +
+            "    `charset`, "       +
+            "    `secure`, "        +
+            "    `success` "        +
             "FROM `" + Settings.getTable_users() + "` " +
             "WHERE " +
                 "`is_monitoring` = 1 AND " +
@@ -220,9 +220,7 @@ public class DB implements AutoCloseable {
         return last_uid;
     }
 
-    public int getCountMessages(String email_account, String folder_name) {
-
-//        "FROM `" + Settings.getTable_emails() + "` " +
+    public long getCountMessages(String email_account, String folder_name) {
 
         String query = "" +
                 "SELECT COUNT(`uid`) "            +
@@ -231,45 +229,44 @@ public class DB implements AutoCloseable {
                 "    `email_account` = '" + email_account + "' AND " +
                 "    `folder` = '" + folder_name + "' ";
 
-        int count_messages = 0;
-        String count_messages_str = "";
+        long count_messages = 0;
 
         try {
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
 
-            if (rs == null) {
+            if (rs == null || rs.wasNull()) {
                 return 0;
             }
 
             if (rs.next()) {
-                count_messages_str = rs.getString(1);
+                count_messages = rs.getLong(1);
             }
 
-        } catch (SQLException e) {
-//            System.out.println(query);
-//            System.out.println(count_messages_str);
-//            e.printStackTrace();
-            return 0;
+        } catch (Exception e) {
+            System.err.println("================================================");
+            System.err.println(rs);
+            System.err.println(query);
+            System.err.println("================================================");
+            e.printStackTrace();
+            return getCountMessages(email_account, folder_name);
         }
-
-        count_messages = Integer.parseInt(count_messages_str);
 
         return count_messages;
     }
 
-    public int changeFolderName(Email email, int user_id, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
+    public int changeFolderName(Email email, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
 
 //        "UPDATE `" + Settings.getTable_emails() + "` " +
 
         String query = "" +
                 "UPDATE `a_my_emails` " +
                 "SET " +
-                    "`folder` = '" + new_folder_name   + "', " +
-                    "`time`  = '" + email.getUpdate() + "'  " +
+                "    `folder` = '" + new_folder_name   + "', " +
+                "    `time`   = '" + email.getUpdate() + "'  " +
                 "WHERE" +
-                    "`folder`     = '" + email.getFolder() + "' AND " +
-                    "`message_id` = '" + email.getMessage_id() + "';";
+                "    `folder`     = '" + email.getFolder() + "' AND " +
+                "    `message_id` = '" + email.getMessage_id() + "';";
 
         int result = 0;
 
@@ -587,7 +584,7 @@ public class DB implements AutoCloseable {
                 last_add_uid = rs.getLong(1);
             }
         } catch (SQLException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             return  0;
         }
 
@@ -704,13 +701,11 @@ public class DB implements AutoCloseable {
 
         try {
             stmt = con.createStatement();
-            rs = stmt.executeQuery(query);
+            ResultSet rs_tmp = stmt.executeQuery(query);
+
+             rs = rs_tmp;
 
 //            meta = rs.getMetaData();
-
-            if (rs == null) {
-                return null;
-            }
 
 //            count_col = meta.getColumnCount();
 //            count_row = rs.getRow();
@@ -751,6 +746,12 @@ public class DB implements AutoCloseable {
                 );
             }
         } catch (Exception e) {
+            System.err.println("======================================");
+            System.err.println(query);
+            System.err.println("======================================");
+//            System.err.println("count col = " + count_col);
+//            System.err.println("count row = " + count_row);
+//            System.err.println("======================================");
 //            System.err.println("---------------------------------");
 //            System.err.println(query);
 //            System.err.println("---------------------------------");
@@ -766,8 +767,13 @@ public class DB implements AutoCloseable {
 //                }
 //            }
 
-//            e.printStackTrace();
-            return null;
+            e.printStackTrace();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            return getMyMessage(email_address, folder_name, uid);
         }
 
         return null;
@@ -825,7 +831,7 @@ public class DB implements AutoCloseable {
                     )
                 );
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
