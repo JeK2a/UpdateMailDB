@@ -20,7 +20,7 @@ public class MailListenerThread implements Runnable {
 
     private IMAPFolder imap_folder;
     private final ThreadLocal<Integer> thread_sleep_time = ThreadLocal.withInitial(() -> 1000);
-    private DB db;
+    private static DB db;
     private String email;
 
     private EmailAccount emailAccount;
@@ -28,7 +28,9 @@ public class MailListenerThread implements Runnable {
     private MyFolder myFolder;
 
     public MailListenerThread(EmailAccount emailAccount, MyFolder myFolder) {
-        db = new DB();
+        if (db == null) {
+            db = new DB();
+        }
         this.emailAccount = emailAccount;
         this.user         = emailAccount.getUser();
         this.email        = emailAccount.getUser().getEmail();

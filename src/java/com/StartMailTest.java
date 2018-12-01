@@ -14,15 +14,11 @@ import java.util.HashMap;
 
 public class StartMailTest {
 
-    private DB db;
+    private static DB db;
 
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
     private static WSSChatClient wssChatClient;
     private static HashMap<Integer, EmailAccount> emailAccounts = new HashMap<>();
-
-    private StartMailTest() {
-
-    }
 
     private void connectToMailAccount(EmailAccount emailAccount) {
         MyProperties myProperties = new MyProperties(emailAccount.getUser()); // Настройка подключение текущего пользователя
@@ -276,7 +272,9 @@ public class StartMailTest {
         new Settings();
 
 //        wssChatClient = new WSSChatClient();
-        DB db = new DB();
+        if (db == null) {
+            db = new DB();
+        }
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
         StartMailTest startMail = new StartMailTest(); //
 

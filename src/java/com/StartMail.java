@@ -22,12 +22,16 @@ import java.util.Scanner;
 
 public class StartMail {
 
-    private DB db;
+    private static DB db;
     private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
     private static WSSChatClient wssChatClient;
     private static HashMap<Integer, EmailAccount> emailAccounts = new HashMap<>();
 
     private void connectToMailAccount(EmailAccount emailAccount) {
+        if (db == null) {
+            db = new DB();
+        }
+
         MyProperties myProperties = new MyProperties(emailAccount.getUser()); // Настройка подключение текущего пользователя
 
         Session session = Session.getDefaultInstance(myProperties, null); // Создание сессии
@@ -176,7 +180,9 @@ public class StartMail {
         new Settings();
 
 //        wssChatClient = new WSSChatClient();
-        DB db = new DB();
+        if (db == null) {
+            db = new DB();
+        }
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
         StartMail startMail = new StartMail(); //
 

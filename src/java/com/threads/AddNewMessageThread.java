@@ -16,14 +16,16 @@ import java.util.HashMap;
 
 public class AddNewMessageThread implements Runnable {
 
-    private DB db;
+    private static DB db;
 
     private MyFolder     myFolder;
     private IMAPFolder   imap_folder;
     private EmailAccount emailAccount;
 
     public AddNewMessageThread(EmailAccount emailAccount, MyFolder myFolder) {
-        db = new DB();
+        if (db == null) {
+            db = new DB();
+        }
         this.myFolder     = myFolder;
         this.emailAccount = emailAccount;
         this.imap_folder  = myFolder.getImap_folder();
