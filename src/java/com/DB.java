@@ -12,7 +12,8 @@ import java.util.Date;
 public class DB implements AutoCloseable {
 
     private static final String[] params = {
-                                               "useSSL=false"
+                                               "useSSL=false",
+                                               "serverTimezone=UTC"
 
                                            };
     private static Connection        con;
@@ -135,11 +136,11 @@ public class DB implements AutoCloseable {
 
             prep_stmt.executeUpdate();
         } catch (Exception e) {
-            System.err.println(query);
-            System.err.println(email);
-            System.err.println("email.getFolder() = ");
-            System.err.println(email.getFolder());
-            e.printStackTrace();
+//            System.err.println(query);
+//            System.err.println(email);
+//            System.err.println("email.getFolder() = ");
+//            System.err.println(email.getFolder());
+//            e.printStackTrace();
 
             return addEmail(email);
         } finally {
@@ -268,16 +269,10 @@ public class DB implements AutoCloseable {
             }
 
         } catch (Exception e) {
-            System.err.println("================================================");
-            System.err.println(query);
-            System.err.println("================================================");
-            e.printStackTrace();
-
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e1) {
-//                e1.printStackTrace();
-//            }
+//            System.err.println("================================================");
+//            System.err.println(query);
+//            System.err.println("================================================");
+//            e.printStackTrace();
 
             return getCountMessages(email_account, folder_name);
         } finally {
@@ -815,7 +810,8 @@ public class DB implements AutoCloseable {
             "    `folder` = '" + folder_name + "';";
 
         try {
-            if (is_line) {
+            while (is_line) {
+//            if (is_line) {
                 Thread.sleep(100);
             }
             is_line = true;
@@ -855,10 +851,10 @@ public class DB implements AutoCloseable {
                 );
             }
         } catch (Exception e) {
-            System.err.println("======================================");
-            System.err.println(query);
-            System.err.println("======================================");
-            e.printStackTrace();
+//            System.err.println("======================================");
+//            System.err.println(query);
+//            System.err.println("======================================");
+//            e.printStackTrace();
             return getMyMessage(email_address, folder_name, uid);
         } finally {
             is_line = false;

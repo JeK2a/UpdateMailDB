@@ -145,16 +145,16 @@ public class StartMail {
                 myFolder.setThreadAddNewMessages(myTreadAllMails);
                 myTreadAllMails.start(); // Запус потока
 
-//                while (true) {
-//                    if (myFolder.getStatus().equals("end_add_message_folder") || myFolder.getStatus().equals("stop")) {
-//                        break;
-//                    }
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                while (true) {
+                    if (myFolder.getStatus().equals("end_add_message_folder") || myFolder.getStatus().equals("stop")) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
 //            emailAccount.setStatus("end_add_message_emailAccount");
@@ -193,16 +193,16 @@ public class StartMail {
             emailAccounts.put(++i, emailAccount);
             startMail.connectToMailAccount(emailAccount); // Подключение к почтовым аккаунтам
 
-//            while (true) {
-//                if (emailAccount.getStatus().equals("end_add_message_emailAccount")) {
-//                    break;
-//                }
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            while (true) {
+                if (emailAccount.getStatus().equals("end_add_message_emailAccount")) {
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         ArrayList<User> users_update = db.getUsersUpdate(); // Получение списка пользователей
