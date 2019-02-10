@@ -3,9 +3,8 @@ package com.classes;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -395,41 +394,68 @@ public class MyMessage {
         this.has_attachment = has_attachment;
     }
 
-    public boolean compareString(String str1, String str2) {
-        if ((str1 == null || str2 == null) || (str1 == "null" || str2 == "null")) {
+    public boolean compareString(String str1, String str2, boolean is_print) {
+
+        try {
+            if (str1 != null) {
+                str1 = new String(str1.getBytes("UTF-8"), "UTF-8");
+                str1 = str1.replace("\n", "").trim();
+            }
+            if (str2 != null) {
+                str2 = new String(str2.getBytes("UTF-8"), "UTF-8");
+                str2 = str2.replace("\n", "").trim();
+            }
+        } catch (UnsupportedEncodingException e) {
+            System.err.println("Error in compareString");
+            e.printStackTrace();
+        }
+
+        if (
+                (str1 == null || str1.equals("") || str1.equals("null")) &&
+                (str2 == null || str2.equals("") || str2.equals("null"))
+        ) {
+            return true; // TODO null
+        }
+
+        if ((str1 == null || str2 == null) || (str1.equals("null") || str2.equals("null"))) {
             return ((str1 == null || str1.equals("null")) && (str2 == null || str2.equals("null")));
         }
 
-        if (str1.length() > str2.length()) {
-//            System.out.println(str1 + "length= " + str1.length());
-//            System.out.println(str2 + "length= " + str2.length());
+//        if (str1.length() > str2.length()) {
+        if (str1.length() != str2.length()) {
+            if (is_print) {
+                System.out.println(str1 + "\u001B[91m" + "!!!!!!!!!!!! length= " + str1.length() + "\u001B[0m");
+                System.out.println(str2 + "\u001B[91m" + "!!!!!!!!!!!! length= " + str2.length() + "\u001B[0m");
+            }
             return false;
         } else {
             char[] c1 = str1.toCharArray();
             char[] c2 = str2.toCharArray();
 
+            int error_count = 0;
+
             for (int i = 0, j = 0; i < c1.length; i++, j++) {
+                if (is_print) {
+                    System.out.println((int) c1[i] + "|" + (int) c2[i]);
+                }
                 if ((((int) c1[i])) != (((int) c2[j]) * 1)) {
-//                    System.out.println(str1 + "!===================================================================");
-//                    System.out.println(str2);
-                    if (c1[i] == '?') {
-                        j++;
-                    } else {
-                        return false;
-                    }
+                        error_count++;
+//
                 }
             }
+
+            return error_count == 0;
         }
 
-        return true;
+//        return true;
     }
 
     public boolean compareInteger(Integer i1, Integer i2) {
-        return compareString(i1.toString(), i2.toString());
+        return compareString(i1.toString(), i2.toString(), false);
     }
 
     public boolean compareLong(Long l1, Long l2) {
-        return compareString(l1.toString(), l2.toString());
+        return compareString(l1.toString(), l2.toString(), false);
     }
 
     public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder, boolean is_show_debag) {
@@ -441,21 +467,29 @@ public class MyMessage {
 
             long   mail_UID         = imapFolder.getUID(imap_message);
             String mail_MID         = imap_message.getMessageID();
-            String mail_from        = InternetAddress.toString(imap_message.getFrom());
-            String mail_to          = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
-            String mail_reply_to    = InternetAddress.toString(imap_message.getReplyTo());
-            long   mail_size        = imap_message.getSize();
-            String mail_subject     = imap_message.getSubject();
+//            String mail_from        = InternetAddress.toString(imap_message.getFrom());
+//            String mail_to          = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
+//            String mail_reply_to    = InternetAddress.toString(imap_message.getReplyTo());
+//            long   mail_size        = imap_message.getSize();
+//            String mail_subject     = imap_message.getSubject();
             String mail_folder_name = imap_message.getFolder().getFullName();
 
             if (is_show_debag) {
                 if (!compareLong(this.getUid(), mail_UID)) {
-                    System.out.println("UID(" + this.getUid() + "!=" + mail_UID + ")");
+                    Long t1 = this.getUid();
+                    Long t2 = mail_UID;
+
+                    System.out.println("-------------UID--------------------<");
+                    compareString(t1.toString(), t2.toString(), true);
+                    System.out.println(">------------UID---------------------");
+                    System.out.println("UID( " + this.getUid() + " !=" + mail_UID + " )");
+
                 }
 
-                if (!compareString(this.message_id, mail_MID)) {
-                    System.out.println("Message_id(");
-                    System.out.println(this.message_id + "!=" );
+                if (!compareString(this.message_id, mail_MID, false)) {
+                    compareString(this.message_id, mail_MID,true);
+                    System.out.println("Message_id( != )");
+                    System.out.println(this.message_id);
                     System.out.println(mail_MID + ")");
 
                     if (this.message_id.length() == mail_MID.length()) {
@@ -470,45 +504,60 @@ public class MyMessage {
                     }
                 }
 
-                if (!compareString(this.from, mail_from)) {
-                    System.out.println("From(" + this.from + "!=" + mail_from + ")");
-                }
+//                if (!compareString(this.from, mail_from, false)) {
+//                    compareString(this.from, mail_from, true);
+//                    System.out.println("From( != )");
+//                    System.out.println(this.from);
+//                    System.out.println(mail_from);
+//                }
+//
+//                if (!compareString(this.to, mail_to, false)) {
+//                    compareString(this.to, mail_to, true);
+//                    System.out.println("To !=");
+//                    System.out.println(this.to);
+//                    System.out.println(mail_to);
+//                }
+//
+//                if (!compareString(this.in_reply_to, mail_reply_to, false)) {
+//                    compareString(this.in_reply_to, mail_reply_to, true);
+//                    System.out.println("In_reply_to( != )");
+//                    System.out.println(this.in_reply_to);
+//                    System.out.println(mail_reply_to);
+//                }
 
-                if (!compareString(this.to, mail_to)) {
-                    System.out.println("To 1 " + this.to);
-                    System.out.println("To 2 " + mail_to);
-                    System.out.println("To(" + this.to + "!=" + mail_to + ")");
-                }
+//                if (!compareLong(this.size, mail_size)) {
+//                    System.out.println("getSize(" + this.size + "!=" + mail_size + ")");
+//                }
 
-                if (!compareString(this.in_reply_to, mail_reply_to)) {
-                    System.out.println("In_reply_to(" + this.in_reply_to + "!=" + mail_reply_to + ")");
-                }
+//                if (!compareString(this.subject, mail_subject, false)) {
+//                    compareString(this.subject, mail_subject, true);
+//                    System.out.println("subject  != ");
+//                    System.out.println(this.subject);
+//                    System.out.println(mail_subject);
+//                }
 
-                if (!compareLong(this.size, mail_size)) {
-                    System.out.println("getSize(" + this.size + "!=" + mail_size + ")");
-                }
-
-                if (!compareString(this.subject, mail_subject)) {
-                    System.out.println(this.subject + " != " + mail_subject);
-                }
-
-                if (!compareString(this.folder, mail_folder_name)) {
-                    System.out.println("Folder name(" + this.folder + "!=" + mail_folder_name+")");
+                if (!compareString(this.folder, mail_folder_name, false)) {
+                    compareString(this.folder, mail_folder_name, true);
+                    System.out.println("Folder name( != )");
+                    System.out.println(this.folder);
+                    System.out.println(mail_folder_name);
                 }
             }
 
             if (
                 compareLong(this.getUid(),      mail_UID)      &&
-                compareString(this.message_id,  mail_MID)      &&
-                compareString(this.from,        mail_from)     &&
-                compareString(this.to,          mail_to)       &&
-                compareString(this.in_reply_to, mail_reply_to) &&
-                compareLong(this.size,          mail_size)     &&
-                compareString(this.subject,     mail_subject)  &&
-                compareString(this.folder,      mail_folder_name)
+                compareString(this.message_id,  mail_MID, false)      &&
+//                compareString(this.from,        mail_from, false)     &&
+//                compareString(this.to,          mail_to, false)       &&
+//                compareString(this.in_reply_to, mail_reply_to, false) &&
+//                compareLong(this.size,          mail_size)     &&
+//                compareString(this.subject,     mail_subject, false)  &&
+                compareString(this.folder,      mail_folder_name, false)
 
             ) {
                 return true;
+            } else {
+                System.out.println("UID( " + this.getUid() + " !=" + mail_UID + " )");
             }
         } catch (MessagingException e) {
             e.printStackTrace();

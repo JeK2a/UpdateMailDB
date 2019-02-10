@@ -6,13 +6,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EmailAccount implements Serializable {
+public class EmailAccount implements Serializable, Cloneable {
     private User user;
     private HashMap<String, MyFolder> myFoldersMap = new HashMap<>();
     private String status;
     private Exception exception;
     private int event_count = 0;
     private String emailAddress;
+    private Thread threadAccount;
 
     public EmailAccount(User user) {
         this.user = user;
@@ -29,6 +30,9 @@ public class EmailAccount implements Serializable {
         this.myFoldersMap = myFoldersMap;
         this.status       = status;
         this.emailAddress = user.getEmail();
+    }
+    public HashMap<String, MyFolder> getFoldersMap() {
+        return myFoldersMap;
     }
 
     public User getUser() {
@@ -87,6 +91,14 @@ public class EmailAccount implements Serializable {
         this.event_count++;
     }
 
+    public Thread getThreadAccount() {
+        return threadAccount;
+    }
+
+    public void setThreadAccount(Thread threadAccount) {
+        this.threadAccount = threadAccount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,4 +122,10 @@ public class EmailAccount implements Serializable {
                "      myFoldersMap = " + MyPrint.getStringHashMap(myFoldersMap) + "\n" +
                "} \n";
     }
+
+    public EmailAccount clone() throws CloneNotSupportedException {
+        return (EmailAccount) super.clone();
+    }
+
+
 }

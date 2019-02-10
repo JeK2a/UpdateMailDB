@@ -1,7 +1,7 @@
 //package com;
 //
 //import com.classes.User;
-//import com.service.Settings;
+//import com.service.SettingsMail;
 //import com.sun.mail.imap.IMAPFolder;
 //import com.threads.MailListenerThread;
 //
@@ -17,10 +17,10 @@
 //    private void connectToMailAccount(User user) {
 //        MyProperties myProperties = new MyProperties(user); // Настройка подключение текущего пользователя
 //
-//        new Settings();
+//        new SettingsMail();
 //
 //        Session session = Session.getDefaultInstance(myProperties, null); // Создание сессии
-//        session.setDebug(Boolean.parseBoolean(Settings.getSession_debug()));          // Включение дебага
+//        session.setDebug(Boolean.parseBoolean(SettingsMail.getSession_debug()));          // Включение дебага
 //
 //        try {
 //            Store store = session.getStore();

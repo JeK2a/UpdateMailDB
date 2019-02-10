@@ -6,10 +6,10 @@ import javax.mail.MessagingException;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class MyFolder {
+public class MyFolder implements Cloneable {
     private String folder_name;
-    private Thread threadAddNewMessages;
-    private Thread threadLisaningChangeMessage;
+    private Thread threadAddNewMessages = null;
+    private Thread threadLisaningChangeMessage = null;
     private String status;
     private Exception exception;
     private Timestamp last_event_time;
@@ -76,7 +76,7 @@ public class MyFolder {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status; // TODO временно
     }
 
     public Timestamp getLast_event_time() {
@@ -172,5 +172,9 @@ public class MyFolder {
                "                        imap_folder                 = " + imap_folder + "\n" +
                "                        email                       = " + email + "\n" +
                "            }";
+    }
+
+    public MyFolder clone() throws CloneNotSupportedException {
+        return (MyFolder) super.clone();
     }
 }

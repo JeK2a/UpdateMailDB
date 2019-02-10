@@ -3,7 +3,7 @@ package com;
 import com.classes.EmailAccount;
 import com.classes.User;
 import com.service.MyPrint;
-import com.service.Settings;
+import com.service.SettingsMail;
 import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
 
@@ -24,7 +24,7 @@ public class StartMailTest {
         MyProperties myProperties = new MyProperties(emailAccount.getUser()); // Настройка подключение текущего пользователя
 
         Session session = Session.getDefaultInstance(myProperties, null); // Создание сессии
-        session.setDebug(Boolean.parseBoolean(Settings.getSession_debug()));          // Включение дебага
+        session.setDebug(SettingsMail.getSession_debug());          // Включение дебага
 
         try {
             Store store = session.getStore();
@@ -269,7 +269,7 @@ public class StartMailTest {
 
 	public static void main(String[] args) {
 
-        new Settings();
+        new SettingsMail();
 
 //        wssChatClient = new WSSChatClient();
         if (db == null) {

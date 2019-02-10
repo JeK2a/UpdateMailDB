@@ -50,83 +50,244 @@ public class Email {
 
     private java.sql.Timestamp update;
 
-    public Email(User user, Message imap_message, IMAPFolder imap_folder) {
+    private String tdf_id;
+
+//    public Email(User user, Message imap_message, IMAPFolder imap_folder) {
+    public Email(int user_id, String email_account, Message imap_message, String folder_name, long uid) {
 
         try {
-            this.email_account = user.getEmail();
+            this.email_account = email_account;
 
-            if (!imap_folder.isOpen()) {
-                try {
-                    imap_folder.open(IMAPFolder.READ_ONLY);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
-            }
+// TODO Gmail and mail название папки исходящие
 
-//            if (imap_message.getFrom() != null && InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
-            this.direction = (imap_folder.getFullName().equals("Исходящие") ? "out" : "in");
+            this.direction = (folder_name.equals("Исходящие") ? "out" : "in");
+
             String cc = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.CC));
-            this.cc   = (cc == null || cc.equals("") ? "null" : cc);
+            this.cc   = cc;
+
             String bcc = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.BCC));
-            this.bcc  = (bcc == null || bcc.equals("") ? "null" : bcc);
+            this.bcc   = (bcc == null || bcc.equals("") ? "null" : bcc);
+//            this.bcc  = "Test";
             String from = InternetAddress.toString(imap_message.getFrom());
             this.from = (from == null || from.equals("") ? "null" : from);
+//            this.from = "Test";
             String to = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
             this.to   = (to == null || to.equals("") ? "null" : to);
+//            this.to   = "Test";
 
-//            IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
-            this.user_id      = user.getUser_id();
-//            this.message_id = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
-            String message_id = imap_message.getHeader("Message-ID")[0];
-            this.message_id   = (message_id == null || message_id.equals("") ? "null" : message_id);
-//            this.message_id = imap_message.getMessageID();
-//            this.msgno        = 0;
+            this.user_id      = user_id;
+
+            try {
+                String message_id = imap_message.getHeader("Message-ID")[0];
+                this.message_id = (message_id == null || message_id.equals("") ? "null" : message_id);
+            } catch (NullPointerException e) {
+                this.message_id = "null";
+            }
+//            this.message_id   = "Test";
+
+            try {
+                String tdf_id = imap_message.getHeader("X-Tdfid")[0];
+                this.tdf_id = (tdf_id == null || tdf_id.equals("") ? "null" : tdf_id);
+            } catch (NullPointerException e) {
+                this.tdf_id = "null";
+            }
 
             String in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
             this.in_replay_to = (in_replay_to == null || in_replay_to.equals("") ? "null" : in_replay_to);
+//            this.in_replay_to = "Test";
 
-            Timestamp date = new Timestamp(imap_message.getSentDate().getTime());
-            this.date = (date == null ? new Timestamp(0) : new Timestamp(imap_message.getSentDate().getTime()));
+            Timestamp date = new Timestamp(imap_message.getReceivedDate().getTime());
+            this.date = (date == null ? new Timestamp(0) : new Timestamp(imap_message.getReceivedDate().getTime()));
 
             int size  = imap_message.getSize();
             this.size = size;
+//            this.size = 1;
 
             String subject = removeBadChars(imap_message.getSubject());
             this.subject = (subject == null || subject.equals("") ? "null" : subject);
+//            this.subject = "Test";
 
-            String folder = imap_message.getFolder().getFullName();
-            this.folder = (folder == null || folder.equals("") ? "null" : folder);
+//            String folder = imap_message.getFolder().getFullName();
+//            this.folder = (folder == null || folder.equals("") ? "null" : folder);
+            this.folder = folder_name;
 
             this.update = new Timestamp(new Date().getTime());
 
-            String out = (String) imap_folder.doCommand(imapProtocol -> {
-                Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
-                return responses[0].toString();
-            });
 
-            if (out.contains("\\Deleted"))     { this.deleted = 1; }
-            if (out.contains("\\Answered"))    { this.answred = 1; }
-            if (out.contains("\\Draft"))       { this.draft   = 1; }
-            if (out.contains("\\Flagged"))     { this.flagged = 1; }
-//            if (out.contains("\\Recent"))      { this.recent  = 1; }
-            if (out.contains("\\Seen"))        { this.seen    = 1; }
-//            if (out.contains("\\User"))        { this.user    = 1; }
-            if (out.contains("$Forvard"))      { this.forwarded = 1; }
-            if (out.contains("$label1"))       { this.label1  = 1; }
-            if (out.contains("$label2"))       { this.label2  = 1; }
-            if (out.contains("$label3"))       { this.label3  = 1; }
-            if (out.contains("$label4"))       { this.label4  = 1; }
-            if (out.contains("$label5"))       { this.label5  = 1; }
-            if (out.contains("$HasAttachment")) { this.has_attachment = 1; }
+            if (uid > 0) {
+                this.uid = uid;
+            } else {
+                IMAPFolder imap_folder = (IMAPFolder) imap_message.getFolder();
 
-            String[] out_str = out.split(" ");
+                if (!imap_folder.isOpen()) {
+                    try {
+                        imap_folder.open(IMAPFolder.READ_ONLY);
+                    } catch (MessagingException e) {
+//                        emailAccount.setException(e);
+                        e.printStackTrace();
+                    }
+                }
 
-            this.uid = (out.length() > 3 ? Long.parseLong(out_str[4]) : imap_folder.getUID(imap_message));
+                String out = (String) imap_folder.doCommand(imapProtocol -> {
+                    Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
+                    return responses[0].toString();
+                });
+
+
+//            System.out.println("out = " + out);
+
+                if (out.contains("\\Deleted"))     { this.deleted = 1; }
+                if (out.contains("\\Answered"))    { this.answred = 1; }
+                if (out.contains("\\Draft"))       { this.draft   = 1; }
+                if (out.contains("\\Flagged"))     { this.flagged = 1; }
+    //            if (out.contains("\\Recent"))      { this.recent  = 1; }
+                if (out.contains("\\Seen"))        { this.seen    = 1; }
+    //            if (out.contains("\\User"))        { this.user    = 1; }
+                if (out.contains("$Forvard"))      { this.forwarded = 1; }
+                if (out.contains("$label1"))       { this.label1  = 1; }
+                if (out.contains("$label2"))       { this.label2  = 1; }
+                if (out.contains("$label3"))       { this.label3  = 1; }
+                if (out.contains("$label4"))       { this.label4  = 1; }
+                if (out.contains("$label5"))       { this.label5  = 1; }
+                if (out.contains("$HasAttachment")) { this.has_attachment = 1; }
+
+                String[] out_str = out.split(" ");
+
+//                this.uid = (out.length() > 3 ? Long.parseLong(out_str[4]) : imap_folder.getUID(imap_message));
+                this.uid = imap_folder.getUID(imap_message);
+//              System.out.println(this.uid);
+
+            }
 
 //            Date sent = message.getSentDate();         // когда отправлено
 //            Date received = message.getReceivedDate(); // когда получено
 
-        } catch (MessagingException e) {
+//        } catch (MessagingException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Email(User user, Message imap_message, IMAPFolder imap_folder, long l) {
+
+        try {
+            this.email_account = user.getEmail();
+
+//            if (!imap_folder.isOpen()) {
+//                try {
+//                    imap_folder.open(IMAPFolder.READ_ONLY);
+//                } catch (MessagingException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+// TODO Gmail and mail название папки исходящие
+
+////            if (imap_message.getFrom() != null && InternetAddress.toString(imap_message.getFrom()).contains(user.getEmail())
+//            this.direction = (imap_folder.getFullName().equals("Исходящие") ? "out" : "in");
+            this.direction = "out";
+//            String cc = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.CC));
+//            String cc = "cc";
+            this.cc   = "Test";
+//            String bcc = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.BCC));
+//            this.bcc  = (bcc == null || bcc.equals("") ? "null" : bcc);
+            this.bcc  = "Test";
+//            String from = InternetAddress.toString(imap_message.getFrom());
+//            this.from = (from == null || from.equals("") ? "null" : from);
+            this.from = "Test";
+//            String to = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
+//            this.to   = (to == null || to.equals("") ? "null" : to);
+            this.to   = "Test";
+
+//  //          IMAPFolder imap_folder_tmp = (IMAPFolder) imap_message.getFolder();
+            this.user_id      = user.getUser_id();
+//    //        this.message_id = imap_message.getHeader("Message-ID")[0].replace("<", "").replace(">", "");
+//            try {
+//                String message_id = imap_message.getHeader("Message-ID")[0];
+//                this.message_id = (message_id == null || message_id.equals("") ? "null" : message_id);
+//            } catch (NullPointerException e) {
+//                this.message_id = "null";
+//            }
+            this.message_id   = "Test";
+//      //      this.message_id = imap_message.getMessageID();
+//        //    this.msgno        = 0;
+
+//            try {
+//                String tdf_id = imap_message.getHeader("X-Tdfid")[0];
+//                this.tdf_id = (tdf_id == null || tdf_id.equals("") ? "null" : tdf_id);
+//            } catch (NullPointerException e) {
+//                this.tdf_id = "null";
+//            }
+
+            this.tdf_id = "Test";
+
+//            String in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
+//            this.in_replay_to = (in_replay_to == null || in_replay_to.equals("") ? "null" : in_replay_to);
+            this.in_replay_to = "Test";
+
+//            Timestamp date = new Timestamp(imap_message.getSentDate().getTime());
+//            this.date = (date == null ? new Timestamp(0) : new Timestamp(imap_message.getSentDate().getTime()));
+            this.date = new Timestamp(new Date().getTime());
+//            int size  = imap_message.getSize();
+//            this.size = size;
+            this.size = 1;
+
+//            String subject = removeBadChars(imap_message.getSubject());
+//            this.subject = (subject == null || subject.equals("") ? "null" : subject);
+            this.subject = "Test";
+
+//            String folder = imap_message.getFolder().getFullName();
+//            this.folder = (folder == null || folder.equals("") ? "null" : folder);
+            this.folder = "Test";
+
+            this.update = new Timestamp(new Date().getTime());
+
+//            System.out.println("Test 1111");
+
+//            String out = (String) imap_folder.doCommand(imapProtocol -> {
+//
+////                System.out.println("Test 2222");
+//                Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
+//
+////                System.out.println("Test 33333");
+//                return responses[0].toString();
+//            });
+
+//            System.out.println("Test 4444");
+
+//            System.out.println("out = " + out);
+
+//            String out = "";
+
+//            if (out.contains("\\Deleted"))     { this.deleted = 1; }
+//            if (out.contains("\\Answered"))    { this.answred = 1; }
+//            if (out.contains("\\Draft"))       { this.draft   = 1; }
+//            if (out.contains("\\Flagged"))     { this.flagged = 1; }
+////            if (out.contains("\\Recent"))      { this.recent  = 1; }
+//            if (out.contains("\\Seen"))        { this.seen    = 1; }
+////            if (out.contains("\\User"))        { this.user    = 1; }
+//            if (out.contains("$Forvard"))      { this.forwarded = 1; }
+//            if (out.contains("$label1"))       { this.label1  = 1; }
+//            if (out.contains("$label2"))       { this.label2  = 1; }
+//            if (out.contains("$label3"))       { this.label3  = 1; }
+//            if (out.contains("$label4"))       { this.label4  = 1; }
+//            if (out.contains("$label5"))       { this.label5  = 1; }
+//            if (out.contains("$HasAttachment")) { this.has_attachment = 1; }
+
+//            String[] out_str = out.split(" ");
+//
+//            this.uid = (out.length() > 3 ? Long.parseLong(out_str[4]) : imap_folder.getUID(imap_message));
+//            System.out.println(this.uid);
+
+            this.uid = l;
+            System.out.println(l);
+
+//            this.uid = (out.length() > 3 ? Long.parseLong(out_str[4]) : 1);
+
+//            Date sent = message.getSentDate();         // когда отправлено
+//            Date received = message.getReceivedDate(); // когда получено
+
+//        } catch (MessagingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -166,6 +327,10 @@ public class Email {
                 "     update         = " + update         + " \n" +
                 "     email_account  = " + email_account  + " \n" +
                 "}\n";
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public int getId() {
@@ -361,7 +526,7 @@ public class Email {
     }
 
     public int getLabel1() {
-        return label1;
+        return this.label1;
     }
 
     public void setLabel1(int label1) {
@@ -430,6 +595,14 @@ public class Email {
 
     public void setEmail_account(String email_account) {
         this.email_account = email_account;
+    }
+
+    public String getTdf_id() {
+        return tdf_id;
+    }
+
+    public void setTdf_id(String tdf_id) {
+        this.tdf_id = tdf_id;
     }
 
     public static String removeBadChars(String s) {
