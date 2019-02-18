@@ -37,22 +37,22 @@ public class MyFolder implements Cloneable {
     }
 
     public MyFolder(IMAPFolder imap_folder) {
-        this.folder_name = imap_folder.getFullName();
-        this.status = "new";
+        this.folder_name     = imap_folder.getFullName();
+        this.status          = "new";
         this.last_event_time = null;
-        this.event_counter = 0;
-        this.imap_folder = imap_folder;
+        this.event_counter   = 0;
+        this.imap_folder     = imap_folder;
 
-        try {
-            if (!imap_folder.isOpen()) {
-                imap_folder.open(IMAPFolder.READ_ONLY);
-            }
-            this.messages_count = imap_folder.getMessageCount();
-        } catch (MessagingException e) {
-            setException(e);
-            setStatus("error");
-            e.printStackTrace();
-        }
+//        try {
+//            if (!imap_folder.isOpen()) {
+//                imap_folder.open(IMAPFolder.READ_ONLY);
+//            }
+//            this.messages_count = imap_folder.getMessageCount();
+//        } catch (MessagingException e) {
+//            setException(e);
+//            setStatus("error");
+//            e.printStackTrace();
+//        }
     }
 
     public String getFolder_name() {

@@ -2,7 +2,9 @@ package com.classes;
 
 import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
+import com.threads.ConnectToFolder;
 
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -53,9 +55,21 @@ public class Email {
     private String tdf_id;
 
 //    public Email(User user, Message imap_message, IMAPFolder imap_folder) {
-    public Email(int user_id, String email_account, Message imap_message, String folder_name, long uid) {
-
+    public Email(int user_id, String email_account, Message imap_message, String folder_name, long uid, Folder imapFolder) {
         try {
+            int tmp_i = 0;
+
+            while (!imapFolder.isOpen() && tmp_i++ < 5) {
+                Thread connectToFolderThread = new Thread(new ConnectToFolder(imapFolder));
+                connectToFolderThread.start();
+                Thread.sleep(10000);
+
+                if (connectToFolderThread.isAlive()) {
+                    connectToFolderThread.interrupt();
+                }
+            }
+
+
             this.email_account = email_account;
 
 // TODO Gmail and mail название папки исходящие
@@ -81,7 +95,7 @@ public class Email {
                 String message_id = imap_message.getHeader("Message-ID")[0];
                 this.message_id = (message_id == null || message_id.equals("") ? "null" : message_id);
             } catch (NullPointerException e) {
-                this.message_id = "null";
+                this.message_id = null;
             }
 //            this.message_id   = "Test";
 
@@ -89,7 +103,7 @@ public class Email {
                 String tdf_id = imap_message.getHeader("X-Tdfid")[0];
                 this.tdf_id = (tdf_id == null || tdf_id.equals("") ? "null" : tdf_id);
             } catch (NullPointerException e) {
-                this.tdf_id = "null";
+                this.tdf_id = null;
             }
 
             String in_replay_to =  InternetAddress.toString(imap_message.getReplyTo());
@@ -132,7 +146,6 @@ public class Email {
                     Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
                     return responses[0].toString();
                 });
-
 
 //            System.out.println("out = " + out);
 

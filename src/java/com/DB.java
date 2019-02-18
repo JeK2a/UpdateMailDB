@@ -29,6 +29,8 @@ public class DB implements AutoCloseable {
     private ResultSetMetaData rsmd;
     private static boolean is_line = false;
 
+    public static boolean result = false;
+
     String USER;
     String PASSWORD;
     String HOST;
@@ -50,11 +52,14 @@ public class DB implements AutoCloseable {
 //        params[1] = "useUnicode="        + SettingsMail.getUseunicode();
 //        params[2] = "characterEncoding=" + SettingsMail.getCharacterencoding();
 
-        connectToDB();
+//        connectToDB();
 
     }
 
     public boolean connectToDB() {
+
+        boolean result = true;
+
         try {
             System.out.println("Переподключение к БД");
 
@@ -66,20 +71,21 @@ public class DB implements AutoCloseable {
 
             if (con == null) {                              // Если подключение к БД не установлено
                 System.err.println("Нет соединения с БД!"); // Вывести ошибку
-                return false;
+                result = false;
 //                System.exit(0);                          // И выйти из программы
             }
 
             stmt = con.createStatement(); // getting Statement object to execute query
 //        } catch(SQLException | ClassNotFoundException e) {
         } catch(Exception e) {
-            System.err.println(e);
+            result = false;
             e.printStackTrace();
 
             return false;
+        } finally {
+            DB.result = result;
+            return result;
         }
-
-        return true;
     }
 
     public boolean addEmail(Email email) {
@@ -350,6 +356,59 @@ public class DB implements AutoCloseable {
         }
 
         return count_messages;
+    }
+
+    public int updateSuccess(String email_address, int success) {
+
+        String query = "" +
+                "UPDATE `a_my_users_emails` " +
+                "SET " +
+                "    `success` = '" + success + "' " +
+                "WHERE" +
+                "    `email`     = '" + email_address + "';";
+
+        int result = 0;
+
+        try {
+            if (is_line) {
+                Thread.sleep(100);
+            }
+            is_line = true;
+
+            result = stmt.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            is_line = false;
+        }
+
+        return result;
+    }
+
+    public int cleanStatus() {
+
+        String query = "" +
+                "UPDATE `a_api_email_folders` " +
+                "SET " +
+                "    `exception` = NULL, " +
+                "    `status` = NULL ;";
+
+        int result = 0;
+
+        try {
+            if (is_line) {
+                Thread.sleep(100);
+            }
+            is_line = true;
+
+            result = stmt.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            is_line = false;
+        }
+
+        return result;
     }
 
     public int changeFolderName(Email email, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
@@ -776,6 +835,9 @@ public class DB implements AutoCloseable {
             is_line = true;
 
             stmt.executeUpdate(query);
+        } catch (com.mysql.jdbc.exceptions.jdbc4.CommunicationsException e) {
+            connectToDB();
+            updateFolderLastStatus(user_id, email_address, folder_name, status);
         } catch (Exception e) {
             System.err.println("query======================================================================");
             System.err.println(query);

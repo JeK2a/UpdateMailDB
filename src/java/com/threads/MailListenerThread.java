@@ -1,7 +1,7 @@
 package com.threads;
 
 import com.DB;
-import com.StartMail;
+import com.MailingEmailAccount;
 import com.classes.Email;
 import com.classes.EmailAccount;
 import com.classes.MyFolder;
@@ -58,7 +58,7 @@ public class MailListenerThread implements Runnable {
                 try {
                     myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
-                    StartMail.enterMessage("Connection opened");
+                    MailingEmailAccount.enterMessage("Connection opened");
                 } catch (Exception e) {
                     myFolder.setStatus("error");
                     myFolder.setException(e);
@@ -68,7 +68,7 @@ public class MailListenerThread implements Runnable {
 
             @Override
             public void disconnected(ConnectionEvent connectionEvent) {
-                StartMail.enterMessage("Connection disconnected");
+                MailingEmailAccount.enterMessage("Connection disconnected");
                 try {
                     myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
@@ -86,7 +86,7 @@ public class MailListenerThread implements Runnable {
                 try {
                     myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
-                    StartMail.enterMessage("Connection closed");
+                    MailingEmailAccount.enterMessage("Connection closed");
                 } catch (Exception e) {
                     myFolder.setStatus("error");
                     myFolder.setException(e);
@@ -107,14 +107,14 @@ public class MailListenerThread implements Runnable {
 
                 IMAPMessage imap_message = (IMAPMessage) messageChangedEvent.getMessage();
 //                    long uid = imap_folder.getUID(imap_message);
-                Email email = new Email(user_id, email_address, imap_message, folder_name, 0);
+                Email email = new Email(user_id, email_address, imap_message, folder_name, 0, imap_folder);
 
-                StartMail.enterMessage(email.toString());
+                MailingEmailAccount.enterMessage(email.toString());
 
                 if (db.addEmail(email)) {
                     db.updateFolderLastAddUID(email, email_address);
                 }
-                StartMail.enterMessage("messageChanged");
+                MailingEmailAccount.enterMessage("messageChanged");
             } catch (Exception e) {
                 myFolder.setStatus("error");
                 myFolder.setException(e);
@@ -133,10 +133,10 @@ public class MailListenerThread implements Runnable {
 
                     myFolder.setLast_event_time(new Timestamp(new Date().getTime()));
                     myFolder.eventCountIncriminate();
-                    StartMail.enterMessage("messagesAdded");
+                    MailingEmailAccount.enterMessage("messagesAdded");
 
                     for (Message message : messageCountEvent.getMessages()) {
-                        Email email = new Email(user_id, email_address, message, folder_name, 0);
+                        Email email = new Email(user_id, email_address, message, folder_name, 0, imap_folder);
 
                         if (db.addEmail(email)) {
                             db.updateFolderLastAddUID(email, email_address);
@@ -157,7 +157,7 @@ public class MailListenerThread implements Runnable {
 //                try {
 //                    for (Message message : messageCountEvent.getMessages()) {
 //                        db.setDeleteFlag(user.getEmail(), imap_folder.getFullName(), message.getHeader("Message-ID")[0]);
-//                        StartMail.enterMessage("messagesRemoved");
+//                        MailingEmailAccount.enterMessage("messagesRemoved");
 //                    }
 //                } catch (Exception e) {
 //                    myFolder.setStatus("error");
@@ -212,14 +212,32 @@ public class MailListenerThread implements Runnable {
 //        myFolder.setStatus("listening");
 
         try {
+//            while (true) {
+//                if (!imap_folder.isOpen()) {
+//                    imap_folder.open(Folder.READ_ONLY);
+//                    System.err.println("Folder close -> open");
+//                }
+//                Thread.sleep(thread_sleep_time.get());
+//            }
+
+            Thread connectToFolderThread;
+
             while (true) {
                 if (!imap_folder.isOpen()) {
-                    imap_folder.open(Folder.READ_ONLY);
-                    System.err.println("Folder close -> open");
+                    connectToFolderThread = new Thread(new ConnectToFolder(imap_folder));
+                    connectToFolderThread.start();
+                    Thread.sleep(1000);
+
+                    if (connectToFolderThread.isAlive()) {
+                        connectToFolderThread.interrupt();
+                    }
+                } else {
+                    Thread.sleep(thread_sleep_time.get());
                 }
-                Thread.sleep(thread_sleep_time.get());
+
             }
-        } catch (InterruptedException | MessagingException e) {
+
+        } catch (InterruptedException e) {
             System.err.println("Problem with email " + email + " / imap_folder " + imap_folder.getFullName());
             myFolder.setStatus("error");
             myFolder.setException(e);

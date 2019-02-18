@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class EmailAccount implements Serializable, Cloneable {
+public class EmailAccount implements Serializable {
     private User user;
     private HashMap<String, MyFolder> myFoldersMap = new HashMap<>();
     private String status;
@@ -122,10 +122,5 @@ public class EmailAccount implements Serializable, Cloneable {
                "      myFoldersMap = " + MyPrint.getStringHashMap(myFoldersMap) + "\n" +
                "} \n";
     }
-
-    public EmailAccount clone() throws CloneNotSupportedException {
-        return (EmailAccount) super.clone();
-    }
-
 
 }

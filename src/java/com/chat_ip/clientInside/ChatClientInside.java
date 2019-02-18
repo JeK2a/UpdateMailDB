@@ -1,8 +1,8 @@
 package com.chat_ip.clientInside;
 
-import com.service.SettingsChat;
 import com.chat_ip.entity.Message;
 import com.chat_ip.inform.Information;
+import com.service.SettingsChat;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -10,6 +10,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.sql.Timestamp;
 import java.util.Date;
+
+//import com.chat_ip.entity.Message;
 
 public class ChatClientInside implements Runnable {
 

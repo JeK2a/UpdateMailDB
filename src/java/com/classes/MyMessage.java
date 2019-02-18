@@ -2,8 +2,8 @@ package com.classes;
 
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
+import com.threads.ConnectToFolder;
 
-import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -461,8 +461,16 @@ public class MyMessage {
     public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder, boolean is_show_debag) {
 
         try {
-            if (!imapFolder.isOpen()) {
-                imapFolder.open(IMAPFolder.READ_ONLY);
+            int tmp_i = 0;
+
+             while (!imapFolder.isOpen() && tmp_i++ < 5) {
+                Thread connectToFolderThread = new Thread(new ConnectToFolder(imapFolder));
+                connectToFolderThread.start();
+                Thread.sleep(10000);
+
+                if (connectToFolderThread.isAlive()) {
+                    connectToFolderThread.interrupt();
+                }
             }
 
             long   mail_UID         = imapFolder.getUID(imap_message);
@@ -559,7 +567,7 @@ public class MyMessage {
             } else {
                 System.out.println("UID( " + this.getUid() + " !=" + mail_UID + " )");
             }
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

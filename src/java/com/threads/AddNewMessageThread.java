@@ -81,14 +81,13 @@ public class AddNewMessageThread implements Runnable {
 //            setMyFolderStatus("listening start");
             setMyFolderStatus("end_add_message_folder");
 
-            System.gc();
+//            System.gc(); // TODO почему повис на этом моменте?????? не факт
 
-//            myFolder.setStatus("listening");
             setMyFolderStatus("listening");
 
             new MailListenerThread(emailAccount, myFolder).run(); // Создание потока для отслеживания действий с определенной папкой // TODO 2 lsn
 
-            setMyFolderStatus("end_add_message_folder");
+//            setMyFolderStatus("end_add_message_folder");
 
 //            while (true) {
 //                try {
@@ -99,12 +98,12 @@ public class AddNewMessageThread implements Runnable {
 //            }
 
         } catch (Exception e) {
-            setMyFolderStatus("end_add_message_folder");
+            setMyFolderStatus("close");
             db.updateFolderLastException(user_id, email_address, folder_name, e.getMessage());
             myFolder.setException(e);
             e.printStackTrace();
         } finally {
-            setMyFolderStatus("end_add_message_folder");
+            setMyFolderStatus("close");
         }
     }
 
@@ -212,7 +211,7 @@ public class AddNewMessageThread implements Runnable {
                 Message message_tmp = messages[i];
 
                 uid = imap_folder.getUID(message_tmp);
-                email = new Email(user_id, email_address, messages[i], folder_name, uid);
+                email = new Email(user_id, email_address, messages[i], folder_name, uid, imap_folder);
 
 //            } catch (javax.mail.FolderClosedException e) {
 //                    reopenFolder();
@@ -492,7 +491,7 @@ public class AddNewMessageThread implements Runnable {
 
                 uid = imap_folder.getUID(message);
 
-                Email email = new Email(user_id, email_address, message, folder_name, uid);
+                Email email = new Email(user_id, email_address, message, folder_name, uid, imap_folder);
 //
                 if (db.addEmail(email)) {
                     db.updateFolderLastAddUID(email, emailAccount.getUser().getEmail());
