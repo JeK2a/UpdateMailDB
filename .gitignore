@@ -16,6 +16,8 @@
 *.tar.gz
 *.rar
 
+*.xml
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 src/java/old.PopupAuthenticator.java
@@ -25,7 +27,7 @@ src/java/old.PopupAuthenticator.java
 src/java/com.MyProperties.java
 src/java/com.MyProperties.java
 .idea/workspace.xml
-.idea/com.MailingEmailAccount.iml
+.idea/com.threads.MailingEmailAccountThread.iml
 .idea/libraries/Java_EE_6_Java_EE_6.xml
 .idea/workspace.xml
 .idea/compiler.xml
@@ -49,3 +51,4 @@ src/java/com.MyProperties.java
 .idea/UpdateMailDB.iml
 .idea/vcs.xml
 .idea/workspace.xml
+*.xml

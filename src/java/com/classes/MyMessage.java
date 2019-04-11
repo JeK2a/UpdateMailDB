@@ -458,22 +458,49 @@ public class MyMessage {
         return compareString(l1.toString(), l2.toString(), false);
     }
 
-    public boolean compare(IMAPMessage imap_message, IMAPFolder imapFolder, boolean is_show_debag) {
+    public boolean compare(IMAPMessage imap_message, IMAPFolder imap_folder, boolean is_show_debag) {
 
         try {
             int tmp_i = 0;
 
-             while (!imapFolder.isOpen() && tmp_i++ < 5) {
-                Thread connectToFolderThread = new Thread(new ConnectToFolder(imapFolder));
+             while (!imap_folder.isOpen() && tmp_i++ < 5) {
+                Thread connectToFolderThread = new Thread(new ConnectToFolder(imap_folder, "MyMessage -> compare"));
                 connectToFolderThread.start();
                 Thread.sleep(10000);
 
                 if (connectToFolderThread.isAlive()) {
-                    connectToFolderThread.interrupt();
+//                    connectToFolderThread.interrupt();
+                    connectToFolderThread.stop();
                 }
+
+//                 int tmp_i = 0;
+//                ConnectToFolder connectToFolder = null;
+//
+//                 while ((connectToFolder == null || !connectToFolder.is_open) && ++tmp_i <= 3) {
+//
+////                System.out.println(imap_folder.getFullName() + " - " + tmp_i);
+//                     connectToFolder = new ConnectToFolder(imap_folder);
+//
+//                     Thread connectToFolderThread = new Thread(connectToFolder);
+//                     connectToFolderThread.start();
+//
+//                     long start = System.currentTimeMillis();
+//
+//                     while (!connectToFolder.is_open && System.currentTimeMillis() < start + 5000) {
+//                         Thread.sleep(50);
+//                     }
+//
+//                     long stop = System.currentTimeMillis();
+//
+////                System.out.println("timer " + (stop - start));
+//
+//                     connectToFolderThread.stop();
+//
+//
+//                 }
             }
 
-            long   mail_UID         = imapFolder.getUID(imap_message);
+            long   mail_UID         = imap_folder.getUID(imap_message);
             String mail_MID         = imap_message.getMessageID();
 //            String mail_from        = InternetAddress.toString(imap_message.getFrom());
 //            String mail_to          = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));

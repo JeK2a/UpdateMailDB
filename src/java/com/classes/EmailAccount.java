@@ -56,6 +56,7 @@ public class EmailAccount implements Serializable {
     }
 
     public void setStatus(String status) {
+        System.err.println("setStatus " + status);
         this.status = status;
     }
 

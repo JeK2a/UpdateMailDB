@@ -16,20 +16,47 @@ public class MyProperties extends Properties {
         this.IMAP_auth_email    = user.getEmail();
         this.IMAP_auth_password = user.getPassword();
 
-//        SettingsMail settingsMail = new SettingsMail();
 
-        put("mail.debug"          , SettingsMail.getMail_debug());
-        put("mail.store.protocol" , "imaps");
-        put("mail.imap.port"      , user.getPort());
-        put("mail.smtp.userset"   , "true");
-        put("mail.imap.userset"   , "true");
+        put("mail.debug"    , SettingsMail.getMail_debug());
+        put("mail.imap.port", user.getPort());
 
-        if (user.getSecure().equals("ssl") || user.getSecure().equals("tls") ||
-            user.getSecure().equals("SSL") || user.getSecure().equals("TLS"))
-        {
+        if (
+            user.getSecure() != null &&
+            (
+                user.getSecure().equals("ssl") ||
+                user.getSecure().equals("tls") ||
+                user.getSecure().equals("SSL") ||
+                user.getSecure().equals("TLS")
+            )
+        ) {
+            put("mail.store.protocol" , "imaps");
             put("mail.imap.ssl.enable", "true");
+        } else {
+            put("mail.store.protocol" , "imap");
+
         }
 //        put("mail.imap.statuscachetimeout", "500");
+
+
+
+
+////        put("mail.debug"          , SettingsMail.getMail_debug());
+//        put("mail.debug"          , true);
+////        put("mail.imap.connectionpool.debug", SettingsMail.getMail_debug()); // Flag to toggle debugging of the connection pool.
+//        put("mail.store.protocol" , "imaps");
+//        put("mail.imap.port"      , user.getPort());
+////        put("mail.smtp.userset"   , "false");
+////        put("mail.imap.userset"   , "false");
+////        put("mail.imap.statuscachetimeout", "5000");
+////        put("mail.imap.connectionpoolsize", "20");
+////        put("mail.imap.separatestoreconnection", "true"); // использовать выделенное хранилище
+////        put("mail.imap.connectionpooltimeout", "100000"); // connection pool
+//
+//        if (user.getSecure().equals("ssl") || user.getSecure().equals("tls") ||
+//            user.getSecure().equals("SSL") || user.getSecure().equals("TLS"))
+//        {
+//            put("mail.imap.ssl.enable", "true");
+//        }
     }
 
     public String getIMAPServer() {

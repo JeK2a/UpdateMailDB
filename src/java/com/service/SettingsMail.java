@@ -24,7 +24,7 @@ public class SettingsMail {
     private static String table_users;
     private static String table_emails;
 
-    private static boolean mail_debug;
+    private static String  mail_debug;
     private static boolean session_debug;
 
     private static boolean wait_folder;
@@ -69,7 +69,7 @@ public class SettingsMail {
                     case "table_users"       : table_users       = text; break;
                     case "table_emails"      : table_emails      = text; break;
 
-                    case "mail_debug"        : mail_debug        = Boolean.parseBoolean(text); break;
+                    case "mail_debug"        : mail_debug        = text; break;
                     case "session_debug"     : session_debug     = Boolean.parseBoolean(text); break;
 
                     case "wait_folder"       : wait_folder       = Boolean.parseBoolean(text); break;
@@ -111,7 +111,7 @@ public class SettingsMail {
         return characterencoding;
     }
 
-    public static boolean getMail_debug() {
+    public static String getMail_debug() {
         return mail_debug;
     }
 
