@@ -27,9 +27,8 @@ public class MyPrint {
         printHashMap(emailAccount.getMyFoldersMap());
     }
 
-
-//    public static String getStrinfArrayList(ArrayList<MyFolder> arrayList) {
-//        StringBuilder str = new StringBuilder("\n");
+//    public static String getStringFromEmailAccounts(ArrayList<MyFolder> arrayList) {
+//        StringBuffer str = new StringBuffer("\n");
 //
 //        for (MyFolder myFolder : arrayList) {
 //            str.append(myFolder).append("\n");
@@ -38,20 +37,35 @@ public class MyPrint {
 //        return str.toString();
 //    }
 
-    public static String getStrinfArrayList(HashMap<Integer, EmailAccount> hashMap) {
-        StringBuilder str = new StringBuilder("\nEmailAccounts\n");
-        for (Map.Entry<Integer, EmailAccount> entry : hashMap.entrySet()) {
-            str.append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+    public static String getStringFromEmailAccounts(HashMap<Integer, EmailAccount> hashMap) {
+        StringBuffer str = new StringBuffer("\nEmailAccounts\n");
+
+        if (hashMap == null) {
+            System.err.println("getStringFromEmailAccounts IS NULL (hashMap)!!!!!!!!!!!!!");
+        } else {
+
+            HashMap<Integer, EmailAccount> hashMap_clone = (HashMap<Integer, EmailAccount>) hashMap.clone();
+
+            for (Map.Entry<Integer, EmailAccount> entry : hashMap_clone.entrySet()) {
+                str.append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+            }
         }
 
         return str.toString();
     }
 
-    public static String getStringHashMap(HashMap<String, MyFolder> hashMap) {
-        StringBuilder str = new StringBuilder("\n");
+    public static String getStringFromMyFolders(HashMap<String, MyFolder> hashMap) {
+        StringBuffer str = new StringBuffer("\nMyFolders\n");
 
-        for (Map.Entry<String, MyFolder> entry : hashMap.entrySet()) {
-            str.append("            " + entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+        if (hashMap == null) {
+            System.err.println("getStringFromMyFolders IS NULL (hashMap)!!!!!!!!!!!!!");
+        } else {
+
+            HashMap<String, MyFolder> hashMap_clone = (HashMap<String, MyFolder>) hashMap.clone();
+
+            for (Map.Entry<String, MyFolder> entry : hashMap_clone.entrySet()) {
+                str.append("            " + entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+            }
         }
 
         return str.toString();

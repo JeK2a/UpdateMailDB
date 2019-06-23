@@ -11,6 +11,7 @@ import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 import com.wss.WSSChatClient;
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
@@ -51,7 +52,9 @@ public class MailingEmailAccountThread implements Runnable {
                         changeAccountStatus("error");
                         if (i == 9) { return; } else { break; }
                     case  0:
-                        changeAccountStatus("AuthenticationFailedException");
+//                        changeAccountStatus("AuthenticationFailedException");
+                        changeAccountStatus("error");
+                        changeAccountException(new AuthenticationFailedException());
                         return;
                     case  1:
                         changeAccountStatus("connect");
@@ -62,21 +65,7 @@ public class MailingEmailAccountThread implements Runnable {
                 Thread.sleep(3000);
             }
 
-//            if (!connectToStore(store)) {
-//                Thread.sleep(30000);
-//                if (!connectToStore(store)) {
-//                    return;
-//                }
-//            }
-
             addStoreListeners(store);
-
-//            if (!connectToStore(store)) {
-//                Thread.sleep(30000);
-//                if (!connectToStore(store)) {
-//                    return;
-//                }
-//            }
 
             IMAPFolder[] imap_folders = (IMAPFolder[]) store.getDefaultFolder().list("*"); // Получение списка папок лоя текушего подключения
 
@@ -132,7 +121,7 @@ public class MailingEmailAccountThread implements Runnable {
 
 //                System.out.println("1 - 8");
 
-                if (connectToFolder.is_open) {
+                if (connectToFolder.is_open ) {
                     wssChatClient.sendText(
                         emailAccount.getEmailAddress() + " - " + imap_folder.getFullName(),
                         "isOpen ok"
@@ -196,7 +185,7 @@ public class MailingEmailAccountThread implements Runnable {
             if (SettingsMail.getWaitUser()) {
                 while (!Thread.interrupted()) {
                     int n = 0;
-                    StringBuilder out = new StringBuilder();
+                    StringBuffer out = new StringBuffer();
 
                     for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
 
@@ -538,7 +527,7 @@ public class MailingEmailAccountThread implements Runnable {
 //                            case "account":
 //                                switch (commands[2]) {
 //                                    case "all":
-//                                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//                                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //                                        break;
 //                                    case "id":
 //                                        System.out.println(emailAccounts.get(commands[3]));
@@ -552,7 +541,7 @@ public class MailingEmailAccountThread implements Runnable {
 //                                System.out.println("show error");
 //                                break;
 //                        }
-//                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //                        break;
 //                    case "start":
 //                        switch (commands[1]) {
@@ -584,7 +573,7 @@ public class MailingEmailAccountThread implements Runnable {
 //                                System.out.println("start error");
 //                                break;
 //                        }
-//                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //                        break;
 //                    case "stop":
 //                        switch (commands[1]) {
@@ -616,7 +605,7 @@ public class MailingEmailAccountThread implements Runnable {
 //                                System.out.println("stop error");
 //                                break;
 //                        }
-//                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //                        break;
 //                    case "add":
 //                        switch (commands[1]) {
@@ -648,7 +637,7 @@ public class MailingEmailAccountThread implements Runnable {
 //                                System.out.println("add error");
 //                                break;
 //                        }
-//                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //                        break;
 //                    case "delete":
 //                        switch (commands[1]) {
@@ -680,7 +669,7 @@ public class MailingEmailAccountThread implements Runnable {
 //                                System.out.println("delete error");
 //                                break;
 //                        }
-////                        System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+////                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //                        break;
 //                    default:
 //                        System.out.println(str_in);
@@ -701,5 +690,13 @@ public class MailingEmailAccountThread implements Runnable {
         emailAccount.setStatus(status);
         db.updateAccountStatus(emailAccount.getUser().getId(), status);
         System.out.println(status);
+    }
+
+    private void changeAccountException(Exception exception) {
+        String exception_text = exception.getMessage();
+
+        emailAccount.setException(exception);
+        db.updateAccountStatus(emailAccount.getUser().getId(), exception_text);
+        System.out.println(exception_text);
     }
 }

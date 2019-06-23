@@ -1,6 +1,6 @@
 package com.classes;
 
-import com.service.MyPrint;
+import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,10 +10,11 @@ public class EmailAccount implements Serializable {
     private User user;
     private HashMap<String, MyFolder> myFoldersMap = new HashMap<>();
     private String status;
-    private Exception exception;
+//    private Exception exception;
     private int event_count = 0;
     private String emailAddress;
     private Thread threadAccount;
+    private Exception exception;
 
     public EmailAccount(User user) {
         this.user = user;
@@ -115,13 +116,19 @@ public class EmailAccount implements Serializable {
         return Objects.hash(user, myFoldersMap, status);
     }
 
+//    @Override
+//    public String toString() {
+//        return "EmailAccount { \n"    +
+//               "      user         = " + user         + "\n" +
+//               "      status       = " + status       + "\n" +
+//               "      myFoldersMap = " + MyPrint.getStringFromMyFolders(myFoldersMap) + "\n" +
+//               "} \n";
+//    }
+
     @Override
     public String toString() {
-        return "EmailAccount { \n"    +
-               "      user = " + user         + "\n" +
-               "      status       = " + status       + "\n" +
-               "      myFoldersMap = " + MyPrint.getStringHashMap(myFoldersMap) + "\n" +
-               "} \n";
+        JSONObject json = new JSONObject(myFoldersMap);
+        return "{\"user\": " + user + ", \"status\": \"" + status + "\", \"myFoldersMap\": " + json.toString() + "}";
     }
 
 }

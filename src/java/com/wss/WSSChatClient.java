@@ -1,28 +1,26 @@
 package com.wss;
 
-import com.threads.Mailing;
 import com.Main;
-import com.classes.EmailAccount;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFactory;
-import com.service.MyPrint;
+import com.threads.Mailing;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.net.ssl.SSLContext;
-import java.util.HashMap;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 public class WSSChatClient {
-
-    public static HashMap<Integer, EmailAccount> emailAccounts = Mailing.emailAccounts;
-
     private static WebSocket webSocket;
     private static WebSocketFactory webSocketFactory;
     private static WebSocketAdapter webSocketAdapter;
 
     public static boolean result = false;
+
+    private static String json_old = "";
 
     private final String url = "wss://my.tdfort.ru:10001/?ws_group=worker:javamail";
 
@@ -33,36 +31,52 @@ public class WSSChatClient {
                 @Override
                 public void onTextMessage(WebSocket ws, String message) {
                     try {
-                        JSONParser jsonParser = new JSONParser();
-                        Object object = jsonParser.parse(message);
-                        JSONObject jsonArray = (JSONObject) object;
+                        if (!message.contains("{")) {
+                            System.err.println("============================================================================");
+                            System.err.println(message);
+                            System.err.println("============================================================================");
+                            return;
+                        }
+
+                        JSONObject jsonArray = (JSONObject) getArrayFromJSON(message);
 
                         String command = String.valueOf(jsonArray.get("message"));
-                        System.out.println(command);
+                        System.err.println(command);
 
                         switch (command) {
                             case "restart":
                                 System.out.println("===================================");
                                 System.out.println(Main.mailing_tread.isAlive());
                                 Main.is_restart = true;
-                                System.out.println(Main.mailing_tread.isAlive());
                                 System.out.println("===================================");
                                 break;
                             case "stop":
+                                System.out.println("========================STOP========================");
+                                System.exit(0);
                                 break;
-                            case "test":
-                                System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
-                                sendText(MyPrint.getStrinfArrayList(emailAccounts));
+                            case "status":
+//                                System.out.println(MyPrint.getStringFromEmailAccounts(Mailing.emailAccounts));
+//                                sendText(MyPrint.getStringFromEmailAccounts(Mailing.emailAccounts));
+
+                                JSONObject json_new = new JSONObject(Mailing.emailAccounts);
+
+                                if (json_old.equals(json_new.toString())) {
+                                    sendText("zero", "");
+                                } else {
+                                    json_old = json_new.toString();
+                                    sendText("json", json_new.toString());
+                                }
+
+//                                System.out.println(json_new.toString());
                                 break;
                             default:
                                 System.out.println("Error command - " + command);
                         }
-                    } catch (ParseException e) {
+                    } catch (Exception e) {
                         System.err.println("|||" + message + "|||");
                         e.printStackTrace();
                     }
 
-//                    System.out.println(message);
 //                            ws.disconnect();
                 }
             };
@@ -97,18 +111,64 @@ public class WSSChatClient {
         sendText("", text);
     }
 
-    public void sendText(String subject, String text) {
+    public static void sendText(String subject, String text) {
         if (webSocket != null && webSocket.isOpen()) {
+//            System.out.println("WSS out: " + text);
+            text = forJSON(text);
             webSocket.sendText("{\"subject\":\"" + subject + "\", \"message\":\"" + text + "\"}");
+        } else {
+//            System.err.println("WSS out error: " + text);
         }
     }
 
-    public void sendText(StringBuilder stringBuilder) {
-        sendText(stringBuilder.toString());
+    public void sendText(StringBuffer stringBuffer) {
+        sendText(stringBuffer.toString());
     }
 
     public void sendText(Object o) {
         sendText(String.valueOf(o));
+    }
+
+    public static String forJSON(String input) {
+        if (input == null || input.isEmpty()) {
+            return "";
+        }
+
+        int len = input.length();
+        // сделаем небольшой запас, чтобы не выделять память потом
+        final StringBuilder result = new StringBuilder(len + len / 4);
+        final StringCharacterIterator iterator = new StringCharacterIterator(input);
+        char ch = iterator.current();
+
+        while (ch != CharacterIterator.DONE) {
+            switch (ch) {
+                case '\n': result.append("\\n");  break;
+                case '\r': result.append("\\r");  break;
+                case '\'': result.append("\\\'"); break;
+                case '\"': result.append("\\\""); break;
+                default: result.append(ch);       break;
+            }
+            ch = iterator.next();
+        }
+        return result.toString();
+    }
+
+    private static boolean isValidJSON(String jsonStr) {
+        try {
+            new JSONParser().parse(jsonStr);
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static Object getArrayFromJSON(String jsonStr) {
+        try {
+            return  new JSONParser().parse(jsonStr);
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
 }

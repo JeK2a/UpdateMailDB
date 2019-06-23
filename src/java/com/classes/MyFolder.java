@@ -15,7 +15,20 @@ public class MyFolder implements Cloneable {
     private Timestamp last_event_time;
     private int event_counter;
     private IMAPFolder imap_folder;
+    private long messages_db_count;
     private long messages_count;
+
+    public long getMessages_db_count() {
+        return messages_db_count;
+    }
+
+    public void setMessages_db_count(long messages_db_count) {
+        this.messages_db_count = messages_db_count;
+    }
+
+    public void setMessages_count(long messages_count) {
+        this.messages_count = messages_count;
+    }
 
     private String email;
 
@@ -158,20 +171,35 @@ public class MyFolder implements Cloneable {
         return Objects.hash(folder_name, threadAddNewMessages, imap_folder);
     }
 
+//    @Override
+//    public String toString() {
+//        return "\nMyFolder {" + "\n" +
+//               "                        folder_name          = " + folder_name                    + "\n" +
+//               "                        threadAddNewMessages = " +
+//               "                            name             = " + threadAddNewMessages.getName() + "\n" +
+//               "                            is_aleve         = " + threadAddNewMessages.isAlive() + "\n" +
+//               "                        status               = " + status                         + "\n" +
+//               "                        exception            = " + exception                      + "\n" +
+//               "                        last_event_time      = " + last_event_time                + "\n" +
+//               "                        event_counter        = " + event_counter                  + "\n" +
+//               "                        messages_counter     = " + messages_count                 + "\n" +
+//               "                        imap_folder          = " + imap_folder                    + "\n" +
+//               "                        email                = " + email                          + "\n" +
+//               "         }\n";
+//    }
+
     @Override
     public String toString() {
-        return "MyFolder {" + "\n" +
-               "                        folder_name                 = " + folder_name + "\n" +
-               "                        threadAddNewMessages        = " + threadAddNewMessages + " name = " + threadAddNewMessages.getName() + " is_aleve = " + threadAddNewMessages.isAlive() + "\n" +
-               "                        threadLisaningChangeMessage = " + threadLisaningChangeMessage + " name = " + threadLisaningChangeMessage.getName() + " is_aleve = " + threadLisaningChangeMessage.isAlive() + "\n" +
-               "                        status                      = " + status + "\n" +
-               "                        exception                   = " + exception + "\n" +
-               "                        last_event_time             = " + last_event_time + "\n" +
-               "                        event_counter               = " + event_counter + "\n" +
-               "                        messages_counter            = " + messages_count + "\n" +
-               "                        imap_folder                 = " + imap_folder + "\n" +
-               "                        email                       = " + email + "\n" +
-               "            }";
+        return "{\"folder_name\": \""      + folder_name + "\"," +
+                "\"threadAddNewMessages\": {\"name\": \"" + threadAddNewMessages.getName() + "\",\"is_aleve\": \"" + threadAddNewMessages.isAlive() + "\"}," +
+                "\"status\": \""           + status          + "\"," +
+                "\"exception\": \""        + exception       + "\"," +
+                "\"last_event_time\": \""  + last_event_time + "\"," +
+                "\"event_counter\": \""    + event_counter   + "\"," +
+                "\"messages_counter\": \"" + messages_count  + "\"," +
+                "\"messages_db_counter\": \"" + messages_db_count  + "\"," +
+                "\"imap_folder\": \""      + imap_folder     + "\"," +
+                "\"email\": \""            + email           + "\"}";
     }
 
     public MyFolder clone() throws CloneNotSupportedException {

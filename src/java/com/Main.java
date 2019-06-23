@@ -2,33 +2,35 @@ package com;
 
 import com.threads.ConnectToFolder;
 import com.threads.Mailing;
-import com.threads.MailingEmailAccountThread;
+import com.threads.Suicide;
 import com.wss.WSSChatClient;
 
 public class Main {
 
-    public static int main_i = 0;
-    public static int wss_i  = 0;
-    public static int db_i   = 0;
-
-//    public static boolean
-
-    public static DB db = new DB();
-    public static WSSChatClient wssChatClient = new WSSChatClient();
-
-
-    public static MailingEmailAccountThread mailingEmailAccount = null;
-
-
-    public static Mailing mailing      = null;
-    public static Thread mailing_tread = null;
-    public static boolean is_restart = true;
+    private static int wss_i                  = 0;
+    private static int db_i                   = 0;
+    private static int count_problem_start    = 0;
+    private static Mailing mailing            = null;
+    public static Thread mailing_tread        = null;
+    public static WSSChatClient wssChatClient = null;
+    public static DB db                       = new DB();
+    public static boolean is_restart          = true;
 
     public static void main(String[] args) {
         try {
+            Thread suicide_thread = new Thread(new Suicide());
+            suicide_thread.start();
+
             if (db.connectToDB()) {
                 db.cleanStatus();
+            } else {
+                System.out.println("Problem with DB");
+                System.exit(0);
             }
+
+            wssChatClient = new WSSChatClient();
+
+            wssChatClient.connectToWSS();
 
             while (true) {
                 if (db_i++ < 5 && (DB.result || db.connectToDB())) {
@@ -48,25 +50,51 @@ public class Main {
                     mailing_tread.start();
                 }
 
-//                if (WSSChatClient.result || Main.tryConnectToWSS()) {
-//                    wss_i = 0;
-//                }
+                if (wssChatClient == null || WSSChatClient.result || Main.tryConnectToWSS()) {
+                    wss_i = 0;
+                }
 
 //                System.out.println("main while");
 
 //                System.out.println("-------------------------------- 1 count threads = " + ManagementFactory.getThreadMXBean().getThreadCount());
-                System.out.print("(" + Thread.activeCount() + "/" + ConnectToFolder.getCount_alive() + ") ");
+
+
                 if (ConnectToFolder.getCount_alive() > 50) {
                     System.gc();
                 }
-                Thread.sleep(3000);
+
+                if (Thread.activeCount() > 2000) {
+                    count_problem_start++;
+
+                    if (count_problem_start > 5) {
+                        System.err.println("Exceeded the number of threads and the application failed to restart");
+                        System.exit(0);
+                    }
+
+                    mailing_tread.stop();
+//                    is_restart = true;
+
+                    Thread.sleep(5000);
+
+                    System.gc();
+
+                    wssChatClient = new WSSChatClient();
+                    mailing       = new Mailing();
+                    mailing_tread = new Thread(mailing);
+                }
+
+                Thread.sleep(500);
+
+                if (!suicide_thread.isAlive()) {
+                    System.exit(0);
+                }
             }
         } catch (Exception e) {
-            if (main_i++ < 5) {
-                main(null);
-            }
-
             e.printStackTrace();
+            System.out.println("<===================================================================================THE END + error===================================================================================>");
+            System.exit(0);
+        } finally {
+            System.out.println("<===================================================================================THE END===================================================================================>");
         }
     }
 
@@ -75,15 +103,12 @@ public class Main {
         boolean result = true;
 
         try {
-            wssChatClient = new WSSChatClient();
             if (wssChatClient == null) {
-                result = false;
-                return false;
+                wssChatClient = new WSSChatClient();
+                result = wssChatClient.connectToWSS();
             }
-
-            result = wssChatClient.connectToWSS();
         } catch (Exception e) {
-            result = false;
+            e.printStackTrace();
         } finally {
             return result;
         }

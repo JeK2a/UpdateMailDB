@@ -60,7 +60,9 @@ public class AddNewMessageThread implements Runnable {
 
             messages_count_db = db.getCountMessages(email_address, folder_name);
 
-//            while (true) {
+            this.myFolder.setMessages_count(imap_folder.getMessageCount());
+            this.myFolder.setMessages_db_count(messages_count_db);
+
             myFolder.setStatus("for start");
 
             for (int i = 0; i < 3; i++) {
@@ -527,7 +529,7 @@ public class AddNewMessageThread implements Runnable {
             System.err.println(folder_name + " checkFlags done");
         } catch (Exception e) {
             System.err.println(folder_name + " checkFlags error");
-            emailAccount.setException(e);
+//            emailAccount.setException(e);
             e.printStackTrace();
         } finally {
             System.err.println(folder_name + " checkFlags end");

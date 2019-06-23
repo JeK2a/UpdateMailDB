@@ -45,22 +45,38 @@ public class User {
         this.success       = success      ;
     }
 
+//    @Override
+//    public String toString() {
+//        return "\nUser {" + "\n" +
+//                "            id            = " + id + "\n" +
+//                "            user_id       = " + user_id + "\n" +
+//                "            email         = " + email + "\n" +
+////             "            password      = " + password      + "\n" +
+//                "            is_monitoring = " + is_monitoring + "\n" +
+//                "            is_default    = " + is_default + "\n" +
+//                "            host          = " + host + "\n" +
+//                "            port          = " + port + "\n" +
+//                "            login         = " + login + "\n" +
+//                "            name_from     = " + name_from + "\n" +
+//                "            charset       = " + charset + "\n" +
+//                "            secure        = " + secure + "\n" +
+//                "      }";
+//    }
+
     @Override
     public String toString() {
-        return "\nUser {" + "\n" +
-                "            id            = " + id + "\n" +
-                "            user_id       = " + user_id + "\n" +
-                "            email         = " + email + "\n" +
-//             "            password      = " + password      + "\n" +
-                "            is_monitoring = " + is_monitoring + "\n" +
-                "            is_default    = " + is_default + "\n" +
-                "            host          = " + host + "\n" +
-                "            port          = " + port + "\n" +
-                "            login         = " + login + "\n" +
-                "            name_from     = " + name_from + "\n" +
-                "            charset       = " + charset + "\n" +
-                "            secure        = " + secure + "\n" +
-                "      }";
+        return "{" +
+                "\"id\": \""            + id            + "\"," +
+                "\"user_id\": \""       + user_id       + "\"," +
+                "\"email\": \""         + email         + "\"," +
+                "\"is_monitoring\": \"" + is_monitoring + "\"," +
+                "\"is_default\": \""    + is_default    + "\"," +
+                "\"host\": \""          + host          + "\"," +
+                "\"port\": \""          + port          + "\"," +
+                "\"login\": \""         + login         + "\"," +
+                "\"name_from\": \""     + name_from     + "\"," +
+                "\"charset\": \""       + charset       + "\"," +
+                "\"secure\": \""        + secure        + "\"}";
     }
 
     public int getId() {

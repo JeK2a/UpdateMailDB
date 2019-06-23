@@ -89,6 +89,10 @@ public class DB implements AutoCloseable {
 
     public boolean addEmail(Email email) {
 
+        if (email.getFolder() == null) {
+            return false;
+        }
+
         String query = "" +
             "INSERT INTO `a_api_emails`(\n" +
             "    `direction`, \n"   + // 1
@@ -187,6 +191,11 @@ public class DB implements AutoCloseable {
             com.mysql.jdbc.exceptions.jdbc4.CommunicationsException |
             com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException e
         ) {
+
+            if (count_errors > 10) {
+                return false;
+            }
+
             if (connectToDB()) {
                 return addEmail(email);
             } else {
@@ -198,6 +207,7 @@ public class DB implements AutoCloseable {
             e.printStackTrace();
             return addEmail(email);
         } finally {
+            count_errors = 0;
             is_line = false;
         }
 
@@ -471,7 +481,7 @@ public class DB implements AutoCloseable {
 
     public String arrayToString(String[] arr, String symbol) {
 
-        StringBuilder str = new StringBuilder();
+        StringBuffer str = new StringBuffer();
 
         for (int i = 0; i < arr.length; i++) {
             str.append(arr[i]);

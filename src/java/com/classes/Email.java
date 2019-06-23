@@ -477,7 +477,7 @@ public class Email {
 
     public static String removeBadChars(String s) {
         if (s == null) return null;
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         for (int i = 0 ; i < s.length() ; i++) {
             if (Character.isHighSurrogate(s.charAt(i))) { continue; }
             sb.append(s.charAt(i));

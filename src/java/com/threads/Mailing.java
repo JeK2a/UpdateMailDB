@@ -40,7 +40,7 @@ public class Mailing implements Runnable {
                 Thread startMailThread = new Thread(new MailingEmailAccountThread(emailAccount)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
                 startMailThread.setDaemon(true);
 
-                emailAccount.setThreadAccount(startMailThread);
+//                emailAccount.setThreadAccount(startMailThread);
                 startMailThread.start(); // Запус потока
 
             while (true) {
@@ -100,7 +100,7 @@ public class Mailing implements Runnable {
 //        }
 
 //            MyPrint.printArrayList(emailAccounts);
-//            System.out.println(MyPrint.getStrinfArrayList(emailAccounts));
+//            System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
 //        Console console = System.console();
     }
 }
