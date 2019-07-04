@@ -1,7 +1,7 @@
-package com.chat_ip.clientInside;
+package com.dep.chat_ip.clientInside;
 
-import com.chat_ip.entity.Message;
-import com.chat_ip.inform.Information;
+import com.dep.chat_ip.entity.Message;
+import com.dep.chat_ip.inform.Information;
 import com.service.SettingsChat;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.sql.Timestamp;
 import java.util.Date;
 
-//import com.chat_ip.entity.Message;
+//import com.dep.chat_ip.entity.Message;
 
 public class ChatClientInside implements Runnable {
 

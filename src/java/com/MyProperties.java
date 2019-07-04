@@ -16,7 +16,6 @@ public class MyProperties extends Properties {
         this.IMAP_auth_email    = user.getEmail();
         this.IMAP_auth_password = user.getPassword();
 
-
         put("mail.debug"    , SettingsMail.getMail_debug());
         put("mail.imap.port", user.getPort());
 
@@ -33,11 +32,8 @@ public class MyProperties extends Properties {
             put("mail.imap.ssl.enable", "true");
         } else {
             put("mail.store.protocol" , "imap");
-
         }
 //        put("mail.imap.statuscachetimeout", "500");
-
-
 
 
 ////        put("mail.debug"          , SettingsMail.getMail_debug());

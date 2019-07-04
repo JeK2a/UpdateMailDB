@@ -120,7 +120,6 @@ public class Email {
                     try {
                         imap_folder.open(IMAPFolder.READ_ONLY);
                     } catch (MessagingException e) {
-//                        emailAccount.setException(e);
                         e.printStackTrace();
                     }
                 }

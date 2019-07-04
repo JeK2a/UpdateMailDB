@@ -45,24 +45,6 @@ public class User {
         this.success       = success      ;
     }
 
-//    @Override
-//    public String toString() {
-//        return "\nUser {" + "\n" +
-//                "            id            = " + id + "\n" +
-//                "            user_id       = " + user_id + "\n" +
-//                "            email         = " + email + "\n" +
-////             "            password      = " + password      + "\n" +
-//                "            is_monitoring = " + is_monitoring + "\n" +
-//                "            is_default    = " + is_default + "\n" +
-//                "            host          = " + host + "\n" +
-//                "            port          = " + port + "\n" +
-//                "            login         = " + login + "\n" +
-//                "            name_from     = " + name_from + "\n" +
-//                "            charset       = " + charset + "\n" +
-//                "            secure        = " + secure + "\n" +
-//                "      }";
-//    }
-
     @Override
     public String toString() {
         return "{" +

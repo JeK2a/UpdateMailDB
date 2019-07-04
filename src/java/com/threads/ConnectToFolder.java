@@ -19,9 +19,9 @@ public class ConnectToFolder implements Runnable {
 
     @Override
     public void run() {
-        int tmp_i = ++i;
+//        int tmp_i = ++i;
         count_alive++;
-//        System.out.println(tmp_i + " ConnectToFolder start - " + folder.getFullName() + " | " + mark);
+        
         try {
             if (!folder.isOpen()) {
                 store   = folder.getStore();
@@ -29,13 +29,9 @@ public class ConnectToFolder implements Runnable {
                 folder.open(Folder.READ_ONLY);
             }
             is_open = true;
-//            System.out.println("ConnectToFolder end");
-//        } catch (ConnectionException e) {
-//            System.out.println("ConnectToFolder end");
-//            System.out.println(tmp_i + " ConnectToFolder end");
         } catch (Exception e) {
-            System.err.println(tmp_i + " ConnectToFolder error");
-            System.err.println(folder.getFullName());
+//            System.err.println(tmp_i + " ConnectToFolder error");
+//            System.err.println(folder.getFullName());
             e.printStackTrace();
         } finally {
 //            System.out.println(tmp_i + " ConnectToFolder finally");

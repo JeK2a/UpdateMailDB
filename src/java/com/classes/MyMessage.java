@@ -138,35 +138,35 @@ public class MyMessage {
 
     @Override
     public String toString() {
-        return "MyMessage{" +
-                "direction='" + direction + '\'' +
-                "user_id=" + user_id +
-                "client_id=" + client_id +
-                "uid=" + uid +
-                "message_id='" + message_id + '\'' +
-                "msgno=" + msgno +
-                "from='" + from + '\'' +
-                "to='" + to + '\'' +
+        return "MyMessage{"     +
+                "direction='"   + direction   + '\'' +
+                "user_id="      + user_id     +
+                "client_id="    + client_id   +
+                "uid="          + uid         +
+                "message_id='"  + message_id  + '\'' +
+                "msgno="        + msgno       +
+                "from='"        + from        + '\'' +
+                "to='"          + to          + '\'' +
                 "in_reply_to='" + in_reply_to + '\'' +
-                "references='" + references + '\'' +
-                "date=" + date +
-                "size=" + size +
-                "subject='" + subject + '\'' +
-                "folder='" + folder + '\'' +
-                "recent=" + recent +
-                "flagged=" + flagged +
-                "answered=" + answered +
-                "deleted=" + deleted +
-                "seen=" + seen +
-                "draft=" + draft +
-                "forwarded=" + forwarded +
-                "label1=" + label1 +
-                "label2=" + label2 +
-                "label3=" + label3 +
-                "label4=" + label4 +
-                "label5=" + label5 +
-                "label1=" + label1 +
-                "udate=" + udate +
+                "references='"  + references  + '\'' +
+                "date="         + date        +
+                "size="         + size        +
+                "subject='"     + subject     + '\'' +
+                "folder='"      + folder      + '\'' +
+                "recent="       + recent      +
+                "flagged="      + flagged     +
+                "answered="     + answered    +
+                "deleted="      + deleted     +
+                "seen="         + seen        +
+                "draft="        + draft       +
+                "forwarded="    + forwarded   +
+                "label1="       + label1      +
+                "label2="       + label2      +
+                "label3="       + label3      +
+                "label4="       + label4      +
+                "label5="       + label5      +
+                "label1="       + label1      +
+                "udate="        + udate       +
                 '}';
     }
 
@@ -446,8 +446,6 @@ public class MyMessage {
 
             return error_count == 0;
         }
-
-//        return true;
     }
 
     public boolean compareInteger(Integer i1, Integer i2) {

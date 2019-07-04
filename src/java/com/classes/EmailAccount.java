@@ -1,38 +1,58 @@
 package com.classes;
 
-import org.json.simple.JSONObject;
-
 import java.io.Serializable;
-import java.util.HashMap;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EmailAccount implements Serializable {
-    private User user;
-    private HashMap<String, MyFolder> myFoldersMap = new HashMap<>();
-    private String status;
-//    private Exception exception;
-    private int event_count = 0;
-    private String emailAddress;
-    private Thread threadAccount;
-    private Exception exception;
+    private volatile User user;
+    private volatile ConcurrentHashMap<String, MyFolder> myFoldersMap = new ConcurrentHashMap<>();
+    private volatile String status = "new";
+    private volatile int event_count = 0;
+    private volatile String emailAddress;
+    private volatile Thread threadAccount;
+    private volatile Exception exception;
+
+    private volatile Timestamp time_status_change = new Timestamp(new Date().getTime());
+    private volatile Timestamp time_last_event    = new Timestamp(new Date().getTime());
+
+    public Timestamp getTime_status_change() {
+        return time_status_change;
+    }
+
+    public void setTime_status_change(Timestamp time_status_change) {
+        this.time_last_event    = new Timestamp(new Date().getTime());
+        this.time_status_change = time_status_change;
+    }
+
+    public Timestamp getTime_last_event() {
+        return time_last_event;
+    }
+
+    public void setTime_last_event(Timestamp time_last_event) {
+        this.time_last_event = time_last_event;
+    }
 
     public EmailAccount(User user) {
-        this.user = user;
+        this.user         = user;
         this.emailAddress = user.getEmail();
-        this.status = "new";
     }
 
-    public EmailAccount(User user, HashMap<String, MyFolder> myFoldersMap) {
-        this(user, myFoldersMap, "new");
-    }
-
-    public EmailAccount(User user, HashMap<String, MyFolder> myFoldersMap, String status) {
+    public EmailAccount(User user, ConcurrentHashMap<String, MyFolder> myFoldersMap) {
         this.user         = user;
         this.myFoldersMap = myFoldersMap;
-        this.status       = status;
-        this.emailAddress = user.getEmail();
     }
-    public HashMap<String, MyFolder> getFoldersMap() {
+
+    public EmailAccount(User user, ConcurrentHashMap<String, MyFolder> myFoldersMap, String status) {
+        this.user         = user;
+        this.emailAddress = user.getEmail();
+        this.myFoldersMap = myFoldersMap;
+        this.status       = status;
+    }
+    public ConcurrentHashMap<String, MyFolder> getFoldersMap() {
         return myFoldersMap;
     }
 
@@ -44,11 +64,11 @@ public class EmailAccount implements Serializable {
         this.user = user;
     }
 
-    public HashMap<String, MyFolder> getMyFoldersMap() {
+    public ConcurrentHashMap<String, MyFolder> getMyFoldersMap() {
         return myFoldersMap;
     }
 
-    public void setMyFoldersMap(HashMap<String, MyFolder> myFoldersMap) {
+    public void setMyFoldersMap(ConcurrentHashMap<String, MyFolder> myFoldersMap) {
         this.myFoldersMap = myFoldersMap;
     }
 
@@ -57,7 +77,9 @@ public class EmailAccount implements Serializable {
     }
 
     public void setStatus(String status) {
-        System.err.println("setStatus " + status);
+//        System.err.println("setStatus " + status);
+        this.time_last_event    = new Timestamp(new Date().getTime());
+        this.time_status_change = new Timestamp(new Date().getTime());
         this.status = status;
     }
 
@@ -116,19 +138,47 @@ public class EmailAccount implements Serializable {
         return Objects.hash(user, myFoldersMap, status);
     }
 
-//    @Override
-//    public String toString() {
-//        return "EmailAccount { \n"    +
-//               "      user         = " + user         + "\n" +
-//               "      status       = " + status       + "\n" +
-//               "      myFoldersMap = " + MyPrint.getStringFromMyFolders(myFoldersMap) + "\n" +
-//               "} \n";
-//    }
-
     @Override
     public String toString() {
-        JSONObject json = new JSONObject(myFoldersMap);
-        return "{\"user\": " + user + ", \"status\": \"" + status + "\", \"myFoldersMap\": " + json.toString() + "}";
+        return "{\"user\": "                   + user                                                       +
+                ", \"status\": \""             + status                                                     +
+//                "\", \"error\": \""            + (exception == null ? "" : exception.toString())            +
+                "\", \"error\": \""            +  ""             +
+                "\", \"myFoldersMap\": "       + getJsonFromMap(myFoldersMap)                                            +
+                ", \"time_status_change\": " + 1562237766                        +
+//                ", \"time_status_change\": \"" + time_status_change.getTime() / 1000                        +
+                ", \"time_last_event\": "  + 1562237766                       +
+//                "\", \"time_last_event\": \""  + time_last_event.getTime()    / 1000                        +
+//                "\", \"thread_name\": \""      + (threadAccount == null ? "null" : threadAccount.getName()) +
+                "}";
+    }
+
+
+    private String getJsonFromMap(ConcurrentHashMap<String, MyFolder> map) {
+        StringBuffer tmpStr = new StringBuffer("{");
+//        StringBuilder tmpStr = new StringBuilder("{");
+
+        for(Map.Entry<String, MyFolder> e: map.entrySet()){
+            System.out.println("start " + e.getKey());
+            System.out.println(e.getKey() + " 1");
+            tmpStr.append("\"").append(e.getKey()).append("\": ").append(e.getValue()).append(",");
+            System.out.println(e.getKey() + " 2");
+            System.out.println("end " + e.getKey());
+        }
+
+        tmpStr.substring(0, tmpStr.length() - 1);
+
+        String tmp = tmpStr.substring(0,  tmpStr.length() - 1);
+
+        if (tmp.equals("")) {
+            tmp = "{}";
+        } else {
+            tmp += "}";
+        }
+
+
+
+        return tmp;
     }
 
 }

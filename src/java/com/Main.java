@@ -19,6 +19,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Thread suicide_thread = new Thread(new Suicide());
+            suicide_thread.setPriority(Thread.MAX_PRIORITY);
             suicide_thread.start();
 
             if (db.connectToDB()) {
@@ -28,9 +29,9 @@ public class Main {
                 System.exit(0);
             }
 
-            wssChatClient = new WSSChatClient();
-
-            wssChatClient.connectToWSS();
+//            wssChatClient = new WSSChatClient();
+//
+//            wssChatClient.connectToWSS();
 
             while (true) {
                 if (db_i++ < 5 && (DB.result || db.connectToDB())) {
@@ -50,9 +51,9 @@ public class Main {
                     mailing_tread.start();
                 }
 
-                if (wssChatClient == null || WSSChatClient.result || Main.tryConnectToWSS()) {
-                    wss_i = 0;
-                }
+//                if (wssChatClient == null || WSSChatClient.result || Main.tryConnectToWSS()) {
+//                    wss_i = 0;
+//                }
 
 //                System.out.println("main while");
 
@@ -91,10 +92,10 @@ public class Main {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("<===================================================================================THE END + error===================================================================================>");
+//            System.out.println("<===================================================================================THE END + error===================================================================================>");
             System.exit(0);
         } finally {
-            System.out.println("<===================================================================================THE END===================================================================================>");
+//            System.out.println("<===================================================================================THE END===================================================================================>");
         }
     }
 

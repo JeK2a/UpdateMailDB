@@ -6,6 +6,7 @@ import com.classes.MyFolder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MyPrint {
 
@@ -15,15 +16,15 @@ public class MyPrint {
         }
     }
 
-    public static void printHashMap(HashMap<String, MyFolder> hashMap) {
+    public static void printHashMap(ConcurrentHashMap<String, MyFolder> hashMap) {
         for (Map.Entry<String, MyFolder> entry : hashMap.entrySet()) {
             System.out.println("            " + entry.getKey() + " : " + entry.getValue());
         }
     }
 
     public static void printEmailAccount(EmailAccount emailAccount) {
-        System.out.println(emailAccount);
-        System.out.println(emailAccount.getUser().getEmail() + " = " + emailAccount.getUser());
+//        System.out.println(emailAccount);
+//        System.out.println(emailAccount.getUser().getEmail() + " = " + emailAccount.getUser());
         printHashMap(emailAccount.getMyFoldersMap());
     }
 

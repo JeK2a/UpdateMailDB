@@ -6,27 +6,33 @@
     </artifacts-to-build>
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java" line="158" mnemonic="6" />
-    <bookmark url="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java" line="48" mnemonic="5" />
+    <bookmark url="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" line="91" mnemonic="7" />
+    <bookmark url="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" line="285" mnemonic="8" />
+    <bookmark url="file://$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java" line="136" mnemonic="6" />
+    <bookmark url="file://$PROJECT_DIR$/src/java/com/classes/EmailAccount.java" line="153" mnemonic="5" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/java/com/threads/Suicide.java" afterDir="false" />
+    <list default="true" id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="Сохранение перед глобальной переработкой&#10;&#10;(cherry picked from commit 576853825fcdf152a33cccacbe996e46b1db295b)&#10;&#10;# Conflicts:&#10;#&#9;configChat.xml">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configChat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/configChat.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config_my.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config_my.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/DB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/MyProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/MyProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/chat_ip/clientInside/ChatClientInside.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/dep/chat_ip/clientInside/ChatClientInside.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/classes/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/Email.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/classes/EmailAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/EmailAccount.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/classes/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/classes/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/service/MyPrint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/service/MyPrint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/com/test_t/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/test_t/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/test_t/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/dep/chat_ip/test_t/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/threads/Mailing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/Mailing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/com/threads/Suicide.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/threads/Suicide.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -90,20 +96,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AddNewMessageThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
+      <file leaf-file-name="Mailing.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/threads/Mailing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="52" column="40" selection-start-line="52" selection-start-column="40" selection-end-line="52" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="883" column="19" selection-start-line="883" selection-start-column="19" selection-end-line="883" selection-end-column="19" />
+            <state relative-caret-position="244">
+              <caret line="38" column="56" lean-forward="true" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -111,17 +108,43 @@
       <file leaf-file-name="MyFolder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="199" column="59" lean-forward="true" selection-start-line="199" selection-start-column="59" selection-end-line="199" selection-end-column="59" />
+            <state relative-caret-position="439">
+              <caret line="212" column="59" selection-start-line="212" selection-start-column="59" selection-end-line="212" selection-end-column="59" />
               <folding>
-                <element signature="e#607#608#0" expanded="true" />
-                <element signature="e#647#648#0" expanded="true" />
-                <element signature="e#711#712#0" expanded="true" />
-                <element signature="e#769#770#0" expanded="true" />
-                <element signature="e#587#588#0" expanded="true" />
-                <element signature="e#639#640#0" expanded="true" />
-                <element signature="e#2821#2822#0" expanded="true" />
-                <element signature="e#2871#2872#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Suicide.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/threads/Suicide.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WSSChatClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="359" column="66" selection-start-line="359" selection-start-column="66" selection-end-line="359" selection-end-column="66" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#785#786#0" expanded="true" />
+                <element signature="e#807#808#0" expanded="true" />
+                <element signature="e#963#4605#0" expanded="true" />
+                <element signature="e#4604#4605#0" expanded="true" />
+                <element signature="e#6190#6191#0" expanded="true" />
+                <element signature="e#6267#6268#0" expanded="true" />
+                <element signature="e#7608#7609#0" expanded="true" />
+                <element signature="e#7691#7692#0" expanded="true" />
+                <element signature="e#11855#11856#0" expanded="true" />
+                <element signature="e#11889#11890#0" expanded="true" />
+                <element signature="e#14753#14754#0" expanded="true" />
+                <element signature="e#14785#14786#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,16 +153,10 @@
       <file leaf-file-name="EmailAccount.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/java/com/classes/EmailAccount.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-597">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="895">
+              <caret line="81" column="31" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1645#1646#0" expanded="true" />
-                <element signature="e#1719#1720#0" expanded="true" />
-                <element signature="e#1879#1880#0" expanded="true" />
-                <element signature="e#1911#1912#0" expanded="true" />
-                <element signature="e#1970#1971#0" expanded="true" />
-                <element signature="e#2012#2013#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -148,8 +165,8 @@
       <file leaf-file-name="config_my.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config_my.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+            <state relative-caret-position="90">
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -166,22 +183,29 @@
       <file leaf-file-name="configChat.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/configChat.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+            <state relative-caret-position="60">
+              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config_mamp.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config_mamp.xml">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="DB.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="49">
+              <caret line="346" lean-forward="true" selection-start-line="346" selection-end-line="346" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="MailingEmailAccountThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java">
+      <file leaf-file-name="ConnectToFolder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="56" column="30" lean-forward="true" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
+            <state relative-caret-position="469">
+              <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -203,41 +227,43 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>end_add_message_emailAccount</find>
-      <find>noo</find>
-      <find>count threads</find>
-      <find>ConnectToFolder</find>
-      <find>ArrayIndexOutOfBoundsException</find>
-      <find>noop</find>
-      <find>maxLargeRecordSize</find>
-      <find>SSLRecord</find>
-      <find>messageChangedEvent</find>
-      <find>5000</find>
-      <find>store notification message</find>
-      <find>messagesRemoved!!!</find>
+      <find>1000</find>
+      <find>finalStart</find>
       <find>close</find>
-      <find>.close</find>
-      <find>wssChatClient</find>
-      <find>tryConnectToWSS</find>
-      <find>Test</find>
-      <find>folder</find>
-      <find>getStringFromMyFolders</find>
-      <find>StringBuilder</find>
-      <find>setException</find>
-      <find>json</find>
-      <find>&quot;myFoldersMap</find>
+      <find>end_add</find>
+      <find>end_add_message_folder</find>
+      <find>================</find>
+      <find>cheack</find>
+      <find>status</find>
+      <find>addMessages</find>
+      <find>Folder opened</find>
+      <find>random</find>
+      <find>thread</find>
+      <find>remove</find>
+      <find>setStatus</find>
+      <find>ext\) \{\n        enterMessage\(\&quot;\&quot;\, text\)\;\n    \}\n\n    public static void enterMessage\(String subject\, String text\) \{\n\/\/        System\.out\.println\(subject \+ \&quot; \- \&quot; \+ text\)\;\n        wssChatClient\.sendText\(subject\, text\)\;\n    \}\n\n    private void changeAccountStatus\(String status\) \{\n        emailAccount\.setStatus\(status\)\;\n        db\.updateAccountStatus\(emailAccount\.getUser\(\)\.getId\(\)\, status\)\;\n\/\/        System\.out\.println\(status\)\;\n    \}\n\n    private void changeAccountException\(Exception exception\) \{\n        String exception_text \= exception\.getMessage\(\)\;\n\n        emailAccount\.setException\(exception\)\;\n        db\.updateAccountStatus\(emailAccount\.getUser\(\)\.getId\(\)\, exception_text\)\;\n\/\/        System\.out\.println\(exception_text\)\;\n    \}</find>
+      <find>System</find>
+      <find>checkFlags</find>
+      <find>System.out</find>
+      <find>checkOldMails</find>
+      <find>end</find>
       <find>myFoldersMap</find>
-      <find>&quot;imap_folder</find>
-      <find>db_i</find>
-      <find>&quot;connect&quot;</find>
-      <find>messages_counter</find>
-      <find>user</find>
-      <find>AuthenticationFailedException</find>
+      <find>getJsonFromMap</find>
+      <find>Enter status 1</find>
+      <find>map</find>
+      <find>throws Exception</find>
+      <find>throws Exception</find>
+      <find>Hashtable</find>
+      <find>Enter status 2</find>
+      <find>synchronized</find>
+      <find>time_status_change</find>
     </findStrings>
     <replaceStrings>
-      <replace />
       <replace>100</replace>
       <replace>.out.print</replace>
+      <replace>end</replace>
+      <replace />
+      <replace>ConcurrentHashMap</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -248,9 +274,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/java/com/chat_ip/clientInside/ChatClientInside.java" />
-        <option value="$PROJECT_DIR$/src/java/com/chat_ip/client/ChatClientWin.java" />
-        <option value="$PROJECT_DIR$/src/java/com/chat_ip/client/ClientInWin.java" />
         <option value="$PROJECT_DIR$/src/java/com/chat_ip/clientInside/ClientInInside.java" />
         <option value="$PROJECT_DIR$/src/java/com/chat_ip/server/SocketThread.java" />
         <option value="$PROJECT_DIR$/src/java/com/ws/WebsocketClientEndpoint.java" />
@@ -274,30 +297,33 @@
         <option value="$PROJECT_DIR$/src/java/com/service/SettingsMail.java" />
         <option value="$PROJECT_DIR$/src/java/com/Mailing.java" />
         <option value="$PROJECT_DIR$/src/java/com/MailingEmailAccount.java" />
-        <option value="$PROJECT_DIR$/src/java/com/MyProperties.java" />
-        <option value="$PROJECT_DIR$/src/java/com/classes/Email.java" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3a3775c0-4d17-4b26-bebf-6d50cbd61a5e/console_1.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/a6f70c6a-2e54-4cba-a423-c8cac806a873/console.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/a6f70c6a-2e54-4cba-a423-c8cac806a873/console_1.sql" />
         <option value="$PROJECT_DIR$/src/java/com/threads/MailingEmailAccount.java" />
         <option value="$PROJECT_DIR$/src/java/sql/select.sql" />
-        <option value="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" />
-        <option value="$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/a6f70c6a-2e54-4cba-a423-c8cac806a873/console_2.sql" />
         <option value="$PROJECT_DIR$/src/java/tmp.java" />
-        <option value="$PROJECT_DIR$/src/java/com/DB.java" />
-        <option value="$PROJECT_DIR$/src/java/com/threads/Mailing.java" />
-        <option value="$PROJECT_DIR$/src/java/com/service/MyPrint.java" />
         <option value="$PROJECT_DIR$/src/java/com/test_t/Main.java" />
+        <option value="$PROJECT_DIR$/configChat.xml" />
+        <option value="$PROJECT_DIR$/src/java/com/MyProperties.java" />
+        <option value="$PROJECT_DIR$/src/java/com/classes/MyMessage.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/User.java" />
         <option value="$PROJECT_DIR$/src/java/com/Main.java" />
+        <option value="$PROJECT_DIR$/src/java/com/classes/Email.java" />
+        <option value="$PROJECT_DIR$/src/java/com/service/SettingsChat.java" />
+        <option value="$PROJECT_DIR$/src/java/com/DB.java" />
+        <option value="$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java" />
+        <option value="$PROJECT_DIR$/src/java/com/wss/MyWebSocket.java" />
+        <option value="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" />
+        <option value="$PROJECT_DIR$/src/java/com/service/MyPrint.java" />
+        <option value="$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java" />
+        <option value="$PROJECT_DIR$/src/java/com/dep/chat_ip/test_t/Main.java" />
+        <option value="$PROJECT_DIR$/src/java/com/threads/Mailing.java" />
         <option value="$PROJECT_DIR$/src/java/com/threads/Suicide.java" />
         <option value="$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java" />
-        <option value="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" />
-        <option value="$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java" />
-        <option value="$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java" />
         <option value="$PROJECT_DIR$/src/java/com/classes/EmailAccount.java" />
-        <option value="$PROJECT_DIR$/configChat.xml" />
+        <option value="$PROJECT_DIR$/src/java/com/classes/MyFolder.java" />
         <option value="$PROJECT_DIR$/config_my.xml" />
       </list>
     </option>
@@ -319,6 +345,7 @@
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="1440" />
+    <option name="y" value="-180" />
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -331,9 +358,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -392,14 +419,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="test_t" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
-              <item name="UpdateMailDB" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="threads" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -412,10 +431,25 @@
             </path>
             <path>
               <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
-              <item name="UpdateMailDB" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="nv-websocket-client-2.3" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="nv-websocket-client-2.3" type="70bed36:NamedLibraryElementNode" />
+              <item name="nv-websocket-client-2.3.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="UpdateMailDB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="nv-websocket-client-2.3" type="70bed36:NamedLibraryElementNode" />
+              <item name="nv-websocket-client-2.3.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -514,17 +548,6 @@
       <module name="UpdateMailDB" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.test_t.Main" />
-      <module name="UpdateMailDB" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.test_t.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.Main" />
       <module name="UpdateMailDB" />
@@ -532,6 +555,17 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.threads.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dep.chat_ip.test_t.Main" />
+      <module name="UpdateMailDB" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.dep.chat_ip.test_t.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -637,12 +671,10 @@
       <item itemvalue="Application.ChatBot" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Mailing" />
-      <item itemvalue="Application.Main (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.Mailing" />
         <item itemvalue="Application.MailingEmailAccountThread" />
         <item itemvalue="Application.ChatBot" />
@@ -656,14 +688,18 @@
     <configuration />
   </component>
   <component name="TaskManager">
-    <task id="Default" summary="Default task">
+    <task active="true" id="Default" summary="Default task">
       <changelist id="1ca25d75-4d6b-4d65-816f-ebe3c60cafa5" name="Default" comment="" />
       <created>1530642275984</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1530964957461</updated>
+      <updated>1561287684019</updated>
       <workItem from="1530642278271" duration="15738000" />
       <workItem from="1530814241884" duration="10174000" />
+      <workItem from="1561287684816" duration="14708000" />
+      <workItem from="1561384538224" duration="16572000" />
+      <workItem from="1561789230682" duration="416000" />
+      <workItem from="1561898964772" duration="86958000" />
     </task>
     <task id="LOCAL-00001" summary="Доработана структура.">
       <created>1530643444554</created>
@@ -686,12 +722,12 @@
       <option name="project" value="LOCAL" />
       <updated>1530738890173</updated>
     </task>
-    <task active="true" id="LOCAL-00004" summary="Добавлена многопоточность.">
+    <task id="LOCAL-00004" summary="Добавлена многопоточность.">
       <created>1530742437432</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1530964957734</updated>
+      <updated>1561287683955</updated>
       <workItem from="1530964957924" duration="325000" />
       <workItem from="1530965339235" duration="1067000" />
       <workItem from="1531047918741" duration="17254000" />
@@ -871,7 +907,7 @@
       <workItem from="1560800705181" duration="557000" />
       <workItem from="1560865734662" duration="1967000" />
       <workItem from="1560939528284" duration="16868000" />
-      <workItem from="1561124200377" duration="5304000" />
+      <workItem from="1561124200377" duration="5454000" />
     </task>
     <task id="LOCAL-00005" summary="Доработана структура.">
       <created>1531861586623</created>
@@ -1055,11 +1091,18 @@
       <option name="project" value="LOCAL" />
       <updated>1554976865262</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Сохранение перед глобальной переработкой">
+      <created>1561287626154</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1561287626154</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1102623000" />
+    <option name="totallyTimeSpent" value="1221427000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1071,32 +1114,32 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="1440" y="-180" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="2" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49840257" weight="0.32848486" />
-      <window_info anchor="bottom" id="Messages" order="0" sideWeight="0.49785408" visible="true" weight="0.15920398" />
+      <window_info anchor="bottom" id="Messages" order="0" sideWeight="0.40095848" weight="0.30547264" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50214595" side_tool="true" weight="0.12437811" />
       <window_info anchor="right" id="Maven Projects" order="5" />
-      <window_info anchor="bottom" id="Database Changes" order="12" sideWeight="0.4985694" weight="0.10545454" />
-      <window_info anchor="right" x="67" y="73" width="1018" height="467" id="Run" order="10" sideWeight="0.5414878" type="WINDOWED" visible="true" weight="0.31522897" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946752" weight="0.11940298" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32935324" />
+      <window_info anchor="bottom" id="Database Changes" order="12" sideWeight="0.4978701" weight="0.16385303" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946752" weight="0.28159204" />
+      <window_info anchor="bottom" x="243" y="168" width="804" height="467" id="Run" order="14" sideWeight="0.5990415" side_tool="true" visible="true" weight="0.27904668" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32848486" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="4" sideWeight="0.6840237" visible="true" weight="0.185836" />
+      <window_info active="true" content_ui="combo" id="Project" order="4" sideWeight="0.58815426" visible="true" weight="0.171459" />
       <window_info anchor="right" id="Database" order="6" weight="0.1687966" />
-      <window_info anchor="bottom" id="Find" order="3" weight="0.3283582" />
-      <window_info id="Structure" order="6" sideWeight="0.31597632" side_tool="true" visible="true" weight="0.185836" />
+      <window_info anchor="bottom" id="Find" order="3" sideWeight="0.49928468" weight="0.3272727" />
+      <window_info id="Structure" order="6" sideWeight="0.41184574" side_tool="true" visible="true" weight="0.171459" />
       <window_info anchor="right" id="Ant Build" order="7" />
       <window_info id="UI Designer" order="1" />
       <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info anchor="bottom" id="Debug" order="11" />
       <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="11" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Database Console" order="1" sideWeight="0.4892704" weight="0.19701493" />
@@ -1105,7 +1148,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Properties" order="9" />
       <window_info anchor="bottom" id="Message" order="2" />
-      <window_info anchor="right" id="Maven" order="11" />
+      <window_info anchor="right" id="Maven" order="10" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Java Enterprise" order="8" />
     </layout>
@@ -1143,7 +1186,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Доработана структура." />
     <MESSAGE value="Доработана работа с db;" />
     <MESSAGE value="Доработана загрузка учетных записей и сохранение Email в db, добавлен class Email." />
     <MESSAGE value="Доработано подключение ко всем ящикам и передача сведений о пользователе." />
@@ -1168,11 +1210,12 @@
     <MESSAGE value="Добавлен час с админкой и клиентами (message)" />
     <MESSAGE value="Переработана структура" />
     <MESSAGE value="Полностью переботано" />
-    <option name="LAST_COMMIT_MESSAGE" value="Полностью переботано" />
+    <MESSAGE value="Сохранение перед глобальной переработкой" />
+    <option name="LAST_COMMIT_MESSAGE" value="Сохранение перед глобальной переработкой" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1190,182 +1233,12 @@ LIMIT 11</expression-string>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/event/ConnectionAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Throwable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="637" column="16" selection-start-line="637" selection-start-column="16" selection-end-line="637" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailListener.java" />
-    <entry file="file://$PROJECT_DIR$/src/java/com/wss/NaiveSSLContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/ChilkatExample.java" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="426" column="8" selection-start-line="426" selection-start-column="8" selection-end-line="426" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="36" column="9" lean-forward="true" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="784" column="29" selection-start-line="784" selection-start-column="29" selection-end-line="784" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Service.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="166" column="24" lean-forward="true" selection-start-line="166" selection-start-column="24" selection-end-line="166" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/a6f70c6a-2e54-4cba-a423-c8cac806a873/console_1.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/a6f70c6a-2e54-4cba-a423-c8cac806a873/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="34" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3a3775c0-4d17-4b26-bebf-6d50cbd61a5e/console_1.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="34" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/glassfish5/glassfish/modules/javax.mail.jar!/com/sun/mail/imap/IMAPFolder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="1372" selection-start-line="1372" selection-end-line="1372" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Folder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="101" column="31" lean-forward="true" selection-start-line="101" selection-start-column="31" selection-end-line="101" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPFolder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="904" column="31" lean-forward="true" selection-start-line="904" selection-start-column="31" selection-end-line="904" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="452" column="20" lean-forward="true" selection-start-line="452" selection-start-column="20" selection-end-line="452" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/FunctionalInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="68" column="18" selection-start-line="68" selection-start-column="18" selection-end-line="68" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Runnable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Override.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../JavaLib/glassfish5/glassfish/modules/javax.mail.jar!/com/sun/mail/imap/MessageCache.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="134" selection-start-line="134" selection-end-line="134" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jrt:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home!/java.base/javax/net/ssl/SSLProtocolException.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="48" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jrt:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home!/java.base/javax/net/ssl/SSLException.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="17" column="17" lean-forward="true" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://a6f70c6a-2e54-4cba-a423-c8cac806a873/schema/tdf_asyst/table/a_1c_bank_accounts">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/a6f70c6a-2e54-4cba-a423-c8cac806a873/console_2.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/java/tmp.java" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor />
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/service/SettingsChat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/service/SettingsMail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1470">
-          <caret line="129" column="26" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -1383,38 +1256,10 @@ LIMIT 11</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/test_t/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="56" column="25" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/classes/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="28" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Runnable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/sql/select.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="3" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="3" />
         </state>
       </provider>
     </entry>
@@ -1425,92 +1270,392 @@ LIMIT 11</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java">
+    <entry file="file://$PROJECT_DIR$/config_mamp.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/Timestamp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="326">
+          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/sql/select.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Message.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="125" column="18" selection-start-line="125" selection-start-column="18" selection-end-line="125" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#4074#4075#0" expanded="true" />
+            <element signature="e#4108#4109#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Thread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="1056" column="32" selection-start-line="1056" selection-start-column="32" selection-end-line="1056" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home/lib/src.zip!/java.base/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="1367" column="18" selection-start-line="1367" selection-start-column="18" selection-end-line="1367" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/imap.jar!/com/sun/mail/imap/IMAPFolder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="917" column="28" selection-start-line="917" selection-start-column="28" selection-end-line="917" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home/lib/src.zip!/java.base/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="495" column="19" selection-start-line="495" selection-start-column="19" selection-end-line="495" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/nv-websocket-client-2.3-sources.jar!/com/neovisionaries/ws/client/WebSocketAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-401">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/MyProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-377">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/classes/Email.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
+        <state relative-caret-position="-2681">
+          <caret line="126" column="44" lean-forward="true" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-656">
+          <caret line="514" column="59" selection-start-line="514" selection-start-column="59" selection-end-line="514" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/service/SettingsChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="70" column="33" selection-start-line="70" selection-start-column="33" selection-end-line="70" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/service/SettingsMail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/nv-websocket-client-2.3-sources.jar!/com/neovisionaries/ws/client/WebSocketListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-893">
+          <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="76" column="39" selection-start-line="76" selection-start-column="39" selection-end-line="76" selection-end-column="39" />
+        <state relative-caret-position="78">
+          <caret line="20" column="53" selection-start-line="20" selection-start-column="53" selection-end-line="20" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/Mailing.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Exception.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/nv-websocket-client-2.3-sources.jar!/com/neovisionaries/ws/client/WebSocketException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="13" column="75" selection-start-line="13" selection-start-column="75" selection-end-line="13" selection-end-column="75" />
+          <caret line="21" column="45" lean-forward="true" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/threads/Suicide.java">
+    <entry file="file://$PROJECT_DIR$/src/java/com/wss/MyWebSocket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="60" column="92" selection-start-line="59" selection-end-line="60" selection-end-column="92" />
+        <state relative-caret-position="164">
+          <caret line="1102" column="38" lean-forward="true" selection-start-line="1102" selection-start-column="38" selection-end-line="1102" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#54469#54470#0" expanded="true" />
+            <element signature="e#54507#54508#0" expanded="true" />
+            <element signature="e#61648#61649#0" expanded="true" />
+            <element signature="e#61680#61681#0" expanded="true" />
+            <element signature="e#62377#62378#0" expanded="true" />
+            <element signature="e#62410#62411#0" expanded="true" />
+            <element signature="e#63802#63803#0" expanded="true" />
+            <element signature="e#63850#63851#0" expanded="true" />
+            <element signature="e#65743#65744#0" expanded="true" />
+            <element signature="e#65781#65782#0" expanded="true" />
+            <element signature="e#67706#67707#0" expanded="true" />
+            <element signature="e#67744#67745#0" expanded="true" />
+            <element signature="e#68996#68997#0" expanded="true" />
+            <element signature="e#69044#69045#0" expanded="true" />
+            <element signature="e#70075#70076#0" expanded="true" />
+            <element signature="e#70123#70124#0" expanded="true" />
+            <element signature="e#71649#71650#0" expanded="true" />
+            <element signature="e#71705#71706#0" expanded="true" />
+            <element signature="e#72416#72417#0" expanded="true" />
+            <element signature="e#72472#72473#0" expanded="true" />
+            <element signature="e#75143#75144#0" expanded="true" />
+            <element signature="e#75194#75195#0" expanded="true" />
+            <element signature="e#75485#75486#0" expanded="true" />
+            <element signature="e#75534#75535#0" expanded="true" />
+            <element signature="e#80945#80946#0" expanded="true" />
+            <element signature="e#80989#80990#0" expanded="true" />
+            <element signature="e#82165#82166#0" expanded="true" />
+            <element signature="e#82231#82232#0" expanded="true" />
+            <element signature="e#82823#82824#0" expanded="true" />
+            <element signature="e#82873#82874#0" expanded="true" />
+            <element signature="e#89164#89165#0" expanded="true" />
+            <element signature="e#89204#89205#0" expanded="true" />
+            <element signature="e#89509#89510#0" expanded="true" />
+            <element signature="e#89547#89548#0" expanded="true" />
+            <element signature="e#100939#100940#0" expanded="true" />
+            <element signature="e#101006#101007#0" expanded="true" />
+            <element signature="e#102926#102927#0" expanded="true" />
+            <element signature="e#102992#102993#0" expanded="true" />
+            <element signature="e#104960#104961#0" expanded="true" />
+            <element signature="e#105026#105027#0" expanded="true" />
+            <element signature="e#114121#114122#0" expanded="true" />
+            <element signature="e#114150#114151#0" expanded="true" />
+            <element signature="e#114270#114271#0" expanded="true" />
+            <element signature="e#114300#114301#0" expanded="true" />
+            <element signature="e#114441#114442#0" expanded="true" />
+            <element signature="e#114477#114478#0" expanded="true" />
+            <element signature="e#114600#114601#0" expanded="true" />
+            <element signature="e#114639#114640#0" expanded="true" />
+            <element signature="e#114782#114783#0" expanded="true" />
+            <element signature="e#114822#114823#0" expanded="true" />
+            <element signature="e#114988#114989#0" expanded="true" />
+            <element signature="e#115034#115035#0" expanded="true" />
+            <element signature="e#115176#115177#0" expanded="true" />
+            <element signature="e#115218#115219#0" expanded="true" />
+            <element signature="e#119159#119160#0" expanded="true" />
+            <element signature="e#119183#119184#0" expanded="true" />
+            <element signature="e#121138#121139#0" expanded="true" />
+            <element signature="e#121192#121193#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="199" column="59" lean-forward="true" selection-start-line="199" selection-start-column="59" selection-end-line="199" selection-end-column="59" />
-          <folding>
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#647#648#0" expanded="true" />
-            <element signature="e#711#712#0" expanded="true" />
-            <element signature="e#769#770#0" expanded="true" />
-            <element signature="e#587#588#0" expanded="true" />
-            <element signature="e#639#640#0" expanded="true" />
-            <element signature="e#2821#2822#0" expanded="true" />
-            <element signature="e#2871#2872#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="83">
+          <caret line="1880" column="18" selection-start-line="1880" selection-start-column="18" selection-end-line="1880" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/threads/AddNewMessageThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="52" column="40" selection-start-line="52" selection-start-column="40" selection-end-line="52" selection-end-column="40" />
+        <state relative-caret-position="121">
+          <caret line="65" selection-start-line="65" selection-end-line="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/System.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="883" column="19" selection-start-line="883" selection-start-column="19" selection-end-line="883" selection-end-column="19" />
+        <state relative-caret-position="137">
+          <caret line="142" column="36" selection-start-line="142" selection-start-column="36" selection-end-line="142" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/json-simple-1.1.1-sources.jar!/org/json/simple/JSONObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+          <folding>
+            <element signature="e#793#794#0" expanded="true" />
+            <element signature="e#810#811#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/StringBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="84" selection-start-line="84" selection-end-line="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.ideaLibSources/nv-websocket-client-2.3-sources.jar!/com/neovisionaries/ws/client/WebSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1247" column="19" selection-start-line="1247" selection-start-column="19" selection-end-line="1247" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#52874#52875#0" expanded="true" />
+            <element signature="e#52912#52913#0" expanded="true" />
+            <element signature="e#60318#60319#0" expanded="true" />
+            <element signature="e#60351#60352#0" expanded="true" />
+            <element signature="e#95031#95032#0" expanded="true" />
+            <element signature="e#95104#95105#0" expanded="true" />
+            <element signature="e#97691#97692#0" expanded="true" />
+            <element signature="e#97758#97759#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="1376" column="25" selection-start-line="1376" selection-start-column="25" selection-end-line="1376" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/service/MyPrint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/threads/MailingEmailAccountThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="56" column="30" lean-forward="true" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
+        <state relative-caret-position="274">
+          <caret line="166" column="21" selection-start-line="166" selection-start-column="21" selection-end-line="166" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/AbstractMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="568" column="21" selection-start-line="568" selection-start-column="21" selection-end-line="568" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/dep/chat_ip/test_t/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="14" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/classes/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/Suicide.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/Mailing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="38" column="56" lean-forward="true" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/DB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="346" lean-forward="true" selection-start-line="346" selection-end-line="346" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../JavaLib/javamail-1.4.7/lib/mailapi.jar!/javax/mail/Folder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="101" column="28" selection-start-line="101" selection-start-column="28" selection-end-line="101" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/wss/NaiveSSLContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/threads/ConnectToFolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/wss/WSSChatClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="359" column="66" selection-start-line="359" selection-start-column="66" selection-end-line="359" selection-end-column="66" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#785#786#0" expanded="true" />
+            <element signature="e#807#808#0" expanded="true" />
+            <element signature="e#963#4605#0" expanded="true" />
+            <element signature="e#4604#4605#0" expanded="true" />
+            <element signature="e#6190#6191#0" expanded="true" />
+            <element signature="e#6267#6268#0" expanded="true" />
+            <element signature="e#7608#7609#0" expanded="true" />
+            <element signature="e#7691#7692#0" expanded="true" />
+            <element signature="e#11855#11856#0" expanded="true" />
+            <element signature="e#11889#11890#0" expanded="true" />
+            <element signature="e#14753#14754#0" expanded="true" />
+            <element signature="e#14785#14786#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="426" column="10" selection-start-line="426" selection-start-column="10" selection-end-line="426" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/java/com/classes/MyFolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="212" column="59" selection-start-line="212" selection-start-column="59" selection-end-line="212" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1519,16 +1664,10 @@ LIMIT 11</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java/com/classes/EmailAccount.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-597">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="895">
+          <caret line="81" column="31" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1645#1646#0" expanded="true" />
-            <element signature="e#1719#1720#0" expanded="true" />
-            <element signature="e#1879#1880#0" expanded="true" />
-            <element signature="e#1911#1912#0" expanded="true" />
-            <element signature="e#1970#1971#0" expanded="true" />
-            <element signature="e#2012#2013#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1542,18 +1681,15 @@ LIMIT 11</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/configChat.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+        <state relative-caret-position="60">
+          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config_mamp.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/config_my.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="10" lean-forward="true" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+        <state relative-caret-position="90">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
         </state>
       </provider>
     </entry>

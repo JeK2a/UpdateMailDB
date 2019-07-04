@@ -15,9 +15,12 @@ import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.event.*;
-import java.util.HashMap;
+import javax.mail.event.ConnectionEvent;
+import javax.mail.event.ConnectionListener;
+import javax.mail.event.FolderEvent;
+import javax.mail.event.FolderListener;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MailingEmailAccountThread implements Runnable {
 
@@ -30,6 +33,8 @@ public class MailingEmailAccountThread implements Runnable {
 
     public MailingEmailAccountThread(EmailAccount emailAccount) {
         this.emailAccount = emailAccount;
+//        Thread.sleep();
+//        emailAccount.setThreadAccount();
     }
 
     @Override
@@ -71,34 +76,25 @@ public class MailingEmailAccountThread implements Runnable {
 
             int i = 0;
 
-            System.out.println("---------------------------------------------------");
+//            System.out.println("---------------------------------------------------");
 
             for (IMAPFolder imap_folder: imap_folders) {
 
-                System.out.println(imap_folder.getFullName());
+//                System.out.println(imap_folder.getFullName());
 
 //                if (imap_folder == null || !imap_folder.exists()) {
 //                    System.out.println("Invalid folder");
 //                }
 
-//                System.out.println("1 - ");
-
                 int tmp_i = 0;
-
-//                System.out.println("1 - 1");
 
                 ConnectToFolder connectToFolder = null;
 
                 while ((connectToFolder == null || !connectToFolder.is_open) && ++tmp_i <= 3) {
 
-//                    System.out.println(imap_folder.getFullName() + " - " + tmp_i);
                     connectToFolder = new ConnectToFolder(imap_folder, "MailingEmailAccountThread -> run");
-//                    System.out.println("1 - 2");
-
                     Thread connectToFolderThread = new Thread(connectToFolder);
-//                    System.out.println("1 - 3");
                     connectToFolderThread.start();
-//                    System.out.println("1 - 4");
 
                     long start = System.currentTimeMillis();
 
@@ -110,16 +106,9 @@ public class MailingEmailAccountThread implements Runnable {
 
 //                    System.out.println("timer " + (stop - start));
 
-//                    System.out.println("1 - 5");
-
-//                    System.out.println("1 - 6");
 //                        connectToFolderThread.interrupt();
                     connectToFolderThread.stop();
-
-//                    System.out.println("1 - 7");
                 }
-
-//                System.out.println("1 - 8");
 
                 if (connectToFolder.is_open ) {
                     wssChatClient.sendText(
@@ -136,16 +125,16 @@ public class MailingEmailAccountThread implements Runnable {
 
 //                System.out.println("2 - ");
 
-                System.out.println(imap_folder.isOpen());
+//                System.out.println(imap_folder.isOpen());
 
                 String text = "folder_name - " + imap_folder.getFullName() + " -- " + imap_folder.getMessageCount();
 
-                System.out.println("\u001B[91m" + text + "\u001B[0m");
+//                System.out.println("\u001B[91m" + text + "\u001B[0m");
                 i += imap_folder.getMessageCount();
             }
 
-            System.out.println("sum = " + i);
-            System.out.println("---------------------------------------------------");
+//            System.out.println("sum = " + i);
+//            System.out.println("---------------------------------------------------");
 
 //            int folders_count = 0;
 //            int folders_count_all = imap_folders.length;
@@ -175,10 +164,9 @@ public class MailingEmailAccountThread implements Runnable {
 
             }
 
-            HashMap<String, MyFolder> myFolderMap_tmp = emailAccount.getFoldersMap();
+            ConcurrentHashMap<String, MyFolder> myFolderMap_tmp = emailAccount.getFoldersMap();
 
-//            emailAccount.setStatus("wait");
-            changeAccountStatus("wait");
+            emailAccount.setStatus("wait");
 
             String tmp_str = "";
 
@@ -215,7 +203,7 @@ public class MailingEmailAccountThread implements Runnable {
 
                     if (!out.toString().equals(tmp_str)) {
                         tmp_str = out.toString();
-                        System.out.println(out);
+//                        System.out.println(out);
                     }
 
                     if (n == 0) { break; }
@@ -224,14 +212,13 @@ public class MailingEmailAccountThread implements Runnable {
                 }
             }
 
-//            emailAccount.setStatus("end_add_message_emailAccount");
-            changeAccountStatus("end_add_message_emailAccount");
+            emailAccount.setStatus("end");
 
             while (!Thread.interrupted()) {
                 if (!store.isConnected()) {
-                    System.out.println("store restart start");
+//                    System.out.println("store restart start");
                     connectToStore(store);
-                    System.out.println("store restart end");
+//                    System.out.println("store restart end");
                     Thread.sleep(60000);
                 }
 //                if (!store.isConnected()) {
@@ -264,7 +251,7 @@ public class MailingEmailAccountThread implements Runnable {
                 Thread.sleep(30000);
             }
 
-            System.out.println("store restart close");
+//            System.out.println("store restart close");
         } catch (Exception e) {
             e.printStackTrace();
             enterMessage(emailAccount.getEmailAddress(),"Problems wish "  + emailAccount.getUser().getEmail());
@@ -272,8 +259,8 @@ public class MailingEmailAccountThread implements Runnable {
             emailAccount.setException(e);
             db.updateAccountError(emailAccount.getUser().getId(), e.getMessage());
         } finally {
-//            emailAccount.setStatus("end_add_message_emailAccount");
-//            System.out.println("end_add_message_emailAccount");
+//            emailAccount.setStatus("end");
+//            System.out.println("end");
         }
 
         emailAccount.setStatus("stop");
@@ -283,18 +270,18 @@ public class MailingEmailAccountThread implements Runnable {
         store.addConnectionListener(new ConnectionListener() {
             @Override
             public void opened(ConnectionEvent connectionEvent) {
-                System.err.println(emailAccount.getEmailAddress() + " store opened");
+//                System.err.println(emailAccount.getEmailAddress() + " store opened");
             }
 
             @Override
             public void disconnected(ConnectionEvent connectionEvent) {
-                System.err.println(emailAccount.getEmailAddress() + " store disconnected");
+//                System.err.println(emailAccount.getEmailAddress() + " store disconnected");
                 connectToStore(store);
             }
 
             @Override
             public void closed(ConnectionEvent connectionEvent) {
-                System.err.println(emailAccount.getEmailAddress() + " store disconnected");
+//                System.err.println(emailAccount.getEmailAddress() + " store disconnected");
                 connectToStore(store);
             }
         });
@@ -322,7 +309,7 @@ public class MailingEmailAccountThread implements Runnable {
 
                     // TODO
                     Thread myThreadEvent = new Thread(new AddNewMessageThread(emailAccount, myFolder, new_folder));
-                    myFolder.setThreadLisaningChangeMessage(myThreadEvent);
+//                    myFolder.setThreadLisaningChangeMessage(myThreadEvent);
                     myThreadEvent.start();
                 } catch (Exception e) {
                     emailAccount.setStatus("error");
@@ -422,27 +409,28 @@ public class MailingEmailAccountThread implements Runnable {
 
     } // Добавление слушалки на аккаунт
 
-    private void restartAllFoldersThread() {
-
-        HashMap<String, MyFolder> myFolderMap_tmp = emailAccount.getFoldersMap();
-
-        for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
-            Thread folder_thread = entry.getValue().getThreadAddNewMessages();
-
-            if (folder_thread.isAlive()) {
-                folder_thread.stop();
-            }
-
-            folder_thread.start();
-        }
-    }
+//    private void restartAllFoldersThread() {
+//
+//        HashMap<String, MyFolder> myFolderMap_tmp = emailAccount.getFoldersMap();
+//
+//        for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
+//            Thread folder_thread = entry.getValue().getThreadAddNewMessages();
+//
+//            if (folder_thread.isAlive()) {
+//                folder_thread.stop();
+//            }
+//
+//            folder_thread.start();
+//        }
+//    }
 
     // Подключение к аккаунту
     private int connectToStore(Store store) {
-        System.err.println("Connect to store - " + emailAccount.getUser().getEmail());
+//        System.err.println("Connect to store - " + emailAccount.getUser().getEmail());
 
         try {
-            System.out.println(store.isConnected());
+//            System.out.println(store.isConnected());
+
             if (!store.isConnected()) {
                 store.connect(
                     emailAccount.getUser().getHost(),
@@ -471,225 +459,14 @@ public class MailingEmailAccountThread implements Runnable {
     }
 
     public static void enterMessage(String subject, String text) {
-        System.out.println(subject + " - " + text);
+//        System.out.println(subject + " - " + text);
         wssChatClient.sendText(subject, text);
     }
-
-//	public void waitCommand() {
-//        Scanner in = new Scanner(System.in);
-//        String str_in;
-//
-//        while (true) {
-//            System.out.println("---------------------------------------------------------------------------------");
-//            str_in = in.nextLine();
-//
-//            String[] commands = str_in.split(" ");
-//
-//            if (commands.length > 2) {
-//
-//                switch (commands[0]) {
-//                    case "show":
-//                        switch (commands[1]) {
-////                            case "user":
-////                                switch (commands[2]) {
-////                                    case "all":
-////                                        System.out.println(users);
-////                                        break;
-////                                    case "id":
-////                                        int id = Integer.parseInt(commands[3]);
-////                                        for (User user : users) {
-////                                            if (user.getId() == id) {
-////                                                System.out.println(user);
-////                                            }
-////                                        }
-////                                        break;
-////                                    case "user_id":
-////                                        int user_id = Integer.parseInt(commands[3]);
-////                                        for (User user : users) {
-////                                            if (user.getUser_id() == user_id) {
-////                                                System.out.println(user);
-////                                            }
-////                                        }
-////                                        break;
-////                                    case "email":
-////                                        String email = commands[3];
-////                                        for (User user : users) {
-////                                            if (user.getEmail().equals(email)) {
-////                                                System.out.println(user);
-////                                            }
-////                                        }
-////                                        break;
-////                                    default:
-////                                        System.out.println("show user error");
-////                                        break;
-////                                }
-////                                break;
-//                            case "account":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
-//                                        break;
-//                                    case "id":
-//                                        System.out.println(emailAccounts.get(commands[3]));
-//                                        break;
-//                                    default:
-//                                        System.out.println("show user error");
-//                                        break;
-//                                }
-//                                break;
-//                            default:
-//                                System.out.println("show error");
-//                                break;
-//                        }
-//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
-//                        break;
-//                    case "start":
-//                        switch (commands[1]) {
-//                            case "user":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    case "id":
-//                                        break;
-//                                    case "user_id":
-//                                        break;
-//                                    case "email":
-//                                        break;
-//                                    default:
-//                                        System.out.println("start user error");
-//                                        break;
-//                                }
-//                                break;
-//                            case "account":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    default:
-//                                        System.out.println("start account error");
-//                                        break;
-//                                }
-//                                break;
-//                            default:
-//                                System.out.println("start error");
-//                                break;
-//                        }
-//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
-//                        break;
-//                    case "stop":
-//                        switch (commands[1]) {
-//                            case "user":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    case "id":
-//                                        break;
-//                                    case "user_id":
-//                                        break;
-//                                    case "email":
-//                                        break;
-//                                    default:
-//                                        System.out.println("stop user error");
-//                                        break;
-//                                }
-//                                break;
-//                            case "account":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    default:
-//                                        System.out.println("stop account error");
-//                                        break;
-//                                }
-//                                break;
-//                            default:
-//                                System.out.println("stop error");
-//                                break;
-//                        }
-//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
-//                        break;
-//                    case "add":
-//                        switch (commands[1]) {
-//                            case "user":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    case "id":
-//                                        break;
-//                                    case "user_id":
-//                                        break;
-//                                    case "email":
-//                                        break;
-//                                    default:
-//                                        System.out.println("add user error");
-//                                        break;
-//                                }
-//                                break;
-//                            case "account":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    default:
-//                                        System.out.println("add user error");
-//                                        break;
-//                                }
-//                                break;
-//                            default:
-//                                System.out.println("add error");
-//                                break;
-//                        }
-//                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
-//                        break;
-//                    case "delete":
-//                        switch (commands[1]) {
-//                            case "user":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    case "id":
-//                                        break;
-//                                    case "user_id":
-//                                        break;
-//                                    case "email":
-//                                        break;
-//                                    default:
-//                                        System.out.println("delete user error");
-//                                        break;
-//                                }
-//                                break;
-//                            case "account":
-//                                switch (commands[2]) {
-//                                    case "all":
-//                                        break;
-//                                    default:
-//                                        System.out.println("delete user error");
-//                                        break;
-//                                }
-//                                break;
-//                            default:
-//                                System.out.println("delete error");
-//                                break;
-//                        }
-////                        System.out.println(MyPrint.getStringFromEmailAccounts(emailAccounts));
-//                        break;
-//                    default:
-//                        System.out.println(str_in);
-//                        break;
-//                }
-//
-//            } else {
-//                System.out.println("Enter command");
-//            }
-//
-//            System.out.println("---------------------------------------------------------------------------------");
-//
-//        }
-//    }
-
 
     private void changeAccountStatus(String status) {
         emailAccount.setStatus(status);
         db.updateAccountStatus(emailAccount.getUser().getId(), status);
-        System.out.println(status);
+//        System.out.println(status);
     }
 
     private void changeAccountException(Exception exception) {
@@ -697,6 +474,6 @@ public class MailingEmailAccountThread implements Runnable {
 
         emailAccount.setException(exception);
         db.updateAccountStatus(emailAccount.getUser().getId(), exception_text);
-        System.out.println(exception_text);
+//        System.out.println(exception_text);
     }
 }

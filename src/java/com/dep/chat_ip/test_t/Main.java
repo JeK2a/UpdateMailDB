@@ -1,6 +1,6 @@
-package com.test_t;
+package com.dep.chat_ip.test_t;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class Main {
 //        }
 
 
-        HashMap<Integer, String> hashMap = new HashMap<>();
+        ConcurrentHashMap<Integer, String> hashMap = new ConcurrentHashMap<>();
 
         hashMap.put(0, "aaa");
         hashMap.put(1, "bbb");
