@@ -63,8 +63,6 @@ public class WSSChatClient {
                                 webSocket.sendClose();
                                 break;
                             case "status":
-//                                System.out.println(MyPrint.getStringFromEmailAccounts(Mailing.emailAccounts));
-//                                sendText(MyPrint.getStringFromEmailAccounts(Mailing.emailAccounts));
 
                                 System.out.println("Enter status");
 
@@ -73,17 +71,14 @@ public class WSSChatClient {
                                 System.out.println("start accounts = " + Mailing.emailAccounts.size());
 
                                 System.out.println("Enter status 1");
-//                                synchronized (Mailing.emailAccounts)
 
-//                                synchronize(Mailing.emailAccounts) {
                                     ConcurrentHashMap<Integer, EmailAccount> tmpEmailAccounts = new ConcurrentHashMap<>(Mailing.emailAccounts); // (ConcurrentHashMap<Integer, EmailAccount>) Mailing.emailAccounts; // TODO создать дубль
-//                                }
 
                                 System.out.println("Enter status 2");
 
                                 String json = getJsonFromMap(tmpEmailAccounts);
 
-                                System.out.println(json);
+//                                System.out.println(json);
 
                                 System.out.println("Test 1");
 
@@ -95,7 +90,7 @@ public class WSSChatClient {
 
                                 System.out.println("end accounts ");
 
-                                webSocket.flush();
+//                                webSocket.flush();
 
                                 System.gc();
 
@@ -127,7 +122,7 @@ public class WSSChatClient {
         boolean result = true;
         try {
             if (webSocket != null) {
-                webSocket.flush();
+//                webSocket.flush();
                 System.err.println("close WSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 webSocket.sendClose();
                 webSocket.disconnect();
@@ -293,23 +288,14 @@ public class WSSChatClient {
         }
     }
 
-    public void sendText(String text) {
-        sendText("", text);
-    }
-
     public static void sendText(String subject, String text) {
 
         if (!subject.equals("json")) return;
 
-//        System.out.println("start sendText ");
 //        if (webSocket != null && webSocket.isOpen()) {
         if (webSocket != null) {
-//            System.out.println("WSS out: " + text);
-//            System.out.println("prep start");
             text = forJSON(text);
-//            System.out.println("start send");
             webSocket.sendText("{\"subject\":\"" + subject + "\", \"message\":\"" + text + "\"}");
-//            System.out.println("end send");
         } else {
             System.out.println("error send");
         }
@@ -365,23 +351,13 @@ public class WSSChatClient {
 //        StringBuilder tmpStr = new StringBuilder("{");
 
         for (Map.Entry<Integer, EmailAccount> e: map.entrySet()){
-            System.out.println("start " + e.getKey());
-            System.out.println(e.getKey());
+//            System.out.println("start " + e.getKey());
+//            System.out.println(e.getKey());
             tmpStr.append("\"").append(e.getKey()).append("\": ").append(e.getValue()).append(",");
-            System.out.println("end " + e.getKey());
+//            System.out.println("end " + e.getKey());
         }
 
-        tmpStr.substring(0, tmpStr.length() - 1);
-
-        String tmp = tmpStr.substring(0,  tmpStr.length() - 1);
-
-        if (tmp.equals("")) {
-            tmp = "{}";
-        } else {
-            tmp += "}";
-        }
-
-        return tmp;
+        return tmpStr.substring(0, tmpStr.length() - 1) + "}";
     }
 
     public static WebSocket getWebSocket() {

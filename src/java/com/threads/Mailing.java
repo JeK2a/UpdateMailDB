@@ -17,17 +17,15 @@ public class Mailing implements Runnable {
     public void run() {
         try {
         ArrayList<User> users = db.getUsers(); // Получение списка пользователей
-//        MailingEmailAccountThread mailingEmailAccount = new MailingEmailAccountThread(); //
 
         int i = 0;
 
         for (User user : users) {
-//            System.out.println(user);
 
             EmailAccount emailAccount = new EmailAccount(user);
 
             Thread startMailThread = new Thread(new MailingEmailAccountThread(emailAccount)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
-            emailAccount.setThreadAccount(startMailThread);
+//            emailAccount.setThreadAccount(startMailThread);
             emailAccounts.put(++i, emailAccount);
             startMailThread.setDaemon(true);
             startMailThread.start(); // Запус потока
@@ -35,7 +33,7 @@ public class Mailing implements Runnable {
             while (true) {
                 // разделить условия в println выводить revive try / close on error / wait
                 if (
-                    !startMailThread.isAlive()                                        || // 5 try to revive
+//                    !startMailThread.isAlive()                                        || // 5 try to revive
                     emailAccount.getStatus().equals("end")                            ||
                     emailAccount.getStatus().equals("AuthenticationFailedException")  ||
                     emailAccount.getStatus().equals("stop")                           ||

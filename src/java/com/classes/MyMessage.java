@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class MyMessage {
+    private String    email_acount;
     private String    direction;
     private int       user_id;
     private int       client_id;
@@ -40,7 +41,6 @@ public class MyMessage {
     private int       has_attachment;
 
     private Timestamp udate;
-    private String email_acount;
 
     public MyMessage(
             String direction,
@@ -56,13 +56,11 @@ public class MyMessage {
             long size,
             String subject,
             String folder,
-
             int flagged,
             int answered,
             int deleted,
             int seen,
             int draft,
-
             int forwarded,
             int label1,
             int label2,
@@ -70,42 +68,36 @@ public class MyMessage {
             int label4,
             int label5,
             int has_attachment,
-
             Timestamp udate,
-
             String email_account
     ) {
-        this.direction   = direction;
-        this.user_id     = user_id;
-        this.client_id   = client_id;
-        this.uid         = uid;
-        this.message_id  = message_id;
-        this.from        = from;
-        this.to          = to;
-        this.in_reply_to = in_reply_to;
-        this.references  = references;
-        this.date        =  date;
-        this.size        = size;
-        this.subject     = subject;
-        this.folder      = folder;
-
-        this.flagged     = flagged;
-        this.answered    = answered;
-        this.deleted     = deleted;
-        this.seen        = seen;
-        this.draft       = draft;
-
-        this.forwarded   = forwarded;
-        this.label1 = label1;
-        this.label2 = label2;
-        this.label3 = label3;
-        this.label4 = label4;
-        this.label5 = label5;
+        this.direction      = direction;
+        this.user_id        = user_id;
+        this.client_id      = client_id;
+        this.uid            = uid;
+        this.message_id     = message_id;
+        this.from           = from;
+        this.to             = to;
+        this.in_reply_to    = in_reply_to;
+        this.references     = references;
+        this.date           =  date;
+        this.size           = size;
+        this.subject        = subject;
+        this.folder         = folder;
+        this.flagged        = flagged;
+        this.answered       = answered;
+        this.deleted        = deleted;
+        this.seen           = seen;
+        this.draft          = draft;
+        this.forwarded      = forwarded;
+        this.label1         = label1;
+        this.label2         = label2;
+        this.label3         = label3;
+        this.label4         = label4;
+        this.label5         = label5;
         this.has_attachment = has_attachment;
-
-        this.udate        = udate;
-
-        this.email_acount = email_account;
+        this.udate          = udate;
+        this.email_acount   = email_account;
     }
 
     @Override
@@ -421,7 +413,6 @@ public class MyMessage {
             return ((str1 == null || str1.equals("null")) && (str2 == null || str2.equals("null")));
         }
 
-//        if (str1.length() > str2.length()) {
         if (str1.length() != str2.length()) {
             if (is_print) {
                 System.out.println(str1 + "\u001B[91m" + "!!!!!!!!!!!! length= " + str1.length() + "\u001B[0m");
@@ -438,7 +429,7 @@ public class MyMessage {
                 if (is_print) {
                     System.out.println((int) c1[i] + "|" + (int) c2[i]);
                 }
-                if ((((int) c1[i])) != (((int) c2[j]) * 1)) {
+                if ((((int) c1[i])) != (((int) c2[j]))) {
                         error_count++;
 //
                 }
@@ -462,7 +453,7 @@ public class MyMessage {
             int tmp_i = 0;
 
              while (!imap_folder.isOpen() && tmp_i++ < 5) {
-                Thread connectToFolderThread = new Thread(new ConnectToFolder(imap_folder, "MyMessage -> compare"));
+                Thread connectToFolderThread = new Thread(new ConnectToFolder(imap_folder));
                 connectToFolderThread.start();
                 Thread.sleep(10000);
 
@@ -470,32 +461,6 @@ public class MyMessage {
 //                    connectToFolderThread.interrupt();
                     connectToFolderThread.stop();
                 }
-
-//                 int tmp_i = 0;
-//                ConnectToFolder connectToFolder = null;
-//
-//                 while ((connectToFolder == null || !connectToFolder.is_open) && ++tmp_i <= 3) {
-//
-////                System.out.println(imap_folder.getFullName() + " - " + tmp_i);
-//                     connectToFolder = new ConnectToFolder(imap_folder);
-//
-//                     Thread connectToFolderThread = new Thread(connectToFolder);
-//                     connectToFolderThread.start();
-//
-//                     long start = System.currentTimeMillis();
-//
-//                     while (!connectToFolder.is_open && System.currentTimeMillis() < start + 5000) {
-//                         Thread.sleep(50);
-//                     }
-//
-//                     long stop = System.currentTimeMillis();
-//
-////                System.out.println("timer " + (stop - start));
-//
-//                     connectToFolderThread.stop();
-//
-//
-//                 }
             }
 
             long   mail_UID         = imap_folder.getUID(imap_message);
@@ -512,11 +477,8 @@ public class MyMessage {
                     Long t1 = this.getUid();
                     Long t2 = mail_UID;
 
-                    System.out.println("-------------UID--------------------<");
                     compareString(t1.toString(), t2.toString(), true);
-                    System.out.println(">------------UID---------------------");
                     System.out.println("UID( " + this.getUid() + " !=" + mail_UID + " )");
-
                 }
 
                 if (!compareString(this.message_id, mail_MID, false)) {

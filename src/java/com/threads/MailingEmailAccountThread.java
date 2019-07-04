@@ -25,22 +25,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MailingEmailAccountThread implements Runnable {
 
     private static DB db = Main.db;
-//    private static HashMap<Integer, EmailAccount> emailAccounts = Mailing.emailAccounts;
-//    private static HashMap<String, HashMap<String, Thread>> threadMap = new HashMap<>();
-
     private EmailAccount emailAccount;
     private static WSSChatClient wssChatClient = Main.wssChatClient;
 
     public MailingEmailAccountThread(EmailAccount emailAccount) {
         this.emailAccount = emailAccount;
-//        Thread.sleep();
-//        emailAccount.setThreadAccount();
     }
 
     @Override
     public void run() {
-
-        changeAccountStatus("start");
+        emailAccount.setStatus("start");
 
         MyProperties myProperties = new MyProperties(emailAccount.getUser()); // Настройка подключение текущего пользователя
 
@@ -54,15 +48,15 @@ public class MailingEmailAccountThread implements Runnable {
 
                 switch (connectToStore(store)) {
                     case -1:
-                        changeAccountStatus("error");
-                        if (i == 9) { return; } else { break; }
+                        emailAccount.setStatus("error");
+                        if (i == 9) { return; }
+                        break;
                     case  0:
-//                        changeAccountStatus("AuthenticationFailedException");
-                        changeAccountStatus("error");
-                        changeAccountException(new AuthenticationFailedException());
+                        emailAccount.setStatus("error");
+                        emailAccount.setException(new AuthenticationFailedException());
                         return;
                     case  1:
-                        changeAccountStatus("connect");
+                        emailAccount.setStatus("connect");
                         i = 10;
                         break;
                 }
@@ -76,15 +70,7 @@ public class MailingEmailAccountThread implements Runnable {
 
             int i = 0;
 
-//            System.out.println("---------------------------------------------------");
-
             for (IMAPFolder imap_folder: imap_folders) {
-
-//                System.out.println(imap_folder.getFullName());
-
-//                if (imap_folder == null || !imap_folder.exists()) {
-//                    System.out.println("Invalid folder");
-//                }
 
                 int tmp_i = 0;
 
@@ -92,7 +78,7 @@ public class MailingEmailAccountThread implements Runnable {
 
                 while ((connectToFolder == null || !connectToFolder.is_open) && ++tmp_i <= 3) {
 
-                    connectToFolder = new ConnectToFolder(imap_folder, "MailingEmailAccountThread -> run");
+                    connectToFolder = new ConnectToFolder(imap_folder);
                     Thread connectToFolderThread = new Thread(connectToFolder);
                     connectToFolderThread.start();
 
@@ -102,11 +88,6 @@ public class MailingEmailAccountThread implements Runnable {
                         Thread.sleep(50);
                     }
 
-                    long stop = System.currentTimeMillis();
-
-//                    System.out.println("timer " + (stop - start));
-
-//                        connectToFolderThread.interrupt();
                     connectToFolderThread.stop();
                 }
 
@@ -123,31 +104,17 @@ public class MailingEmailAccountThread implements Runnable {
                     );
                 }
 
-//                System.out.println("2 - ");
-
-//                System.out.println(imap_folder.isOpen());
-
                 String text = "folder_name - " + imap_folder.getFullName() + " -- " + imap_folder.getMessageCount();
 
-//                System.out.println("\u001B[91m" + text + "\u001B[0m");
                 i += imap_folder.getMessageCount();
             }
-
-//            System.out.println("sum = " + i);
-//            System.out.println("---------------------------------------------------");
-
-//            int folders_count = 0;
-//            int folders_count_all = imap_folders.length;
 
             for (IMAPFolder imap_folder: imap_folders) {
                 MyFolder myFolder = new MyFolder(imap_folder);
                 emailAccount.addMyFolder(myFolder);
-//                MailingEmailAccountThread.enterMessage("Connect to -> " + emailAccount.getUser().getEmail() + " -> " + imap_folder.getFullName());
                 Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder, imap_folder)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
                 myTreadAllMails.setDaemon(true);
-                myFolder.setThreadAddNewMessages(myTreadAllMails);
                 myTreadAllMails.start(); // Запус потока
-//                System.out.println("\u001B[91m" +"Folders count = " + (++folders_count) + " / " + folders_count_all + "\u001B[0m");
 
                 if (SettingsMail.getWaitFolder()) {
                     while (true) { // TODO
@@ -177,15 +144,11 @@ public class MailingEmailAccountThread implements Runnable {
 
                     for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
 
-                        entry.getValue().getThreadAddNewMessages();
-
-                        MyFolder tmp_myFolder = entry.getValue();
-
-                        String status = tmp_myFolder.getStatus();
+                        String status = entry.getValue().getStatus();
 
                         if (
                             !(
-                                !tmp_myFolder.getThreadAddNewMessages().isAlive() ||
+//                                !tmp_myFolder.getThreadAddNewMessages().isAlive() ||
                                 status.contains("sleep")                          ||
                                 status.equals("open")                             ||
                                 status.equals("listening")                        ||
@@ -270,18 +233,15 @@ public class MailingEmailAccountThread implements Runnable {
         store.addConnectionListener(new ConnectionListener() {
             @Override
             public void opened(ConnectionEvent connectionEvent) {
-//                System.err.println(emailAccount.getEmailAddress() + " store opened");
             }
 
             @Override
             public void disconnected(ConnectionEvent connectionEvent) {
-//                System.err.println(emailAccount.getEmailAddress() + " store disconnected");
                 connectToStore(store);
             }
 
             @Override
             public void closed(ConnectionEvent connectionEvent) {
-//                System.err.println(emailAccount.getEmailAddress() + " store disconnected");
                 connectToStore(store);
             }
         });
@@ -309,7 +269,6 @@ public class MailingEmailAccountThread implements Runnable {
 
                     // TODO
                     Thread myThreadEvent = new Thread(new AddNewMessageThread(emailAccount, myFolder, new_folder));
-//                    myFolder.setThreadLisaningChangeMessage(myThreadEvent);
                     myThreadEvent.start();
                 } catch (Exception e) {
                     emailAccount.setStatus("error");
@@ -330,7 +289,6 @@ public class MailingEmailAccountThread implements Runnable {
 
                     for (IMAPMessage imap_message : messages) {
                         db.setDeleteFlag(emailAccount.getEmailAddress(), folderEvent.getFolder().getFullName(), imap_message.getHeader("Message-ID")[0]); // TODO изменение флага сообщенией на удаленное (проверить)
-//                            db.setDeleteFlag(new Email(emailAccount.getUser(), imap_message, (IMAPFolder) folderEvent.getFolder()), (IMAPFolder) folderEvent.getFolder()); // TODO изменение флага сообщенией на удаленное (проверить)
                     }
                 } catch (MessagingException e) {
                     emailAccount.setStatus("error");
@@ -388,49 +346,11 @@ public class MailingEmailAccountThread implements Runnable {
             connectToStore(store);
         });
 
-//        store.addConnectionListener(new ConnectionListener() {
-//            @Override
-//            public void opened(ConnectionEvent connectionEvent) {
-//                MailingEmailAccountThread.enterMessage("store connect opened");
-//            }
-//
-//            @Override
-//            public void disconnected(ConnectionEvent connectionEvent) {
-//                MailingEmailAccountThread.enterMessage("store connect disconnected, reconnect" + connectToStore(store));
-//                restartAllFoldersThread();
-//            }
-//
-//            @Override
-//            public void closed(ConnectionEvent connectionEvent) {
-//                MailingEmailAccountThread.enterMessage("store connect closed, reconnect" + connectToStore(store));
-//                restartAllFoldersThread();
-//            }
-//        });
-
     } // Добавление слушалки на аккаунт
-
-//    private void restartAllFoldersThread() {
-//
-//        HashMap<String, MyFolder> myFolderMap_tmp = emailAccount.getFoldersMap();
-//
-//        for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
-//            Thread folder_thread = entry.getValue().getThreadAddNewMessages();
-//
-//            if (folder_thread.isAlive()) {
-//                folder_thread.stop();
-//            }
-//
-//            folder_thread.start();
-//        }
-//    }
 
     // Подключение к аккаунту
     private int connectToStore(Store store) {
-//        System.err.println("Connect to store - " + emailAccount.getUser().getEmail());
-
         try {
-//            System.out.println(store.isConnected());
-
             if (!store.isConnected()) {
                 store.connect(
                     emailAccount.getUser().getHost(),
@@ -438,9 +358,7 @@ public class MailingEmailAccountThread implements Runnable {
                     emailAccount.getUser().getPassword()
                 );
             }
-//        } catch (javax.mail.AuthenticationFailedException | javax.mail.MessagingException e) {
         } catch (javax.mail.MessagingException e) {
-            System.err.println("AuthenticationFailedException");
             db.updateSuccess(emailAccount.getUser().getEmail(), 0);
             return 0;
         } catch (Exception e) {
@@ -454,26 +372,18 @@ public class MailingEmailAccountThread implements Runnable {
     }
 
     // Вывод сообщения
-    public static void enterMessage(String text) {
-        enterMessage("", text);
-    }
 
     public static void enterMessage(String subject, String text) {
-//        System.out.println(subject + " - " + text);
         wssChatClient.sendText(subject, text);
     }
 
-    private void changeAccountStatus(String status) {
-        emailAccount.setStatus(status);
-        db.updateAccountStatus(emailAccount.getUser().getId(), status);
-//        System.out.println(status);
-    }
+//    private void changeAccountStatus(String status) {
+//        emailAccount.setStatus(status);
+////        db.updateAccountStatus(emailAccount.getUser().getId(), status);
+//    }
 
-    private void changeAccountException(Exception exception) {
-        String exception_text = exception.getMessage();
-
-        emailAccount.setException(exception);
-        db.updateAccountStatus(emailAccount.getUser().getId(), exception_text);
-//        System.out.println(exception_text);
-    }
+//    private void changeAccountException(Exception exception) {
+//        emailAccount.setException(exception);
+////        db.updateAccountStatus(emailAccount.getUser().getId(), exception_text);
+//    }
 }
