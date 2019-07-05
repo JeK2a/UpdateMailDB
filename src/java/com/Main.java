@@ -22,16 +22,10 @@ public class Main {
             suicide_thread.setPriority(Thread.MAX_PRIORITY);
             suicide_thread.start();
 
-            if (db.connectToDB()) {
-                db.cleanStatus();
-            } else {
+            if (!db.connectToDB()) {
                 System.out.println("Problem with DB");
                 System.exit(0);
             }
-
-//            wssChatClient = new WSSChatClient();
-//
-//            wssChatClient.connectToWSS();
 
             while (true) {
                 if (db_i++ < 5 && (DB.result || db.connectToDB())) {

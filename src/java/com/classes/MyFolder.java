@@ -16,6 +16,7 @@ public class MyFolder implements Cloneable {
 
     private long time_status_change = new Date().getTime() / 1000;
     private long time_last_event    = new Date().getTime() / 1000;
+    private long time_last_noop     = new Date().getTime() / 1000;
 
     public void updateTime_status_change() {
         this.time_status_change = new Date().getTime() / 1000;
@@ -23,6 +24,26 @@ public class MyFolder implements Cloneable {
 
     public void updateTime_last_event() {
         this.time_last_event = new Date().getTime() / 1000;
+    }
+
+    public void updateTime_last_noop() {
+        this.time_last_noop = new Date().getTime() / 1000;
+    }
+
+    public void setException_text(String exception_text) {
+        this.exception_text = exception_text;
+    }
+
+    public long getMessages_count() {
+        return messages_count;
+    }
+
+    public long getTime_last_noop() {
+        return time_last_noop;
+    }
+
+    public void setTime_last_noop(long time_last_noop) {
+        this.time_last_noop = time_last_noop;
     }
 
     public long getTime_status_change() {
@@ -151,6 +172,7 @@ public class MyFolder implements Cloneable {
                 "\"messages_counter\": \""    + messages_count     + "\"," +
                 "\"messages_db_counter\": \"" + messages_db_count  + "\"," +
                 "\"time_status_change\": "    + time_status_change + ","   +
+                "\"time_last_noop\": "        + time_last_noop     + ","   +
                 "\"time_last_event\": "       + time_last_event    +
                 "}";
     }

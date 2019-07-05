@@ -3,9 +3,9 @@ package com.threads;
 import com.DB;
 import com.Main;
 import com.classes.Email;
-import com.classes.EmailAccount;
 import com.classes.MyFolder;
 import com.classes.MyMessage;
+import com.classes.EmailAccount;
 import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
@@ -63,12 +63,12 @@ public class AddNewMessageThread implements Runnable {
                 messages_count_mail = imap_folder.getMessageCount();
                 messages_count_db   = db.getCountMessages(email_address, folder_name);
 
-                this.myFolder.setMessages_count(imap_folder.getMessageCount());
+                this.myFolder.setMessages_count(messages_count_mail);
                 this.myFolder.setMessages_db_count(messages_count_db);
 
-//                if (checkOldMails(user_id, email_address, folder_name, messages_count_mail, messages_count_db)) {
-//                    break;
-//                }
+                if (checkOldMails(user_id, email_address, folder_name, messages_count_mail, messages_count_db)) {
+                    break;
+                }
                 myFolder.setStatus("for " + i + " end");
                 break;
             }
@@ -100,7 +100,9 @@ public class AddNewMessageThread implements Runnable {
             }
 
             while (!Thread.interrupted()) {
-                reopenFolder("noop");
+                if (reopenFolder("noop")) {
+                    myFolder.updateTime_last_noop();
+                }
                 Thread.sleep(noop_sleep);
             }
 
@@ -130,7 +132,7 @@ public class AddNewMessageThread implements Runnable {
             if (messages_count_mail == 0) {
                 db.deleteMessages(email_address, folder_name); // Пометить или удалить все сообщения // TODO
             } else {
-                long last_uid_db   = db.getLastAddUID(user_id, emailAccount.getEmailAddress(), folder_name);
+                long last_uid_db   = db.getLastAddUID(emailAccount.getEmailAddress(), folder_name);
                 long last_uid_mail = 0;  // imap_folder.getUID(imap_folder.getMessage(imap_folder.getMessageCount()));
 
                 Message[] messages_tmp = imap_folder.getMessages();
@@ -213,9 +215,9 @@ public class AddNewMessageThread implements Runnable {
                     System.err.println("---------------------------------");
                 }
 
-                if (db.addEmail(email)) {
-                    db.updateFolderLastAddUID(email, email_address); // TODO можно упростить передав uid ^
-                }
+                db.addEmail(email);
+//                    db.updateFolderLastAddUID(email_address, email); // TODO можно упростить передав uid ^
+
             }
 
             myFolder.setStatus("load in DB end");
@@ -247,19 +249,20 @@ public class AddNewMessageThread implements Runnable {
                 long start = System.currentTimeMillis();
 
                 while (!connectToFolder.is_open && System.currentTimeMillis() < start + 20000) {
-                    Thread.sleep(100);
+                    Thread.sleep(2000);
                 }
 
-                connectToFolderThread.stop();
+//                connectToFolderThread.stop();
 
                 Thread.sleep(2000);
 
+
                 System.gc();
 
-                if (connectToFolderThread.isAlive()) {
+                while (connectToFolderThread.isAlive()) { // Убивать пока не умрет
                     System.out.println("one more +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                    connectToFolderThread.stop();
-//                    connectToFolderThread.
+//                    connectToFolderThread.stop();
+                    Thread.sleep(2000);
                 }
 
 
@@ -346,6 +349,7 @@ public class AddNewMessageThread implements Runnable {
 
                 if (query_count == j + 1) {
                     db.setRemoved(user_id, folder_name, arr_uids.get(arr_uids.size() - 1) + 1, -1, ""); // пометить после
+//                    db.updateFolderLastAddUID(email_address, user_id, folder_name, arr_uids.get(arr_uids.size() - 1)); //
                 }
             }
         } catch (MessagingException e) {
@@ -550,9 +554,8 @@ public class AddNewMessageThread implements Runnable {
                         String message_inform = email_address + " " + folder_name + " " + email.getUid() + " messageChangedEvent";
                         MailingEmailAccountThread.enterMessage(email_address + " " + folder_name, message_inform);
 
-                        if (db.addEmail(email)) {
-                            db.updateFolderLastAddUID(email, email_address);
-                        }
+                        db.addEmail(email);
+//                            db.updateFolderLastAddUID(email_address, email);
                     }
                 } catch (Exception e) {
                     myFolder.setStatus("error");
