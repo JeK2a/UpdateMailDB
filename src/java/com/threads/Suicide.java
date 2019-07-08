@@ -12,7 +12,7 @@ public class Suicide implements Runnable {
         wssChatClient.connectToWSS();
 
         while (true) {
-            System.out.print(" timer " + timer + " (" + Thread.activeCount() + "/" + ConnectToFolder.getCount_alive() + " / " + ConnectToFolder_lvl2.getCount_alive() + ") ");
+//            System.out.print(" timer " + timer + " (" + Thread.activeCount() + "/" + ConnectToFolder.getCount_alive() + " / " + ConnectToFolder_lvl2.getCount_alive() + ") ");
 
             if (
                     timer++ > time_limit                    ||
@@ -24,7 +24,7 @@ public class Suicide implements Runnable {
             }
 
             if (timer % 15 == 0) {
-                System.out.println("wss restart !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//                System.out.println("wss restart !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                WSSChatClient.getWebSocket().sendClose();
                 wssChatClient.connectToWSS();
             }

@@ -233,7 +233,7 @@ public class DB implements AutoCloseable {
             "       `users`.`email_provider` = `settings`.`provider` AND " +
             "       `settings`.`type` = 'imap'  " +
             "WHERE " +
-//                "   `user_id` = 320 AND " +
+//                "   `user_id` = 405 AND " +
                 "   `is_monitoring` = 1 " +
             "ORDER  BY `users`.`email`;"
 //                +
@@ -374,7 +374,7 @@ public class DB implements AutoCloseable {
 
             result = stmt.executeUpdate(query);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         } finally {
             is_line = false;
         }
@@ -515,25 +515,30 @@ public class DB implements AutoCloseable {
         return result;
     }
 
-    public int setRemoved(int user_id, String folder_name, long uid_start, long uid_end, String uids) {
-
+    public int setRemoved(int user_id, String folder_name, long uid_start, long uid_end, ArrayList<Long> uids) {
         String query = "" +
                 "UPDATE `a_api_emails` " +
                 "SET `removed` = 1, " +
-                "    `time` = '" + new java.sql.Timestamp(new Date().getTime()) + "' " +
+                "    `time` = NOW() " +
                 "WHERE  " +
                 "   `folder` = '" + folder_name + "' AND `user_id` = '" + user_id + "' ";
 
         if (uid_start > -1) {
-            query += " AND `uid` >= '"+uid_start + "' ";
+            query += " AND `uid` >= " + uid_start + " ";
         }
 
         if (uid_end > -1) {
-            query += " AND `uid` <= '"+uid_end+"' ";
+            query += " AND `uid` <= " + uid_end + " ";
         }
 
-        if (!uids.equals("")) {
-            query += " AND  `uid` NOT IN ("+uids+") ";
+        if (uids != null && uids.size() > 0) {
+            StringBuilder str_uids = new StringBuilder(String.valueOf(uids.get(0)));
+
+            for (int n = 1; n < uids.size(); n++) {
+                str_uids.append(",").append(String.valueOf(uids.get(n)));
+            }
+
+            query += " AND `uid` NOT IN (" + str_uids + ") ";
         }
 
         int result = 0;
@@ -541,6 +546,60 @@ public class DB implements AutoCloseable {
         result = getResult(query, result);
 
         return result;
+    }
+
+    public long[] getMissingUIDs(int user_id, String folder_name, long uid_start, long uid_end, ArrayList<Long> uids) { // TODO на акк
+
+        long[] missing_uids = new long[0];
+
+        String query = "" +
+                "SELECT `uid` " +
+                "FROM `a_api_emails` " +
+                "WHERE  " +
+                "   `folder` = '" + folder_name  + "' " +
+                "   AND `user_id` = '" + user_id + "' " +
+                "   AND `uid` >= " + uid_start   + " " +
+                "   AND `uid` <= " + uid_end     + " ";
+
+        if (uids != null && uids.size() > 0) {
+            StringBuilder str_uids = new StringBuilder(String.valueOf(uids.get(0)));
+
+            for (int n = 1; n < uids.size(); n++) {
+                str_uids.append(",").append(String.valueOf(uids.get(n)));
+            }
+
+            query += " AND `uid` IN (" + str_uids + ") ";
+        }
+
+        try {
+            if (is_line) {
+                Thread.sleep(100);
+            }
+            is_line = true;
+
+            stmt = con.createStatement();
+            ResultSet rs_tmp = stmt.executeQuery(query);
+
+            ArrayList<Long> uids_tmp = (ArrayList<Long>) uids.clone();
+
+
+            while (rs_tmp.next()) {
+                uids_tmp.remove(rs_tmp.getLong(1));
+            }
+
+            missing_uids = new long[uids_tmp.size()];
+
+            for (int i = 0; i < uids_tmp.size(); i++) {
+                missing_uids[i] = uids_tmp.get(i);
+            }
+
+        } catch (Exception e) {
+//            e.printStackTrace();
+        } finally {
+            is_line = false;
+        }
+
+        return missing_uids;
     }
 
     public int deleteMessage(int user_id, String folder_name, long uid) {

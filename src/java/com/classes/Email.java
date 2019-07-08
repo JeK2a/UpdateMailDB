@@ -3,7 +3,6 @@ package com.classes;
 import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
 
-import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -33,28 +32,28 @@ public class Email {
     private String subject;
     private String folder;
 
-    private int    recent  = 0;
-    private int    flagged = 0;
-    private int    answred = 0;
-    private int    deleted = 0;
-    private int    seen    = 0;
-    private int    draft   = 0;
-    private int    user    = 0;
-
-    private int    forwarded  = 0;
-    private int    label1  = 0;
-    private int    label2  = 0;
-    private int    label3  = 0;
-    private int    label4  = 0;
-    private int    label5  = 0;
+    private int    recent         = 0;
+    private int    flagged        = 0;
+    private int    answred        = 0;
+    private int    deleted        = 0;
+    private int    seen           = 0;
+    private int    draft          = 0;
+    private int    user           = 0;
+    private int    forwarded      = 0;
+    private int    label1         = 0;
+    private int    label2         = 0;
+    private int    label3         = 0;
+    private int    label4         = 0;
+    private int    label5         = 0;
     private int    has_attachment = 0;
 
     private java.sql.Timestamp update;
 
     private String tdf_id;
 
-    public Email(int user_id, String email_account, Message imap_message, String folder_name, long uid, Folder imapFolder) {
+    public Email(int user_id, String email_account, Message imap_message, String folder_name, IMAPFolder imapFolder) {
         try {
+            long uid   = imapFolder.getUID(imap_message);
 
             // TODO проверка на открытую папку
 
@@ -76,7 +75,7 @@ public class Email {
             String to = InternetAddress.toString(imap_message.getRecipients(Message.RecipientType.TO));
             this.to   = (to == null || to.equals("") ? "null" : to);
 
-            this.user_id      = user_id;
+            this.user_id = user_id;
 
             try {
                 String message_id = imap_message.getHeader("Message-ID")[0];
@@ -104,10 +103,7 @@ public class Email {
             String subject = removeBadChars(imap_message.getSubject());
             this.subject = (subject == null || subject.equals("") ? "null" : subject);
 
-//            String folder = imap_message.getFolder().getFullName();
-//            this.folder = (folder == null || folder.equals("") ? "null" : folder);
             this.folder = folder_name;
-
             this.update = new Timestamp(new Date().getTime());
 
 
@@ -144,12 +140,7 @@ public class Email {
                 if (out.contains("$label5"))       { this.label5  = 1; }
                 if (out.contains("$HasAttachment")) { this.has_attachment = 1; }
 
-                String[] out_str = out.split(" ");
-
-//                this.uid = (out.length() > 3 ? Long.parseLong(out_str[4]) : imap_folder.getUID(imap_message));
                 this.uid = imap_folder.getUID(imap_message);
-//              System.out.println(this.uid);
-
             }
 
 //            Date sent = message.getSentDate();         // когда отправлено

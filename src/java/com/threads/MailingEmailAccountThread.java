@@ -91,11 +91,14 @@ public class MailingEmailAccountThread implements Runnable {
                     connectToFolderThread.stop();
                 }
 
-                if (connectToFolder.is_open ) {
+                if (connectToFolder.is_open) {
                     wssChatClient.sendText(
                         emailAccount.getEmailAddress() + " - " + imap_folder.getFullName(),
                         "isOpen ok"
                     );
+
+
+
                     continue;
                 } else {
                     wssChatClient.sendText(
@@ -107,6 +110,8 @@ public class MailingEmailAccountThread implements Runnable {
                 String text = "folder_name - " + imap_folder.getFullName() + " -- " + imap_folder.getMessageCount();
 
                 i += imap_folder.getMessageCount();
+
+                break;
             }
 
             for (IMAPFolder imap_folder: imap_folders) {
@@ -311,9 +316,7 @@ public class MailingEmailAccountThread implements Runnable {
                     IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
 
                     for (IMAPMessage imap_message : messages) {
-
-                        long uid = imap_folder.getUID(imap_message);
-                        Email email = new Email(user_id, email_address, imap_message, old_folder_name, uid, imap_folder);
+                        Email email = new Email(user_id, email_address, imap_message, old_folder_name, imap_folder);
 
                         db.changeFolderName(email, new_folder_name); // TODO проверить, добавить проверку результата
                     }
