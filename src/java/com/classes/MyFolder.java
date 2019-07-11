@@ -1,6 +1,7 @@
 package com.classes;
 
 import com.sun.mail.imap.IMAPFolder;
+import com.wss.WSSChatClient;
 
 import javax.mail.MessagingException;
 import java.util.Date;
@@ -18,6 +19,29 @@ public class MyFolder implements Cloneable {
     private long time_last_event    = new Date().getTime() / 1000;
     private long time_last_noop     = new Date().getTime() / 1000;
 
+    private int count_restart_success = 0;
+    private int count_restart_fail    = 0;
+    private int count_restart_noop    = 0;
+
+    private long time_reconnect = -1;
+    private int thread_problem = 0;
+
+    public int getThread_problem() {
+        return thread_problem;
+    }
+
+    public void setThread_problem(int thread_problem) {
+        this.thread_problem = thread_problem;
+    }
+
+    public long getTime_reconnect() {
+        return time_reconnect;
+    }
+
+    public void setTime_reconnect(long time_reconnect) {
+        this.time_reconnect = time_reconnect;
+    }
+
     public void updateTime_status_change() {
         this.time_status_change = new Date().getTime() / 1000;
     }
@@ -26,11 +50,38 @@ public class MyFolder implements Cloneable {
         this.time_last_event = new Date().getTime() / 1000;
     }
 
+    public void incrementCount_restart_success() {
+        this.count_restart_success++;
+    }
+    public void incrementCount_restart_noop() {
+        this.count_restart_noop++;
+    }
+
+    public void incrementCount_restart_fail() {
+        this.count_restart_fail++;
+    }
+
+    public int getCount_restart_success() {
+        return count_restart_success;
+    }
+
+    public void setCount_restart_success(int count_restart_success) {
+        this.count_restart_success = count_restart_success;
+    }
+
+    public int getCount_restart_fail() {
+        return count_restart_fail;
+    }
+
+    public void setCount_restart_fail(int count_restart_fail) {
+        this.count_restart_fail = count_restart_fail;
+    }
+
     public void updateTime_last_noop() {
         this.time_last_noop = new Date().getTime() / 1000;
     }
 
-    public void setException_text(String exception_text) {
+    private void setException_text(String exception_text) {
         this.exception_text = exception_text;
     }
 
@@ -140,16 +191,27 @@ public class MyFolder implements Cloneable {
         this.event_counter++;
     }
 
-    public String getException_text() {
+    private String getException_text() {
         return exception_text;
     }
 
-    public void setException(String exception_text) {
+    private void setException(String exception_text) {
         this.exception_text = exception_text;
     }
 
     public void setException(Exception exception) {
-        this.exception_text = exception.toString();
+        System.err.println(exception.getMessage());
+        exception.printStackTrace();
+
+        this.setStatus("error");
+
+        StringBuilder exception_text = new StringBuilder(exception.toString() + "<br>" + exception.getMessage() + "<br>");
+
+        for (StackTraceElement element : exception.getStackTrace()) {
+            exception_text.append("<br>").append(element.toString());
+        }
+
+        setException((WSSChatClient.forException(exception_text.toString())));
     }
 
 //    public long getMessages_count() {
@@ -172,6 +234,11 @@ public class MyFolder implements Cloneable {
                 "\"messages_counter\": \""    + messages_count     + "\"," +
                 "\"messages_db_counter\": \"" + messages_db_count  + "\"," +
                 "\"time_status_change\": "    + time_status_change + ","   +
+                "\"count_restart_success\": " + count_restart_success + ","   +
+                "\"count_restart_noop\": "    + count_restart_noop + ","   +
+                "\"count_restart_fail\": "    + count_restart_fail + ","   +
+                "\"time_reconnect\": "        + time_reconnect + ","   +
+                "\"thread_problem\": "        + thread_problem + ","   +
                 "\"time_last_noop\": "        + time_last_noop     + ","   +
                 "\"time_last_event\": "       + time_last_event    +
                 "}";

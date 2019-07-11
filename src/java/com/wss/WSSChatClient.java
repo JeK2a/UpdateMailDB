@@ -2,6 +2,7 @@ package com.wss;
 
 import com.Main;
 import com.classes.EmailAccount;
+import com.db.DB;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFactory;
@@ -61,15 +62,20 @@ public class WSSChatClient {
                         case "close":
                             webSocket.sendClose();
                             break;
+                        case "info":
+                            // TODO
+                            break;
                         case "status":
 
-                            webSocket.flush();
+//                            webSocket.flush();
 
                             System.out.println("start accounts = " + Mailing.emailAccounts.size());
 
-                            ConcurrentHashMap<Integer, EmailAccount> tmpEmailAccounts = new ConcurrentHashMap<>(Mailing.emailAccounts); // (ConcurrentHashMap<Integer, EmailAccount>) Mailing.emailAccounts; // TODO создать дубль
+                            ConcurrentHashMap<String, EmailAccount> tmpEmailAccounts = new ConcurrentHashMap<>(Mailing.emailAccounts); // (ConcurrentHashMap<Integer, EmailAccount>) Mailing.emailAccounts; // TODO создать дубль
 
-                            String json = getJsonFromMap(tmpEmailAccounts);
+                            String json = forTab(getJsonFromMap(tmpEmailAccounts));
+
+                            json = "{\"accounts\": " + json + ", \"count_queries\": " + DB.count_queries + "}"; // TODO обернуть в SQL
 
                             sendText("json", json);
 
@@ -101,151 +107,8 @@ public class WSSChatClient {
         boolean result = true;
         try {
             if (webSocket != null) {
-//                System.err.println("close WSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 webSocket.sendClose();
                 webSocket.disconnect();
-
-//                webSocket.addListener(new WebSocketListener() {
-//                    @Override
-//                    public void onStateChanged(WebSocket websocket, WebSocketState newState) {
-//                        System.err.println("onStateChanged");
-//                    }
-//
-//                    @Override
-//                    public void onConnected(WebSocket websocket, Map<String, List<String>> headers) {
-//                        System.err.println("onStateChanged");
-//                    }
-//
-//                    @Override
-//                    public void onConnectError(WebSocket websocket, WebSocketException cause) {
-//                        System.err.println("onConnectError");
-//                    }
-//
-//                    @Override
-//                    public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) {
-//                        System.err.println("onDisconnected");
-//                    }
-//
-//                    @Override
-//                    public void onFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onFrame");
-//                    }
-//
-//                    @Override
-//                    public void onContinuationFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onContinuationFrame");
-//                    }
-//
-//                    @Override
-//                    public void onTextFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onTextFrame");
-//                    }
-//
-//                    @Override
-//                    public void onBinaryFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onBinaryFrame");
-//                    }
-//
-//                    @Override
-//                    public void onCloseFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onCloseFrame");
-//                    }
-//
-//                    @Override
-//                    public void onPingFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onPingFrame");
-//                    }
-//
-//                    @Override
-//                    public void onPongFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onPongFrame");
-//                    }
-//
-//                    @Override
-//                    public void onTextMessage(WebSocket websocket, String text) {
-//                        System.err.println("onTextMessage");
-//                    }
-//
-//                    @Override
-//                    public void onBinaryMessage(WebSocket websocket, byte[] binary) {
-//                        System.err.println("onBinaryMessage");
-//                    }
-//
-//                    @Override
-//                    public void onSendingFrame(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onSendingFrame");
-//                    }
-//
-//                    @Override
-//                    public void onFrameSent(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onFrameSent");
-//                    }
-//
-//                    @Override
-//                    public void onFrameUnsent(WebSocket websocket, WebSocketFrame frame) {
-//                        System.err.println("onFrameUnsent");
-//                    }
-//
-//                    @Override
-//                    public void onThreadCreated(WebSocket websocket, ThreadType threadType, Thread thread) {
-//                        System.err.println("onThreadCreated");
-//                    }
-//
-//                    @Override
-//                    public void onThreadStarted(WebSocket websocket, ThreadType threadType, Thread thread) {
-//                        System.err.println("onThreadStarted");
-//                    }
-//
-//                    @Override
-//                    public void onThreadStopping(WebSocket websocket, ThreadType threadType, Thread thread) {
-//                        System.err.println("onThreadStopping");
-//                    }
-//
-//                    @Override
-//                    public void onError(WebSocket websocket, WebSocketException cause) {
-//                        System.err.println("onError");
-//                    }
-//
-//                    @Override
-//                    public void onFrameError(WebSocket websocket, WebSocketException cause, WebSocketFrame frame) {
-//                        System.err.println("onFrameError");
-//                    }
-//
-//                    @Override
-//                    public void onMessageError(WebSocket websocket, WebSocketException cause, List<WebSocketFrame> frames) {
-//                        System.err.println("onMessageError");
-//                    }
-//
-//                    @Override
-//                    public void onMessageDecompressionError(WebSocket websocket, WebSocketException cause, byte[] compressed) {
-//                        System.err.println("onMessageDecompressionError");
-//                    }
-//
-//                    @Override
-//                    public void onTextMessageError(WebSocket websocket, WebSocketException cause, byte[] data) {
-//                        System.err.println("onTextMessageError");
-//                    }
-//
-//                    @Override
-//                    public void onSendError(WebSocket websocket, WebSocketException cause, WebSocketFrame frame) {
-//                        System.err.println("onSendError");
-//                    }
-//
-//                    @Override
-//                    public void onUnexpectedError(WebSocket websocket, WebSocketException cause) {
-//                        System.err.println("onUnexpectedError");
-//                    }
-//
-//                    @Override
-//                    public void handleCallbackError(WebSocket websocket, Throwable cause) {
-//                        System.err.println("handleCallbackError");
-//                    }
-//
-//                    @Override
-//                    public void onSendingHandshake(WebSocket websocket, String requestLine, List<String[]> headers) {
-//                        System.err.println("onSendingHandshake");
-//                    }
-//                });
             }
 
             restart();
@@ -299,6 +162,50 @@ public class WSSChatClient {
         return result.toString();
     }
 
+    public static String forException(String input) {
+        if (input == null || input.isEmpty()) {
+            return "";
+        }
+
+        int len = input.length();
+        // сделаем небольшой запас, чтобы не выделять память потом
+        final StringBuilder result = new StringBuilder(len + len / 4);
+        final StringCharacterIterator iterator = new StringCharacterIterator(input);
+        char ch = iterator.current();
+
+        while (ch != CharacterIterator.DONE) {
+            switch (ch) {
+                case '\n': result.append("<br>");  break;
+                case '\r': result.append("<br>");  break;
+                case '\t': result.append(" ");     break;
+                default: result.append(ch);        break;
+            }
+            ch = iterator.next();
+        }
+        return result.toString();
+    }
+
+    public static String forTab(String input) {
+        if (input == null || input.isEmpty()) {
+            return "";
+        }
+
+        int len = input.length();
+        // сделаем небольшой запас, чтобы не выделять память потом
+        final StringBuilder result = new StringBuilder(len + len / 4);
+        final StringCharacterIterator iterator = new StringCharacterIterator(input);
+        char ch = iterator.current();
+
+        while (ch != CharacterIterator.DONE) {
+            switch (ch) {
+                case '\t': result.append(" ");     break;
+                default: result.append(ch);        break;
+            }
+            ch = iterator.next();
+        }
+        return result.toString();
+    }
+
     private static Object getArrayFromJSON(String jsonStr) {
         try {
             return new JSONParser().parse(jsonStr);
@@ -307,10 +214,10 @@ public class WSSChatClient {
         }
     }
 
-    private String getJsonFromMap(ConcurrentHashMap<Integer, EmailAccount> map) {
-        StringBuffer tmpStr = new StringBuffer("{");
+    private String getJsonFromMap(ConcurrentHashMap<String, EmailAccount> map) {
+        StringBuffer tmpStr = new StringBuffer("{ ");
 
-        for (Map.Entry<Integer, EmailAccount> e: map.entrySet()){
+        for (Map.Entry<String, EmailAccount> e: map.entrySet()){
             tmpStr.append("\"").append(e.getKey()).append("\": ").append(e.getValue()).append(",");
         }
 

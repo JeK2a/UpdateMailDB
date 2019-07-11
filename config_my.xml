@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <setings>
+    <user>jek2a</user>
 
     <usessl>false</usessl>
     <useunicode>true</useunicode>

@@ -1,18 +1,17 @@
 package com.threads;
 
-import com.DB;
 import com.Main;
 import com.MyProperties;
 import com.classes.Email;
 import com.classes.EmailAccount;
 import com.classes.MyFolder;
+import com.db.DB;
 import com.service.SettingsMail;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
-import com.wss.WSSChatClient;
 
 import javax.mail.AuthenticationFailedException;
-import javax.mail.MessagingException;
+import javax.mail.Folder;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.event.ConnectionEvent;
@@ -26,7 +25,6 @@ public class MailingEmailAccountThread implements Runnable {
 
     private static DB db = Main.db;
     private EmailAccount emailAccount;
-    private static WSSChatClient wssChatClient = Main.wssChatClient;
 
     public MailingEmailAccountThread(EmailAccount emailAccount) {
         this.emailAccount = emailAccount;
@@ -44,191 +42,54 @@ public class MailingEmailAccountThread implements Runnable {
         try {
             Store store = session.getStore("imap");
 
-            for (int i = 0; i < 10; i++) {
-
-                switch (connectToStore(store)) {
-                    case -1:
-                        emailAccount.setStatus("error");
-                        if (i == 9) { return; }
-                        break;
-                    case  0:
-                        emailAccount.setStatus("error");
-                        emailAccount.setException(new AuthenticationFailedException());
-                        return;
-                    case  1:
-                        emailAccount.setStatus("connect");
-                        i = 10;
-                        break;
-                }
-
-                Thread.sleep(3000);
-            }
+            emailAccount.setStatus(connectToStore(store));
 
             addStoreListeners(store);
 
-            IMAPFolder[] imap_folders = (IMAPFolder[]) store.getDefaultFolder().list("*"); // Получение списка папок лоя текушего подключения
-
-            int i = 0;
+            IMAPFolder[] imap_folders = (IMAPFolder[]) store.getDefaultFolder().list("*"); // Получение списка папок для текушего подключения
 
             for (IMAPFolder imap_folder: imap_folders) {
-
-                int tmp_i = 0;
-
-                ConnectToFolder connectToFolder = null;
-
-                while ((connectToFolder == null || !connectToFolder.is_open) && ++tmp_i <= 3) {
-
-                    connectToFolder = new ConnectToFolder(imap_folder);
-                    Thread connectToFolderThread = new Thread(connectToFolder);
-                    connectToFolderThread.start();
-
-                    long start = System.currentTimeMillis();
-
-                    while(!connectToFolder.is_open && System.currentTimeMillis() < start + 10000) {
-                        Thread.sleep(50);
-                    }
-
-                    connectToFolderThread.stop();
-                }
-
-                if (connectToFolder.is_open) {
-                    wssChatClient.sendText(
-                        emailAccount.getEmailAddress() + " - " + imap_folder.getFullName(),
-                        "isOpen ok"
-                    );
-
-
-
-                    continue;
-                } else {
-                    wssChatClient.sendText(
-                        emailAccount.getEmailAddress() + " - " + imap_folder.getFullName(),
-                        "isOpen error"
-                    );
-                }
-
-                String text = "folder_name - " + imap_folder.getFullName() + " -- " + imap_folder.getMessageCount();
-
-                i += imap_folder.getMessageCount();
-
-                break;
+                addFolder(imap_folder);
             }
 
-            for (IMAPFolder imap_folder: imap_folders) {
-                MyFolder myFolder = new MyFolder(imap_folder);
-                emailAccount.addMyFolder(myFolder);
-                Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder, imap_folder)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
-                myTreadAllMails.setDaemon(true);
-                myTreadAllMails.start(); // Запус потока
-
-                if (SettingsMail.getWaitFolder()) {
-                    while (true) { // TODO
-                        if (myFolder.getStatus().equals("end_add_message_folder") || myFolder.getStatus().equals("stop")) {
-                            break;
-                        }
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-            }
-
-            ConcurrentHashMap<String, MyFolder> myFolderMap_tmp = emailAccount.getFoldersMap();
+            ConcurrentHashMap<String, MyFolder> myFoldersMap_tmp = emailAccount.getFoldersMap();
 
             emailAccount.setStatus("wait");
-
-            String tmp_str = "";
 
             if (SettingsMail.getWaitUser()) {
                 while (!Thread.interrupted()) {
                     int n = 0;
-                    StringBuffer out = new StringBuffer();
 
-                    for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
-
+                    for (Map.Entry<String, MyFolder> entry : myFoldersMap_tmp.entrySet()) {
                         String status = entry.getValue().getStatus();
 
                         if (
                             !(
-//                                !tmp_myFolder.getThreadAddNewMessages().isAlive() ||
-                                status.contains("sleep")                          ||
-                                status.equals("open")                             ||
+                                status.equals("error")                            ||
                                 status.equals("listening")                        ||
                                 status.equals("end_add_message_folder")           ||
                                 status.equals("close")
                             )
                         ) {
-                            out.append(entry.getValue().getFolder_name()).append(" - ").append(status).append("\n");
                             n++;
                         }
                     }
 
-                    String text = emailAccount.getEmailAddress() + " wait " + n;
-                    out.append("\u001B[91m").append(text).append("\u001B[0m");
-
-                    if (!out.toString().equals(tmp_str)) {
-                        tmp_str = out.toString();
-//                        System.out.println(out);
-                    }
-
                     if (n == 0) { break; }
 
-                    Thread.sleep(5000);
+                    Thread.sleep(1000);
                 }
             }
 
             emailAccount.setStatus("end");
 
             while (!Thread.interrupted()) {
-                if (!store.isConnected()) {
-//                    System.out.println("store restart start");
-                    connectToStore(store);
-//                    System.out.println("store restart end");
-                    Thread.sleep(60000);
-                }
-//                if (!store.isConnected()) {
-//                    System.out.println("store restart start");
-//                    if (connectToStore(store)) {
-//                        System.out.println("store restart true");
-//                        for (Map.Entry<String, MyFolder> entry : myFolderMap_tmp.entrySet()) {
-//                            Thread thread_tmp = entry.getValue().getThreadAddNewMessages();
-//
-//                            thread_tmp.interrupt();
-//                            Thread.sleep(5000);
-//                            thread_tmp.stop();
-////                            thread_tmp. shutdownnow();
-//
-//                            Thread.sleep(5000);
-//                            thread_tmp.setDaemon(true);
-//                            thread_tmp.start();
-//
-////                            MyFolder tmp_myFolder = entry.getValue();
-//////                            tmp_myFolder.getThreadAddNewMessages().stop();
-////
-////                            IMAPFolder imap_folder = tmp_myFolder.getImap_folder();
-////                            thread_tmp = new Thread(new AddNewMessageThread(emailAccount, tmp_myFolder, imap_folder));
-////                            thread_tmp.setDaemon(true);
-////                            tmp_myFolder.setThreadAddNewMessages(thread_tmp);
-////                            thread_tmp.start();
-//                        }
-//                    }
-//                }
+                connectToStore(store);
                 Thread.sleep(30000);
             }
 
-//            System.out.println("store restart close");
         } catch (Exception e) {
-            e.printStackTrace();
-            enterMessage(emailAccount.getEmailAddress(),"Problems wish "  + emailAccount.getUser().getEmail());
-            emailAccount.setStatus("error");
             emailAccount.setException(e);
-            db.updateAccountError(emailAccount.getUser().getId(), e.getMessage());
-        } finally {
-//            emailAccount.setStatus("end");
-//            System.out.println("end");
         }
 
         emailAccount.setStatus("stop");
@@ -238,12 +99,13 @@ public class MailingEmailAccountThread implements Runnable {
         store.addConnectionListener(new ConnectionListener() {
             @Override
             public void opened(ConnectionEvent connectionEvent) {
+                emailAccount.setStatus("restart");
             }
 
             @Override
             public void disconnected(ConnectionEvent connectionEvent) {
                 connectToStore(store);
-            }
+            } // TODO нужно ли реконектится
 
             @Override
             public void closed(ConnectionEvent connectionEvent) {
@@ -256,49 +118,29 @@ public class MailingEmailAccountThread implements Runnable {
             @Override
             public void folderCreated(FolderEvent folderEvent) { // Действие при создании папки
                 try {
-                    MailingEmailAccountThread.enterMessage(folderEvent.getNewFolder().getFullName(), "folder created");
-                    IMAPFolder new_folder = (IMAPFolder) folderEvent.getFolder();
-
-                    MyFolder myFolder = new MyFolder(new_folder);
-
-                    emailAccount.addMyFolder(myFolder);
-
-                    if (!new_folder.isOpen()) {
-                        new_folder.open(IMAPFolder.READ_ONLY);
-                    }
-
-                    MailingEmailAccountThread.enterMessage(
-                            emailAccount.getUser().getEmail() + " - " + new_folder.getFullName(),
-                            "Connect"
-                    );
-
-                    // TODO
-                    Thread myThreadEvent = new Thread(new AddNewMessageThread(emailAccount, myFolder, new_folder));
-                    myThreadEvent.start();
+                    addFolder(folderEvent.getFolder());
                 } catch (Exception e) {
-                    emailAccount.setStatus("error");
                     emailAccount.setException(e);
-                    e.printStackTrace();
                 }
             }
 
             @Override
             public void folderDeleted(FolderEvent folderEvent) { // Действие при удалении папки
                 try {
-                    MailingEmailAccountThread.enterMessage(
-                        emailAccount.getEmailAddress() + " " + folderEvent.getFolder().getFullName(),
-                        "folder deleted"
-                    );
+                    emailAccount.setException(folderEvent.getFolder().getFullName() + " folder deleted"); // TODO тзменять статус папки
 
-                    IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
+                    IMAPFolder folder_tmp = (IMAPFolder) folderEvent.getFolder();
+                    String folder_name = folder_tmp.getFullName();
+
+                    IMAPMessage[] messages = (IMAPMessage[]) folder_tmp.getMessages();
 
                     for (IMAPMessage imap_message : messages) {
-                        db.setDeleteFlag(emailAccount.getEmailAddress(), folderEvent.getFolder().getFullName(), imap_message.getHeader("Message-ID")[0]); // TODO изменение флага сообщенией на удаленное (проверить)
+                        db.setDeleteFlag(emailAccount.getEmailAddress(), folder_name, folder_tmp.getUID(imap_message)); // TODO изменение флага сообщенией на удаленное (проверить)
                     }
-                } catch (MessagingException e) {
-                    emailAccount.setStatus("error");
+
+                    // TODO изменить статус у папки и остановить прослушивание данной папки
+                } catch (Exception e) {
                     emailAccount.setException(e);
-                    e.printStackTrace();
                 }
             }
 
@@ -316,77 +158,83 @@ public class MailingEmailAccountThread implements Runnable {
                     IMAPMessage[] messages = (IMAPMessage[]) folderEvent.getFolder().getMessages();
 
                     for (IMAPMessage imap_message : messages) {
-                        Email email = new Email(user_id, email_address, imap_message, old_folder_name, imap_folder);
-
-                        db.changeFolderName(email, new_folder_name); // TODO проверить, добавить проверку результата
+                        db.changeFolderName(new Email(user_id, email_address, imap_message, old_folder_name, imap_folder), new_folder_name); // TODO проверить, добавить проверку результата
                     }
 
-                    MailingEmailAccountThread.enterMessage(
-                            emailAccount.getEmailAddress() + " " + old_folder_name,
-                            "folder renamed, new folder name " + new_folder_name
-                    );
-                } catch (MessagingException e) {
-                    emailAccount.setStatus("error");
+                    emailAccount.setException("folder renamed, new folder name " + new_folder_name);
+                } catch (Exception e) {
                     emailAccount.setException(e);
-                    e.printStackTrace();
                 }
             }
         });
 
         store.addStoreListener(storeEvent -> {
-            MailingEmailAccountThread.enterMessage(
-                emailAccount.getEmailAddress(),
-                "store notification message - " + storeEvent.getMessage()
-            );
+            emailAccount.setException("store notification message - " + storeEvent.getMessage());
 
-            try {
-//                store.close(); // TODO tesing
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            connectToStore(store);
+//            connectToStore(store); // не особо нужно
         });
 
     } // Добавление слушалки на аккаунт
 
     // Подключение к аккаунту
-    private int connectToStore(Store store) {
+    private String connectToStore(Store store) {
+        String status = "connect";
+
         try {
-            if (!store.isConnected()) {
+            emailAccount.setThread_problem(1);
+            long start = System.currentTimeMillis();
+
+            if (store.isConnected()) {
+                emailAccount.incrementCount_restart_noop();
+            } else {
                 store.connect(
-                    emailAccount.getUser().getHost(),
-                    emailAccount.getUser().getEmail(),
-                    emailAccount.getUser().getPassword()
+                        emailAccount.getUser().getHost(),
+                        emailAccount.getUser().getEmail(),
+                        emailAccount.getUser().getPassword()
                 );
+                emailAccount.incrementCount_restart_success();
             }
-        } catch (javax.mail.MessagingException e) {
-            db.updateSuccess(emailAccount.getUser().getEmail(), 0);
-            return 0;
+
+            long stop = System.currentTimeMillis();
+
+            emailAccount.setThread_problem(0);
+            emailAccount.setTime_reconnect(stop - start);
+
+            db.updateSuccess(emailAccount.getUser().getEmail(), 1);
+        } catch (AuthenticationFailedException e) {
+            emailAccount.setException(e);
+            emailAccount.incrementCount_restart_fail();
+            status = "error";
         } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
+            emailAccount.setException(e);
+            emailAccount.incrementCount_restart_fail();
+            Thread.sleep(5000);
+//            status = connectToStore(store);
+            status = "error";
+            // TODO добавить ограничение на количество попыток
+            // TODO разобраться из-за чего может многократно не подключаться к аккаунту
+        } finally {
+            return status;
         }
-
-        db.updateSuccess(emailAccount.getUser().getEmail(), 1);
-
-        return 1;
     }
 
-    // Вывод сообщения
-
-    public static void enterMessage(String subject, String text) {
-        wssChatClient.sendText(subject, text);
+    public void addFolder(IMAPFolder imap_folder) {
+        MyFolder myFolder = new MyFolder(imap_folder);
+        emailAccount.addMyFolder(myFolder);
+        Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder, imap_folder)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
+        myTreadAllMails.setDaemon(true);
+        myTreadAllMails.start(); // Запус потока
     }
 
-//    private void changeAccountStatus(String status) {
-//        emailAccount.setStatus(status);
-////        db.updateAccountStatus(emailAccount.getUser().getId(), status);
-//    }
+    private void addFolder(Folder folder) {
+        addFolder((IMAPFolder) folder);
+    }
 
-//    private void changeAccountException(Exception exception) {
-//        emailAccount.setException(exception);
-////        db.updateAccountStatus(emailAccount.getUser().getId(), exception_text);
-//    }
+    private void removeFolder(String folder_name) {
+        emailAccount.getFoldersMap().remove(folder_name);
+
+
+
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.classes;
 
+import com.wss.WSSChatClient;
+
+import javax.mail.AuthenticationFailedException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
@@ -12,13 +15,17 @@ public class EmailAccount implements Serializable {
     private volatile String status = "new";
     private volatile int event_count = 0;
     private volatile String emailAddress;
-//    private volatile Thread threadAccount;
-//    private volatile Exception exception;
     private volatile String exception_text = "";
 
     private volatile long time_status_change = new Date().getTime() / 1000;
     private volatile long time_last_event    = new Date().getTime() / 1000;
 
+    private int count_restart_success = 0;
+    private int count_restart_noop    = 0;
+    private int count_restart_fail    = 0;
+
+    private long time_reconnect = -1;
+    private int thread_problem = 0;
 
     public EmailAccount(User user) {
         this.user         = user;
@@ -37,17 +44,88 @@ public class EmailAccount implements Serializable {
         this.status       = status;
     }
 
+
+
+
+
+    public int getCount_restart_success() {
+        return count_restart_success;
+    }
+
+    public void setCount_restart_success(int count_restart_success) {
+        this.count_restart_success = count_restart_success;
+    }
+
+    public int getCount_restart_noop() {
+        return count_restart_noop;
+    }
+
+    public void setCount_restart_noop(int count_restart_noop) {
+        this.count_restart_noop = count_restart_noop;
+    }
+
+    public int getCount_restart_fail() {
+        return count_restart_fail;
+    }
+
+    public void setCount_restart_fail(int count_restart_fail) {
+        this.count_restart_fail = count_restart_fail;
+    }
+
+    public long getTime_reconnect() {
+        return time_reconnect;
+    }
+
+    public void setTime_reconnect(long time_reconnect) {
+        this.time_reconnect = time_reconnect;
+    }
+
+    public int getThread_problem() {
+        return thread_problem;
+    }
+
+    public void setThread_problem(int thread_problem) {
+        this.thread_problem = thread_problem;
+    }
+
+    public void incrementCount_restart_success() {
+        this.count_restart_success++;
+    }
+
+    public void incrementCount_restart_fail() {
+        this.count_restart_fail++;
+    }
+
+    public void incrementCount_restart_noop() {
+        this.count_restart_noop++;
+    }
+
     public String getException_text() {
         return exception_text;
     }
 
     public void setException(String exception_text) {
-        this.setStatus("error");
-        this.exception_text = exception_text;
+//        this.setStatus("error");
+        this.exception_text += exception_text + "\n===========================================\n";
     }
 
     public void setException(Exception exception) {
-        setException(exception.toString());
+        System.err.println(exception.getMessage());
+        exception.printStackTrace();
+
+        if (exception instanceof AuthenticationFailedException) {
+            this.setStatus("AuthenticationFailed");
+        } else {
+            this.setStatus("error");
+        }
+
+        StringBuilder exception_text = new StringBuilder(exception.toString() + "<br>" + exception.getMessage() + "<br>");
+
+        for (StackTraceElement element : exception.getStackTrace()) {
+            exception_text.append("<br>").append(element.toString());
+        }
+
+        setException((WSSChatClient.forException(exception_text.toString())));
     }
 
     public void updateTime_status_change() {
@@ -149,6 +227,11 @@ public class EmailAccount implements Serializable {
                 ", \"status\": \""             + status                       +
                 "\", \"error\": \""            +  exception_text              +
                 "\", \"myFoldersMap\": "       + getJsonFromMap(myFoldersMap) +
+                ", \"count_restart_success\": "   + count_restart_success     +
+                ", \"count_restart_fail\": "   + count_restart_fail           +
+                ", \"count_restart_noop\": "   + count_restart_noop           +
+                ", \"time_reconnect\": "        + time_reconnect +
+                ", \"thread_problem\": "       + thread_problem               +
                 ", \"time_status_change\": "   + time_status_change           +
                 ", \"time_last_event\": "      + time_last_event              +
                 "}";
@@ -158,11 +241,7 @@ public class EmailAccount implements Serializable {
         StringBuffer tmpStr = new StringBuffer("{ ");
 
         for(Map.Entry<String, MyFolder> e: map.entrySet()){
-//            System.out.println("start " + e.getKey());
-//            System.out.println(e.getKey() + " 1");
             tmpStr.append("\"").append(e.getKey()).append("\": ").append(e.getValue()).append(",");
-//            System.out.println(e.getKey() + " 2");
-//            System.out.println("end " + e.getKey());
         }
 
         return tmpStr.substring(0, tmpStr.length() - 1) + "}";
