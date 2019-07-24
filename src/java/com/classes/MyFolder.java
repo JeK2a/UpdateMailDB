@@ -1,9 +1,9 @@
 package com.classes;
 
 import com.sun.mail.imap.IMAPFolder;
-import com.wss.WSSChatClient;
 
 import javax.mail.MessagingException;
+import java.util.Base64;
 import java.util.Date;
 
 public class MyFolder implements Cloneable {
@@ -211,7 +211,8 @@ public class MyFolder implements Cloneable {
             exception_text.append("<br>").append(element.toString());
         }
 
-        setException((WSSChatClient.forException(exception_text.toString())));
+//        setException((WSSChatClient.forException(exception_text.toString())));
+        setException(exception_text.toString());
     }
 
 //    public long getMessages_count() {
@@ -230,7 +231,8 @@ public class MyFolder implements Cloneable {
     public String toString() {
         return "{\"folder_name\": \""         + folder_name        + "\"," +
                 "\"status\": \""              + status             + "\"," +
-                "\"exception\": \""           + exception_text     + "\"," +
+//                "\"exception\": \""           + exception_text.replace('"', '\'')     + "\"," +
+                "\"exception\": \""           + Base64.getEncoder().encodeToString(exception_text.getBytes()) + "\"," +
                 "\"messages_counter\": \""    + messages_count     + "\"," +
                 "\"messages_db_counter\": \"" + messages_db_count  + "\"," +
                 "\"time_status_change\": "    + time_status_change + ","   +

@@ -8,6 +8,11 @@ import com.service.SettingsMail;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+
+// TODO добавить во всех запросах:
+// TODO result stmt -> close if != null && isOpen
+// TODO добавить задержку и ограничение по количеству в рекурсивные запросы
+
 public class DB implements AutoCloseable {
 
 //    private static final String[] params = {
@@ -22,7 +27,7 @@ public class DB implements AutoCloseable {
                                                "characterEncoding=utf-8"
                                            };
     private static Connection        con;
-    private static boolean is_line = false;
+//    private static boolean is_line = false; // TODO выпилить везде
     private static int count_errors = 0;
     public static boolean result = false;
 
@@ -54,27 +59,26 @@ public class DB implements AutoCloseable {
 
     public boolean connectToDB() {
 
-        boolean result = true;
+        boolean result = false;
 
         try {
-//            System.out.println("Переподключение к БД");
+            if (con != null && !con.isClosed()) {
+                return result = true;
+            }
 
             Class.forName("com.mysql.jdbc.Driver"); // MySQL 5
 //            Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 8
             con = DriverManager.getConnection(URL + "?" + arrayToString(params, "&"), USER, PASSWORD); // JDBC подключение к MySQL
-//            con = DriverManager.getConnection(URL, USER, PASSWORD); // JDBC подключение к MySQL
 
-            if (con == null) {                              // Если подключение к БД не установлено
+            if (con  == null || con.isClosed()) {                              // Если подключение к БД не установлено
                 System.err.println("Нет соединения с БД!"); // Вывести ошибку
-                result = false;
-//                System.exit(0);                          // И выйти из программы
+            } else {
+                result = true;
             }
-
-//            Statement stmt = con.createStatement(); // getting Statement object to execute query
         } catch(Exception e) {
-            result = false;
+            System.err.println("Не ужалось подключиться к DB");
             e.printStackTrace();
-
+            System.exit(0);                          // И выйти из программы
             return false;
         } finally {
             DB.result = result;
@@ -82,86 +86,77 @@ public class DB implements AutoCloseable {
         }
     }
 
-
     public static void incCount_queries() {
         DB.count_queries++;
     }
 
-    public static int getCount_queries() {
-        return count_queries;
-    }
-
-    public static void setCount_queries(int count_queries) {
-        DB.count_queries = count_queries;
-    }
-
     public boolean addEmail(Email email) {
 
-        if (email.getFolder() == null) {
+        if (email == null || email.getFolder() == null) { // TODO проверить, в каких ситуациях может возникать и как влияет return
+            new NullPointerException();
             return false;
         }
 
         String query = "" +
-            "INSERT INTO `a_api_emails`(\n" +
-            "    `direction`, \n"      + // 1
-            "    `user_id`, \n"        + // 2
-            "    `client_id`, \n"      + // 3
-            "    `uid`, \n"            + // 4
-            "    `message_id`, \n"     + // 5
-            "    `from`, \n"           + // 6
-            "    `to`, \n"             + // 7
-            "    `in_reply_to`, \n"    + // 8
-            "    `references`, \n"     + // 9
-            "    `message_date`, \n"   + //10
-            "    `size`, \n"           + //11
-            "    `subject`, \n"        + //12
-            "    `folder`, \n"         + //13
-            "    `flagged`, \n"        + //14
-            "    `answered`, \n"       + //15
-            "    `deleted`, \n"        + //16
-            "    `seen`, \n"           + //17
-            "    `draft`, \n"          + //18
-            "    `forwarded`, \n"      + //19
-            "    `label_1`, \n"        + //20
-            "    `label_2`, \n"        + //21
-            "    `label_3`, \n"        + //22
-            "    `label_4`, \n"        + //23
-            "    `label_5`, \n"        + //24
-            "    `has_attachment`, \n" + //25
-            "    `time`, \n"           + //26
-            "    `email_account`, \n"  + //27
-            "    `tdf_id` \n"          + //28
-            ") \n"                     +
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) \n" +
-            "    ON DUPLICATE KEY UPDATE \n" +
-            "        `direction`      = VALUES(`direction`), \n" +
-            "        `user_id`        = VALUES(`user_id`), \n" +
-            "        `client_id`      = VALUES(`client_id`), \n" +
-            "        `message_id`     = VALUES(`message_id`), \n" +
-            "        `from`           = VALUES(`from`), \n" +
-            "        `to`             = VALUES(`to`), \n" +
-            "        `in_reply_to`    = VALUES(`in_reply_to`), \n" +
-            "        `references`     = VALUES(`references`), \n" +
-            "        `message_date`   = VALUES(`message_date`), \n" +
-            "        `size`           = VALUES(`size`), \n" +
-            "        `subject`        = VALUES(`subject`), \n" +
-            "        `flagged`        = VALUES(`flagged`), \n" +
-            "        `answered`       = VALUES(`answered`), \n" +
-            "        `deleted`        = VALUES(`deleted`), \n" +
-            "        `seen`           = VALUES(`seen`), \n" +
-            "        `draft`          = VALUES(`draft`), \n" +
-            "        `forwarded`      = VALUES(`forwarded`), \n" +
-            "        `label_1`        = VALUES(`label_1`), \n" +
-            "        `label_2`        = VALUES(`label_2`), \n" +
-            "        `label_3`        = VALUES(`label_3`), \n" +
-            "        `label_4`        = VALUES(`label_4`), \n" +
-            "        `label_5`        = VALUES(`label_5`), \n" +
-            "        `has_attachment` = VALUES(`has_attachment`), \n" +
-            "        `time`           = VALUES(`time`), \n" +
+            "INSERT INTO `a_api_emails`( " +
+            "    `direction`, "      + // 1
+            "    `user_id`, "        + // 2
+            "    `client_id`, "      + // 3
+            "    `uid`, "            + // 4
+            "    `message_id`, "     + // 5
+            "    `from`, "           + // 6
+            "    `to`, "             + // 7
+            "    `in_reply_to`, "    + // 8
+            "    `references`, "     + // 9
+            "    `message_date`, "   + //10
+            "    `size`, "           + //11
+            "    `subject`, "        + //12
+            "    `folder`, "         + //13
+            "    `flagged`, "        + //14
+            "    `answered`, "       + //15
+            "    `deleted`, "        + //16
+            "    `seen`, "           + //17
+            "    `draft`, "          + //18
+            "    `forwarded`, "      + //19
+            "    `label_1`, "        + //20
+            "    `label_2`, "        + //21
+            "    `label_3`, "        + //22
+            "    `label_4`, "        + //23
+            "    `label_5`, "        + //24
+            "    `has_attachment`, " + //25
+            "    `time`, "           + //26
+            "    `email_account`, "  + //27
+            "    `tdf_id` "          + //28
+            ") "                     +
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) " +
+            "    ON DUPLICATE KEY UPDATE " +
+            "        `direction`      = VALUES(`direction`), " +
+            "        `user_id`        = VALUES(`user_id`), " +
+            "        `client_id`      = VALUES(`client_id`), " +
+            "        `message_id`     = VALUES(`message_id`), " +
+            "        `from`           = VALUES(`from`), " +
+            "        `to`             = VALUES(`to`), " +
+            "        `in_reply_to`    = VALUES(`in_reply_to`), " +
+            "        `references`     = VALUES(`references`), " +
+            "        `message_date`   = VALUES(`message_date`), " +
+            "        `size`           = VALUES(`size`), " +
+            "        `subject`        = VALUES(`subject`), " +
+            "        `flagged`        = VALUES(`flagged`), " +
+            "        `answered`       = VALUES(`answered`), " +
+            "        `deleted`        = VALUES(`deleted`), " +
+            "        `seen`           = VALUES(`seen`), " +
+            "        `draft`          = VALUES(`draft`), " +
+            "        `forwarded`      = VALUES(`forwarded`), " +
+            "        `label_1`        = VALUES(`label_1`), " +
+            "        `label_2`        = VALUES(`label_2`), " +
+            "        `label_3`        = VALUES(`label_3`), " +
+            "        `label_4`        = VALUES(`label_4`), " +
+            "        `label_5`        = VALUES(`label_5`), " +
+            "        `has_attachment` = VALUES(`has_attachment`), " +
+            "        `time`           = VALUES(`time`), " +
             "        `tdf_id`         = VALUES(`tdf_id`);";
 
         try {
-            is_line = true;
             incCount_queries();
             PreparedStatement prepare_statement_tmp = con.prepareStatement(query);
 
@@ -193,28 +188,37 @@ public class DB implements AutoCloseable {
             prepare_statement_tmp.setTimestamp(26, email.getUpdate());
             prepare_statement_tmp.setString(27, email.getEmail_account());
             prepare_statement_tmp.setString(28, email.getTdf_id());
+
             prepare_statement_tmp.executeUpdate();
 
         } catch (
             com.mysql.jdbc.exceptions.jdbc4.CommunicationsException |
             com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException e
         ) {
-            if (count_errors < 10 && connectToDB()) {
-                addEmail(email);
-            } else {
-                return false;
-            }
+            return reAddEmail(email);
         } catch (Exception e) {
             System.err.println("addEmail error");
-
+            System.err.println(query);
             e.printStackTrace();
-            return addEmail(email);
-        } finally {
-            count_errors = 0;
-            is_line = false;
+
+            return reAddEmail(email);
         }
 
         return true;
+    }
+
+    private boolean reAddEmail(Email email) {
+        if (count_errors++ < 5 && connectToDB()) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            return addEmail(email);
+        } else {
+            count_errors = 0;
+            return false;
+        }
     }
 
     public ArrayList<User> getUsers() {
@@ -241,7 +245,7 @@ public class DB implements AutoCloseable {
             "       `settings`.`type` = 'imap'  " +
             "WHERE " +
 //                "   `user_id` = 264 AND " +
-//            "   `users`.`email` = \"me@tdfort.ru\" AND " +
+//            "   `users`.`email` = \"aah@tdfort.ru\" AND " +
             "   `users`.`is_monitoring` = 1 " +
             "ORDER  BY `users`.`email`;"
 //                +
@@ -251,11 +255,6 @@ public class DB implements AutoCloseable {
         ArrayList<User> users = new ArrayList<>();
 
         try {
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
             Statement stmt = con.createStatement();
             incCount_queries();
             ResultSet rs_tmp = stmt.executeQuery(query);
@@ -281,14 +280,13 @@ public class DB implements AutoCloseable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            is_line = false;
         }
 
         return users;
     }
 
     public long getCountMessages(String email_account, String folder_name) {
+
         String query = "" +
                 "SELECT COUNT(`uid`) "            +
                 "FROM `a_api_emails` " +
@@ -304,11 +302,6 @@ public class DB implements AutoCloseable {
             if (con.isClosed()) {
                 connectToDB();
             }
-
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
 
             incCount_queries();
             Statement stmt = con.createStatement();
@@ -332,8 +325,6 @@ public class DB implements AutoCloseable {
         } catch (Exception e) {
             e.printStackTrace();
             return getCountMessages(email_account, folder_name);
-        } finally {
-            is_line = false;
         }
 
         return count_messages;
@@ -353,26 +344,18 @@ public class DB implements AutoCloseable {
                 connectToDB();
             }
 
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
             incCount_queries();
             Statement stmt = con.createStatement();
             result = stmt.executeUpdate(query);
         } catch (com.mysql.jdbc.exceptions.jdbc4.CommunicationsException e) {
             connectToDB();
-            if (++count_errors > 10) {
+            if (++count_errors > 10) { // TODO добавить ограничение по количеству попыток на все остальные рекурсивные запросы
                 e.printStackTrace();
             } else {
                 updateSuccess(email_address, success);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            count_errors = 0;
-            is_line = false;
         }
 
         return result;
@@ -386,41 +369,34 @@ public class DB implements AutoCloseable {
                 connectToDB();
             }
 
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
             incCount_queries();
 
             stmt = con.createStatement();
             stmt.executeUpdate(query);
             stmt.close();
+        } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException e) {
+            System.err.println(query);
+            e.printStackTrace();
         } catch (com.mysql.jdbc.exceptions.jdbc4.CommunicationsException e) {
             if (connectToDB()) {
                 updateQuery(query);
             }
         } catch (Exception e) {
-            System.err.println("query======================================================================");
-            System.err.println(query);
-            System.err.println("query======================================================================");
             e.printStackTrace();
         } finally {
-            is_line = false;
-
-            if (stmt != null) {
-                try {
+            try {
+                if (stmt != null && !stmt.isClosed()) {
                     stmt.close();
-                } catch (SQLException e) {
-                    // TODO
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 
         return true;
     }
 
-    public boolean changeFolderName(Email email, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
+    public void changeFolderName(Email email, String new_folder_name) { // TODO изменить у сообщений имя папки (проверить)
 
         String query = "" +
                 "UPDATE `a_my_emails` " +
@@ -431,16 +407,16 @@ public class DB implements AutoCloseable {
                 "    `folder`     = '" + email.getFolder()     + "' AND " +
                 "    `message_id` = '" + email.getMessage_id() + "';";
 
-        return updateQuery(query);
+        updateQuery(query);
     }
 
     @Override
     public void close() {
         try {
-            assert con  != null; if (con  != null) con.close();
-//            assert stmt != null; if (stmt != null) stmt.close();
-//            assert rs   != null; if (rs   != null) rs.close();
-        } catch(SQLException ignored) { }
+            if (con  != null && !con.isClosed()) { con.close(); }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String arrayToString(String[] arr, String symbol) {
@@ -474,7 +450,12 @@ public class DB implements AutoCloseable {
         return updateQuery(query);
     }
 
-    public boolean setFlags(String email, String folder_name) {
+    public boolean setFlags(String email, String folder_name) { // Обнуление флагов у всех писем // TODO возможно выполнять на всем аккаунте, а не на одной папке
+
+        if (email.isEmpty() || folder_name.isEmpty()) {
+            new NullPointerException();
+        }
+
         String query = "" +
                 "UPDATE `a_api_emails` " +
                 "SET " +
@@ -490,50 +471,46 @@ public class DB implements AutoCloseable {
                 "    `label_4`        = 0, " +
                 "    `label_5`        = 0, " +
                 "    `has_attachment` = 0  " +
-                "WHERE TRUE ";
+                "WHERE " +
+                "   `email_account` = '" + email       + "' AND " +
+                "   `folder`        = '" + folder_name + "';";
 
-        if (email.equals("")) {
-            query += String.format(" AND `email_account` = '%d' ", email);
-        }
-        if (folder_name != null) {
-            query += String.format(" AND `folder` = '%s' ", folder_name);
-        }
+//        if (email.equals("")) { // TODO проверить работоспособность и внести все в один запрос
+//            query += String.format(" AND `email_account` = '%d' ", email.toString());
+//        }
+//        if (folder_name != null) {
+//            query += String.format(" AND `folder` = '%s' ", folder_name);
+//        }
 
         return updateQuery(query);
     }
 
-    public int setFlags(int user_id, String folder_name, String flag_name, int flag_value, String uids) {
+    public int setFlags(String email_account, String folder_name, String flag_name, int flag_value, String uids) { // Проставление флагов у определенных писем
         String query = "" +
                 "UPDATE `a_api_emails` " +
-                "SET `"+flag_name+"` = "+flag_value+" " +
+                "SET `" + flag_name + "` = " + flag_value + " " +
                 "WHERE  " +
-                "   `user_id` = '"+user_id+"' AND" +
-                "   `folder` = '"+folder_name+"' AND " +
+                "   `email_account` = '" + email_account + "' AND " +
+                "   `folder`        = '" + folder_name   + "' AND " +
                 "   `uid` IN ("+uids+");";
 
         int result = 0;
 
         try {
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
             Statement stmt = con.createStatement();
             result = stmt.executeUpdate(query);
         } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException e) {
+            System.err.println(query);
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            return setFlags(user_id, folder_name, flag_name, flag_value, uids);
-        } finally {
-            is_line = false;
+            return setFlags(email_account, folder_name, flag_name, flag_value, uids);
         }
 
         return result;
     }
 
-    public boolean setRemoved(String email, String folder_name, long uid_start, long uid_end, ArrayList<Long> uids) {
+    public boolean setRemoved(String email, String folder_name, long uid_start, long uid_end, ArrayList<Long> uids) { // TODO можно ли объединить с setDelete
         String query = "" +
                 "UPDATE `a_api_emails` " +
                 "SET " +
@@ -563,7 +540,7 @@ public class DB implements AutoCloseable {
         return updateQuery(query);
     }
 
-    public long[] getMissingUIDs(String email_address, String folder_name, long uid_start, long uid_end, ArrayList<Long> uids) { // TODO на акк
+    public long[] getMissingUIDs(String email_address, String folder_name, long uid_start, long uid_end, ArrayList<Long> uids) {
 
         long[] missing_uids = new long[0];
 
@@ -587,11 +564,6 @@ public class DB implements AutoCloseable {
         }
 
         try {
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
             Statement stmt = con.createStatement();
             ResultSet rs_tmp = stmt.executeQuery(query);
 
@@ -612,15 +584,12 @@ public class DB implements AutoCloseable {
             stmt.close();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            is_line = false;
-
         }
 
         return missing_uids;
     }
 
-    public boolean deleteMessage(int user_id, String folder_name, long uid) {
+    public boolean deleteMessage(int user_id, String folder_name, long uid) { // TODO почему не используется?
         String query = "" +
                 "DELETE `a_api_emails` " +
                 "SET `deleted` = 1, " +
@@ -636,7 +605,7 @@ public class DB implements AutoCloseable {
 //        return updateQuery(id, "error", error_text);
 //    }
 
-    public boolean updateQuery(int id, String key, String value) {
+    public boolean updateQuery(int id, String key, String value) { // TODO почему не используется?
         String query = "" +
                 "UPDATE `a_my_users_emails` " +
                 "SET `" + key + "` = '" + value + "' " +
@@ -652,18 +621,13 @@ public class DB implements AutoCloseable {
                 "SELECT `uid` " +
                 "FROM `a_api_emails` " +
                 "WHERE" +
-                "   `email_account` = \"" + account_email +"\" AND " +
-                "   `folder`        = \"" + folder_name + "\"  AND " +
+                "   `email_account` = '" + account_email +"' AND " +
+                "   `folder`        = '" + folder_name + "'  AND " +
                 "   `removed`       = 0 " +
                 "ORDER BY `uid` DESC " +
                 "LIMIT 1";
 
         try {
-            if (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
             Statement stmt = con.createStatement();
             ResultSet rs_tmp = stmt.executeQuery(query);
 
@@ -681,8 +645,6 @@ public class DB implements AutoCloseable {
                 e1.printStackTrace();
             }
             return getLastAddUID(account_email, folder_name);
-        } finally {
-            is_line = false;
         }
 
         return last_add_uid;
@@ -693,58 +655,49 @@ public class DB implements AutoCloseable {
                 "DELETE FROM `a_api_emails` " +
                 "WHERE " +
                 "    `email_account` = '" + email_address + "' AND " +
-                "    `folder` = '" + folder_name + "';";
+                "    `folder`        = '" + folder_name + "';";
 
         return updateQuery(query);
     }
 
     public MyMessage getMyMessage(String email_address, String folder_name, long uid) {
         String query = "" +
-            "SELECT \n" +
-            "    `direction`, \n"      + //1
-            "    `user_id`, \n"        + //2
-            "    `client_id`, \n"      + //3
-            "    `uid`, \n"            + //4
-            "    `message_id`, \n"     + //5
-            "    `from`, \n"           + //6
-            "    `to`, \n"             + //7
-            "    `in_reply_to`, \n"    + //8
-            "    `references`, \n"     + //9
-            "    `message_date`, \n"   + //10
-            "    `size`, \n"           + //11
-            "    `subject`, \n"        + //12
-            "    `folder`, \n"         + //13
-
-            "    `flagged`, \n"        + //14
-            "    `answered`, \n"       + //15
-            "    `deleted`, \n"        + //16
-            "    `seen`, \n"           + //17
-            "    `draft`, \n"          + //18
-
-            "    `forwarded`, \n"      + //19
-            "    `label_1`, \n"        + //20
-            "    `label_2`, \n"        + //21
-            "    `label_3`, \n"        + //22
-            "    `label_4`, \n"        + //23
-            "    `label_5`, \n"        + //24
-            "    `has_attachment`, \n" + //25
-
-            "    `time`, \n"           + //26
-
-            "    `email_account` \n"   + //27
-            "FROM `a_api_emails` \n" +
-            "WHERE \n" +
-            "    `email_account` = '" + email_address + "' AND \n" +
-            "    `uid` = '" + uid + "' AND \n" +
-            "    `folder` = '" + folder_name + "';";
+            "SELECT " +
+            "    `direction`, "      + //1
+            "    `user_id`, "        + //2
+            "    `client_id`, "      + //3
+            "    `uid`, "            + //4
+            "    `message_id`, "     + //5
+            "    `from`, "           + //6
+            "    `to`, "             + //7
+            "    `in_reply_to`, "    + //8
+            "    `references`, "     + //9
+            "    `message_date`, "   + //10
+            "    `size`, "           + //11
+            "    `subject`, "        + //12
+            "    `folder`, "         + //13
+            "    `flagged`, "        + //14
+            "    `answered`, "       + //15
+            "    `deleted`, "        + //16
+            "    `seen`, "           + //17
+            "    `draft`, "          + //18
+            "    `forwarded`, "      + //19
+            "    `label_1`, "        + //20
+            "    `label_2`, "        + //21
+            "    `label_3`, "        + //22
+            "    `label_4`, "        + //23
+            "    `label_5`, "        + //24
+            "    `has_attachment`, " + //25
+            "    `time`, "           + //26
+            "    `email_account` "   + //27
+            "FROM `a_api_emails` "   +
+            "WHERE " +
+            "    `email_account` = '" + email_address + "' AND " +
+            "    `uid`           = '" + uid + "'           AND " +
+            "    `folder`        = '" + folder_name + "';";
 
         try {
-            while (is_line) {
-                Thread.sleep(100);
-            }
-            is_line = true;
-
-            Statement stmt = con.createStatement();
+            Statement stmt   = con.createStatement();
             ResultSet rs_tmp = stmt.executeQuery(query);
 
             if (rs_tmp.next()) {
@@ -783,8 +736,6 @@ public class DB implements AutoCloseable {
             stmt.close();
         } catch (Exception e) {
             return getMyMessage(email_address, folder_name, uid);
-        } finally {
-            is_line = false;
         }
 
         return null;

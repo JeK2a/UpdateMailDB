@@ -2,6 +2,8 @@ package com.threads;
 
 import com.wss.WSSChatClient;
 
+import java.lang.management.ManagementFactory;
+
 public class Suicide implements Runnable {
 
     public static long timer = 0;
@@ -9,25 +11,27 @@ public class Suicide implements Runnable {
     @Override
     public void run() {
 
-        long time_limit = 60 * 60 * 3;
+//        long time_limit = 60 * 60 * 24; // TODO убрать ограничение по времени
 
         WSSChatClient wssChatClient = new WSSChatClient();
         wssChatClient.connectToWSS();
 
         while (true) {
+            System.out.print(" timer " + timer + " (" + Thread.activeCount() + ") ");
 
+            System.out.print(" (" + Thread.activeCount() + "," + ManagementFactory.getThreadMXBean().getThreadCount() + "," + ManagementFactory.getRuntimeMXBean().getName() + "," + ManagementFactory.getMemoryMXBean().getObjectPendingFinalizationCount() + ") ");
+            System.out.println();
+            System.out.println(ManagementFactory.getClassLoadingMXBean().getLoadedClassCount() + "/" + ManagementFactory.getClassLoadingMXBean().getTotalLoadedClassCount() + "/"+ManagementFactory.getClassLoadingMXBean().getUnloadedClassCount());
+            System.out.println(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage());
+            System.out.println(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed() / 1024 / 1024);
 
-            if (
-                    timer++ > time_limit                    ||
-                    Thread.activeCount()             > 2000
-            ) {
+//            if (timer++ > time_limit || Thread.activeCount() > 4000) {
+            if (Thread.activeCount() > 4000) {
                 System.out.println("=================================================Suicide=================================================");
                 System.exit(0);
             }
 
             if (timer % 15 == 0) {
-//                System.out.println("wss restart !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//                WSSChatClient.getWebSocket().sendClose();
                 wssChatClient.connectToWSS();
             }
 

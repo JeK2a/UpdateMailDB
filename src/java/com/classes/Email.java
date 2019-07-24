@@ -53,6 +53,10 @@ public class Email {
 
     public Email(int user_id, String email_account, Message imap_message, String folder_name, IMAPFolder imapFolder) {
         try {
+//            if (!imapFolder.isOpen()) {
+//                imapFolder.open(Folder.READ_ONLY);
+//            }
+
             long uid   = imapFolder.getUID(imap_message);
 
             // TODO проверка на открытую папку
@@ -121,7 +125,8 @@ public class Email {
                 }
 
                 String out = (String) imap_folder.doCommand(imapProtocol -> {
-                    Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null);
+//                    Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS UID)", null); // TODO
+                    Response[] responses = imapProtocol.command("FETCH " + imap_message.getMessageNumber() + " (FLAGS)", null);
                     return responses[0].toString();
                 });
 

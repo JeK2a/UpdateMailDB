@@ -34,6 +34,7 @@ public class Mailing implements Runnable {
                     emailAccount.getStatus().equals("stop")                 ||
                     emailAccount.getStatus().equals("error")                ||
                     emailAccount.getStatus().equals("AuthenticationFailed") ||
+                    emailAccount.getStatus().equals("closed")               ||
                     emailAccount.getStatus().equals("close")
                 ) {
                     break;
@@ -46,8 +47,8 @@ public class Mailing implements Runnable {
         }
 
         while (true) {
-            checkAccounts();
-            Thread.sleep(30000);
+//            checkAccounts();
+            Thread.sleep(300000);
         }
 
         } catch (Exception e) {
@@ -69,7 +70,7 @@ public class Mailing implements Runnable {
                     emailAccount.getTime_reconnect() < (new Date().getTime() / 1000 - 240)
             ) {
                 emailAccounts.remove(accountEntry.getKey());
-                addEmailAccount(emailAccount);
+//                addEmailAccount(emailAccount);
             }
 
             for (Map.Entry<String, MyFolder> folderEntry : myFoldersMap_tmp.entrySet()) {
@@ -81,7 +82,7 @@ public class Mailing implements Runnable {
                 ) {
                     System.err.println("Folder removed");
                     myFoldersMap_tmp.remove(folderEntry.getKey());
-                    mailingEmailAccount_tmp.addFolder(myFolder.getImap_folder());
+//                    mailingEmailAccount_tmp.addFolder(myFolder.getImap_folder());
                 }
             }
         }

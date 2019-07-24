@@ -1,9 +1,7 @@
 package com.classes;
 
-import com.wss.WSSChatClient;
-
-import javax.mail.AuthenticationFailedException;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -106,16 +104,16 @@ public class EmailAccount implements Serializable {
 
     public void setException(String exception_text) {
 //        this.setStatus("error");
-        this.exception_text += exception_text + "\n===========================================\n";
+        this.exception_text += exception_text + "<br>===========================================<br>";
     }
 
     public void setException(Exception exception) {
-        System.err.println(exception.getMessage());
-        exception.printStackTrace();
 
-        if (exception instanceof AuthenticationFailedException) {
+        if (exception instanceof javax.mail.AuthenticationFailedException) {
             this.setStatus("AuthenticationFailed");
         } else {
+            System.err.println(exception.getMessage());
+            exception.printStackTrace();
             this.setStatus("error");
         }
 
@@ -125,7 +123,8 @@ public class EmailAccount implements Serializable {
             exception_text.append("<br>").append(element.toString());
         }
 
-        setException((WSSChatClient.forException(exception_text.toString())));
+        setException(exception_text.toString());
+//        setException((WSSChatClient.forException(exception_text.toString())));
     }
 
     public void updateTime_status_change() {
@@ -225,7 +224,8 @@ public class EmailAccount implements Serializable {
     public String toString() {
         return "{\"user\": "                   + user                         +
                 ", \"status\": \""             + status                       +
-                "\", \"error\": \""            +  exception_text              +
+                "\", \"error\": \""            + Base64.getEncoder().encodeToString(exception_text.getBytes()) +
+//                "\", \"error\": \""            + exception_text.replace('"', '\'') +
                 "\", \"myFoldersMap\": "       + getJsonFromMap(myFoldersMap) +
                 ", \"count_restart_success\": "   + count_restart_success     +
                 ", \"count_restart_fail\": "   + count_restart_fail           +

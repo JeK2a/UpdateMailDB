@@ -36,7 +36,6 @@ public class WSSChatClient {
             webSocketAdapter = new WebSocketAdapter(){
                 @Override
                 public void onTextMessage(WebSocket ws, String message) {
-//                System.out.println("Get message ====================================== !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 try {
                     if (!message.contains("{")) {
                         System.err.println("|||" + message + "|||");
@@ -66,14 +65,11 @@ public class WSSChatClient {
                             // TODO
                             break;
                         case "status":
-
-//                            webSocket.flush();
-
                             System.out.println("start accounts = " + Mailing.emailAccounts.size());
 
                             ConcurrentHashMap<String, EmailAccount> tmpEmailAccounts = new ConcurrentHashMap<>(Mailing.emailAccounts); // (ConcurrentHashMap<Integer, EmailAccount>) Mailing.emailAccounts; // TODO создать дубль
 
-                            String json = forTab(getJsonFromMap(tmpEmailAccounts));
+                            String json = getJsonFromMap(tmpEmailAccounts);
 
                             json = "{\"accounts\": " + json + ", \"count_queries\": " + DB.count_queries + "}"; // TODO обернуть в SQL
 
@@ -104,9 +100,9 @@ public class WSSChatClient {
     }
 
     public boolean connectToWSS() {
-        boolean result = true;
+        boolean result = false;
         try {
-            if (webSocket != null) {
+            if (webSocket != null && webSocket.isOpen()) {
                 webSocket.sendClose();
                 webSocket.disconnect();
             }
@@ -116,8 +112,10 @@ public class WSSChatClient {
             webSocket = webSocketFactory.createSocket("wss://my.tdfort.ru:10001/?ws_group=worker:javamail");
             webSocket.addListener(webSocketAdapter);
             webSocket.connect();
+            result = true;
+        } catch (com.neovisionaries.ws.client.WebSocketException e) {
+            System.out.println("Не удалось переподключиться к WSS сокету");
         } catch (Exception e) {
-            result = false;
             e.printStackTrace();
         } finally {
             WSSChatClient.result = result;
@@ -127,14 +125,13 @@ public class WSSChatClient {
 
     public static void sendText(String subject, String text) {
 
-        if (!subject.equals("json")) return;
+//        if (!subject.equals("json")) return; // TODO выпилить все, кроме json
 
-//        if (webSocket != null && webSocket.isOpen()) {
-        if (webSocket != null) {
+        if (webSocket != null && webSocket.isOpen()) {
             text = forJSON(text);
             webSocket.sendText("{\"subject\":\"" + subject + "\", \"message\":\"" + text + "\"}");
         } else {
-            System.out.println("error send");
+            System.err.println("error send");
         }
     }
 
@@ -144,17 +141,19 @@ public class WSSChatClient {
         }
 
         int len = input.length();
-        // сделаем небольшой запас, чтобы не выделять память потом
-        final StringBuilder result = new StringBuilder(len + len / 4);
+
+        final StringBuilder result = new StringBuilder(len + len / 4); // сделаем небольшой запас, чтобы не выделять память потом
         final StringCharacterIterator iterator = new StringCharacterIterator(input);
         char ch = iterator.current();
 
         while (ch != CharacterIterator.DONE) {
             switch (ch) {
-                case '\n': result.append("\\n");  break;
+                case '\n': result.append("<br>"); break;
                 case '\r': result.append("\\r");  break;
                 case '\'': result.append("\\\'"); break;
+//                case '"': result.append("\\\""); break;
                 case '\"': result.append("\\\""); break;
+                case '\t': result.append(" ");    break;
                 default: result.append(ch);       break;
             }
             ch = iterator.next();
@@ -191,15 +190,15 @@ public class WSSChatClient {
         }
 
         int len = input.length();
-        // сделаем небольшой запас, чтобы не выделять память потом
-        final StringBuilder result = new StringBuilder(len + len / 4);
+
+        final StringBuilder result = new StringBuilder(len + len / 4); // сделаем небольшой запас, чтобы не выделять память потом
         final StringCharacterIterator iterator = new StringCharacterIterator(input);
         char ch = iterator.current();
 
         while (ch != CharacterIterator.DONE) {
             switch (ch) {
-                case '\t': result.append(" ");     break;
-                default: result.append(ch);        break;
+                case '\t': result.append(" "); break;
+                default: result.append(ch);    break;
             }
             ch = iterator.next();
         }

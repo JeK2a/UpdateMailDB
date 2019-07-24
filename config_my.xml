@@ -5,7 +5,6 @@
     <usessl>false</usessl>
     <useunicode>true</useunicode>
     <characterencoding>utf-8</characterencoding>
-
     <mail_debug>false</mail_debug>
     <session_debug>false</session_debug>
     <wait_folder>false</wait_folder>
