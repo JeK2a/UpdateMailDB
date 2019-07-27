@@ -16,40 +16,46 @@ public class Mailing implements Runnable {
     private DB db = Main.db;
     public volatile static ConcurrentHashMap<String, EmailAccount> emailAccounts = new ConcurrentHashMap<>();
 
+    private static int index = 0;
+
+    public static int getIndex() {
+        return ++index;
+    }
+
     @Override
     public void run() {
         try {
-        ArrayList<User> users = db.getUsers(); // Получение списка пользователей
+            ArrayList<User> users = db.getUsers(); // Получение списка пользователей
 
-        for (User user : users) {
+            for (User user : users) {
 
-            EmailAccount emailAccount = new EmailAccount(user);
+                EmailAccount emailAccount = new EmailAccount(user);
 
-            addEmailAccount(emailAccount);
+                addEmailAccount(emailAccount);
+
+                while (true) {
+                    // разделить условия в println выводить revive try / close on error / wait
+                    if (
+                        emailAccount.getStatus().equals("end")                  ||
+                        emailAccount.getStatus().equals("stop")                 ||
+                        emailAccount.getStatus().equals("error")                ||
+                        emailAccount.getStatus().equals("AuthenticationFailed") ||
+                        emailAccount.getStatus().equals("closed")               ||
+                        emailAccount.getStatus().equals("close")
+                    ) {
+                        break;
+                    }
+
+                    checkAccounts();
+
+                    Thread.sleep(60000);
+                }
+            }
 
             while (true) {
-                // разделить условия в println выводить revive try / close on error / wait
-                if (
-                    emailAccount.getStatus().equals("end")                  ||
-                    emailAccount.getStatus().equals("stop")                 ||
-                    emailAccount.getStatus().equals("error")                ||
-                    emailAccount.getStatus().equals("AuthenticationFailed") ||
-                    emailAccount.getStatus().equals("closed")               ||
-                    emailAccount.getStatus().equals("close")
-                ) {
-                    break;
-                }
-
                 checkAccounts();
-
-                Thread.sleep(30000);
+                Thread.sleep(120000);
             }
-        }
-
-        while (true) {
-//            checkAccounts();
-            Thread.sleep(300000);
-        }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,27 +68,25 @@ public class Mailing implements Runnable {
             EmailAccount emailAccount = accountEntry.getValue();
             MailingEmailAccountThread mailingEmailAccount_tmp = new MailingEmailAccountThread(emailAccount);
 
-            ConcurrentHashMap<String, MyFolder> myFoldersMap_tmp = emailAccount.getMyFoldersMap();
-
             if (
                     !emailAccount.getStatus().equals("AuthenticationFailed") &&
                     emailAccount.getThread_problem() > 0 &&
                     emailAccount.getTime_reconnect() < (new Date().getTime() / 1000 - 240)
             ) {
                 emailAccounts.remove(accountEntry.getKey());
-//                addEmailAccount(emailAccount);
+                addEmailAccount(emailAccount);
             }
 
-            for (Map.Entry<String, MyFolder> folderEntry : myFoldersMap_tmp.entrySet()) {
+            for (Map.Entry<String, MyFolder> folderEntry : emailAccount.getMyFoldersMap().entrySet()) {
                 MyFolder myFolder = folderEntry.getValue();
 
                 if (
                         myFolder.getThread_problem() > 0 &&
-                        myFolder.getTime_last_noop() < (new Date().getTime() / 1000 - 120)
+                        myFolder.getTime_last_noop() < (new Date().getTime() / 1000 - 240)
                 ) {
                     System.err.println("Folder removed");
-                    myFoldersMap_tmp.remove(folderEntry.getKey());
-//                    mailingEmailAccount_tmp.addFolder(myFolder.getImap_folder());
+                    emailAccount.getMyFoldersMap().remove(folderEntry.getKey());
+                    mailingEmailAccount_tmp.addFolder(myFolder.getImap_folder());
                 }
             }
         }
@@ -90,6 +94,7 @@ public class Mailing implements Runnable {
 
     private void addEmailAccount(EmailAccount emailAccount) {
         Thread startMailThread = new Thread(new MailingEmailAccountThread(emailAccount)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
+        startMailThread.setName("MailingEmailAccountThread " + MailingEmailAccountThread.getIndex());
         emailAccounts.put(emailAccount.getEmailAddress(), emailAccount);
         startMailThread.setDaemon(true);
         startMailThread.start(); // Запус потока

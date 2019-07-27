@@ -42,10 +42,6 @@ public class EmailAccount implements Serializable {
         this.status       = status;
     }
 
-
-
-
-
     public int getCount_restart_success() {
         return count_restart_success;
     }
@@ -104,7 +100,13 @@ public class EmailAccount implements Serializable {
 
     public void setException(String exception_text) {
 //        this.setStatus("error");
-        this.exception_text += exception_text + "<br>===========================================<br>";
+        this.exception_text += "<br>===========================================<br>" + exception_text;
+
+        int exception_text_length = this.exception_text.length();
+
+        if (exception_text_length > 1500) {
+            this.exception_text.substring(exception_text_length - 1400, exception_text_length);
+        }
     }
 
     public void setException(Exception exception) {

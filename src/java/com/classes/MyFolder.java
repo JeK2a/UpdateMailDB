@@ -196,7 +196,13 @@ public class MyFolder implements Cloneable {
     }
 
     private void setException(String exception_text) {
-        this.exception_text = exception_text;
+        this.exception_text += "<br>===========================================<br>" + exception_text;
+
+        int exception_text_length = this.exception_text.length();
+
+        if (exception_text_length > 1500) {
+            this.exception_text.substring(exception_text_length - 1400, exception_text_length);
+        }
     }
 
     public void setException(Exception exception) {
@@ -231,7 +237,6 @@ public class MyFolder implements Cloneable {
     public String toString() {
         return "{\"folder_name\": \""         + folder_name        + "\"," +
                 "\"status\": \""              + status             + "\"," +
-//                "\"exception\": \""           + exception_text.replace('"', '\'')     + "\"," +
                 "\"exception\": \""           + Base64.getEncoder().encodeToString(exception_text.getBytes()) + "\"," +
                 "\"messages_counter\": \""    + messages_count     + "\"," +
                 "\"messages_db_counter\": \"" + messages_db_count  + "\"," +

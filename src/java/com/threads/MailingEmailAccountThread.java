@@ -25,9 +25,14 @@ public class MailingEmailAccountThread implements Runnable {
 
     private static DB db = Main.db;
     private EmailAccount emailAccount;
+    private static int index = 0;
 
     public MailingEmailAccountThread(EmailAccount emailAccount) {
         this.emailAccount = emailAccount;
+    }
+
+    public static int getIndex() {
+        return ++index;
     }
 
     @Override
@@ -55,24 +60,8 @@ public class MailingEmailAccountThread implements Runnable {
             IMAPFolder[] imap_folders = (IMAPFolder[]) store.getDefaultFolder().list("*"); // Получение списка папок для текушего подключения
 
             for (IMAPFolder imap_folder: imap_folders) {
-
-//                while (true) {
-//                    if (!imap_folder.isOpen()) {
-//                        System.out.println("connect");
-//                        imap_folder.open(Folder.READ_ONLY);
-//                    }
-//
-//
-//                    Thread.sleep(1000);
-//                }
-
                 addFolder(imap_folder);
-
-
             }
-
-
-
 
             ConcurrentHashMap<String, MyFolder> myFoldersMap_tmp = emailAccount.getFoldersMap();
 
@@ -243,6 +232,7 @@ public class MailingEmailAccountThread implements Runnable {
         MyFolder myFolder = new MyFolder(imap_folder);
         emailAccount.addMyFolder(myFolder);
         Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder, imap_folder)); // Создание потока для синхронизации всего почтового ящика
+        myTreadAllMails.setName("AddNewMessageThread " + AddNewMessageThread.getIndex());
         myTreadAllMails.setDaemon(true);
         myTreadAllMails.start();
     }

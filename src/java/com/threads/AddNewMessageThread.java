@@ -27,6 +27,8 @@ public class AddNewMessageThread implements Runnable {
     private String email_address;
     private String folder_name;
 
+    private static int index = 0;
+
     public AddNewMessageThread(EmailAccount emailAccount, MyFolder myFolder, IMAPFolder imap_folder) {
         if (db == null) {
             db = new DB();
@@ -39,16 +41,16 @@ public class AddNewMessageThread implements Runnable {
         this.email_address = emailAccount.getEmailAddress();
     }
 
+    public static int getIndex() {
+        return ++index;
+    }
+
     @Override
     public void run() {
         long messages_count_mail;
         long messages_count_db;
 
         try {
-
-
-
-
             if (!reopenFolder("start")) {
                 myFolder.setStatus("close");
                 return;
@@ -122,12 +124,12 @@ public class AddNewMessageThread implements Runnable {
         this.myFolder.setMessages_db_count(messages_count_db);
 
         if (messages_count_db == 0) { // Если нет сообщений, то просто выйти
-            System.out.println("11111");
+//            System.out.println("11111");
             if (messages_count_mail == 0) {
                 return true;
             } else {
                 messages = imap_folder.getMessages();
-                System.out.println("22222222");
+//                System.out.println("22222222");
                 fetchMessages(messages);
             }
         } else {
@@ -144,19 +146,19 @@ public class AddNewMessageThread implements Runnable {
                 long last_uid_db   = db.getLastAddUID(emailAccount.getEmailAddress(), folder_name);
                 long last_uid_mail = messages_tmp.length > 0 ? imap_folder.getUID(messages_tmp[messages_tmp.length - 1]) : 0;
 
-                System.out.println(last_uid_db + "/" + last_uid_mail + "   " + messages_count_db + "/" + messages_count_mail + "   " + folder_name);
+//                System.out.println(last_uid_db + "/" + last_uid_mail + "   " + messages_count_db + "/" + messages_count_mail + "   " + folder_name);
 
                 if (last_uid_db > 0 && checkRandomMessages(last_uid_db) ) {
                     if (last_uid_db == last_uid_mail && messages_count_mail == messages_count_db) {
-                        System.out.println("666666666666666 ---- " + folder_name);
+//                        System.out.println("666666666666666 ---- " + folder_name);
                         return true;
                     } else if (last_uid_db < last_uid_mail) {
-                        System.out.println("5555555555555555 ---- " + folder_name);
+//                        System.out.println("5555555555555555 ---- " + folder_name);
                         messages = imap_folder.getMessagesByUID(last_uid_db + 1, last_uid_mail);
                         fetchMessages(messages);
                         return false;
                     } else {
-                        System.out.println("77777777777777777 ---- " + folder_name);
+//                        System.out.println("77777777777777777 ---- " + folder_name);
                         checkRemoved(email_address, folder_name);
                         return false;
                     }
@@ -185,9 +187,9 @@ public class AddNewMessageThread implements Runnable {
                 return true;
             }
 
-            reopenFolder("fetch");
+//            reopenFolder("fetch");
 
-            System.out.println("fetch count = " + messages.length);
+//            System.out.println("fetch count = " + messages.length);
 
             FetchProfile fp = new FetchProfile();
 
@@ -209,7 +211,7 @@ public class AddNewMessageThread implements Runnable {
 
             imap_folder.fetch(messages, fp);
 
-            System.out.println("fetch");
+//            System.out.println("fetch");
 
 //            myFolder.setStatus("load in DB start " + messages.length + " / " + tmp_folder.getMessageCount());
             myFolder.setStatus("load in DB start " + messages.length + " / " + imap_folder.getMessageCount());
@@ -252,7 +254,7 @@ public class AddNewMessageThread implements Runnable {
 //                Message[] messages = {imap_folder.getMessage(1)};
 
 
-                System.out.println("r - "+ reson);
+//                System.out.println("r - "+ reson);
 //                fetchMessages(messages);
                 fetchMessages(imap_folder.getMessages(), true);
 //                FetchProfile fp = new FetchProfile();
@@ -496,6 +498,7 @@ public class AddNewMessageThread implements Runnable {
     }
 
     private void addFolderListenersMessages(IMAPFolder imap_folder) {
+
         imap_folder.addMessageChangedListener(messageChangedEvent -> {
             try {
                 myFolder.updateTime_last_event();
