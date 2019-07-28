@@ -244,7 +244,7 @@ public class DB implements AutoCloseable {
             "       `users`.`email_provider` = `settings`.`provider` AND " +
             "       `settings`.`type` = 'imap'  " +
             "WHERE " +
-//                "   `user_id` = 264 AND " +
+                "   `user_id` = 264 AND " +
 //            "   `users`.`email` = \"aah@tdfort.ru\" AND " +
             "   `users`.`is_monitoring` = 1 " +
             "ORDER  BY `users`.`email`;"

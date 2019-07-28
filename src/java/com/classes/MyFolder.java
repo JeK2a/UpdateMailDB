@@ -15,6 +15,8 @@ public class MyFolder implements Cloneable {
     private volatile long messages_db_count;
     private volatile long messages_count;
 
+    private Thread thread;
+
     private long time_status_change = new Date().getTime() / 1000;
     private long time_last_event    = new Date().getTime() / 1000;
     private long time_last_noop     = new Date().getTime() / 1000;
@@ -25,6 +27,14 @@ public class MyFolder implements Cloneable {
 
     private long time_reconnect = -1;
     private int thread_problem = 0;
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
 
     public int getThread_problem() {
         return thread_problem;

@@ -232,6 +232,7 @@ public class MailingEmailAccountThread implements Runnable {
         MyFolder myFolder = new MyFolder(imap_folder);
         emailAccount.addMyFolder(myFolder);
         Thread myTreadAllMails = new Thread(new AddNewMessageThread(emailAccount, myFolder, imap_folder)); // Создание потока для синхронизации всего почтового ящика
+        myFolder.setThread(myTreadAllMails);
         myTreadAllMails.setName("AddNewMessageThread " + AddNewMessageThread.getIndex());
         myTreadAllMails.setDaemon(true);
         myTreadAllMails.start();

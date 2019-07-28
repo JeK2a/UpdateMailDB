@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <setings>
-    <user>jek2a</user>
-    <password></password>
-    <host></host>
     <port>3306</port>
-    <schema></schema>
+    <schema>tdf_asyst</schema>
     <usessl>false</usessl>
     <useunicode>true</useunicode>
     <characterencoding>utf-8</characterencoding>

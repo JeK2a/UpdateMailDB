@@ -17,7 +17,7 @@
     <orderEntry type="library" name="WebSocket-1.0" level="project" />
     <orderEntry type="library" name="nv-websocket-client-2.3" level="project" />
     <orderEntry type="library" name="json-simple-1.1.1" level="project" />
-    <orderEntry type="library" name="javax.mail" level="project" />
     <orderEntry type="library" name="commons-lang3-3.0" level="project" />
+    <orderEntry type="library" name="javax.mail-1.6.2-sources" level="project" />
   </component>
 </module>

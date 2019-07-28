@@ -15,6 +15,8 @@ public class EmailAccount implements Serializable {
     private volatile String emailAddress;
     private volatile String exception_text = "";
 
+    private Thread thread;
+
     private volatile long time_status_change = new Date().getTime() / 1000;
     private volatile long time_last_event    = new Date().getTime() / 1000;
 
@@ -40,6 +42,14 @@ public class EmailAccount implements Serializable {
         this.emailAddress = user.getEmail();
         this.myFoldersMap = myFoldersMap;
         this.status       = status;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 
     public int getCount_restart_success() {

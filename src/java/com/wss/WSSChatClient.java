@@ -29,7 +29,6 @@ public class WSSChatClient {
     }
 
     private void restart() {
-
         try {
             webSocketFactory = new WebSocketFactory();
 
@@ -45,7 +44,6 @@ public class WSSChatClient {
                     JSONObject jsonArray = (JSONObject) getArrayFromJSON(message);
 
                     String command = String.valueOf(jsonArray.get("message"));
-//                    System.err.println(command);
 
                     switch (command) {
                         case "restart":
@@ -155,50 +153,6 @@ public class WSSChatClient {
                 case '\"': result.append("\\\""); break;
                 case '\t': result.append(" ");    break;
                 default: result.append(ch);       break;
-            }
-            ch = iterator.next();
-        }
-        return result.toString();
-    }
-
-    public static String forException(String input) {
-        if (input == null || input.isEmpty()) {
-            return "";
-        }
-
-        int len = input.length();
-        // сделаем небольшой запас, чтобы не выделять память потом
-        final StringBuilder result = new StringBuilder(len + len / 4);
-        final StringCharacterIterator iterator = new StringCharacterIterator(input);
-        char ch = iterator.current();
-
-        while (ch != CharacterIterator.DONE) {
-            switch (ch) {
-                case '\n': result.append("<br>");  break;
-                case '\r': result.append("<br>");  break;
-                case '\t': result.append(" ");     break;
-                default: result.append(ch);        break;
-            }
-            ch = iterator.next();
-        }
-        return result.toString();
-    }
-
-    public static String forTab(String input) {
-        if (input == null || input.isEmpty()) {
-            return "";
-        }
-
-        int len = input.length();
-
-        final StringBuilder result = new StringBuilder(len + len / 4); // сделаем небольшой запас, чтобы не выделять память потом
-        final StringCharacterIterator iterator = new StringCharacterIterator(input);
-        char ch = iterator.current();
-
-        while (ch != CharacterIterator.DONE) {
-            switch (ch) {
-                case '\t': result.append(" "); break;
-                default: result.append(ch);    break;
             }
             ch = iterator.next();
         }

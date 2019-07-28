@@ -56,6 +56,8 @@ public class AddNewMessageThread implements Runnable {
                 return;
             }  // Открыть папку на чтение если она не открыта
 
+            myFolder.setStatus("start");
+
             addFolderListenersConnection(imap_folder);
 
             user_id       = emailAccount.getUser().getUser_id();
@@ -189,6 +191,7 @@ public class AddNewMessageThread implements Runnable {
 
 //            reopenFolder("fetch");
 
+
 //            System.out.println("fetch count = " + messages.length);
 
             FetchProfile fp = new FetchProfile();
@@ -236,9 +239,6 @@ public class AddNewMessageThread implements Runnable {
     }
 
     private boolean reopenFolder(String reson) {
-
-//        System.out.println("reopenFolder " + reson);
-
         try {
             myFolder.setThread_problem(1);
             long start = System.currentTimeMillis();
@@ -247,23 +247,12 @@ public class AddNewMessageThread implements Runnable {
                 myFolder.incrementCount_restart_noop();
             } else {
                 imap_folder.open(Folder.READ_ONLY);
-//                if (imap_folder.getMessageCount() > 0) {
-
-//                }
-
-//                Message[] messages = {imap_folder.getMessage(1)};
-
-
-//                System.out.println("r - "+ reson);
-//                fetchMessages(messages);
-                fetchMessages(imap_folder.getMessages(), true);
+//                fetchMessages(imap_folder.getMessages(), true); // TODO доработать (при перепоплючении проверять сообщения)
 //                FetchProfile fp = new FetchProfile();
 //                Message[] messages = new Message[0];
 //                imap_folder.fetch(messages, fp);
                 myFolder.incrementCount_restart_success();
             }
-
-
 
             long stop = System.currentTimeMillis();
 
@@ -307,21 +296,29 @@ public class AddNewMessageThread implements Runnable {
                 }
 
                 ArrayList<Long> arr_uids = (ArrayList<Long>) imap_folder.doCommand(imapProtocol -> {
-                    Response[] responses;
+
+                    Response[] responses = imapProtocol.command("UID SEARCH " + finalStart + ":" + finalEnd, null);
+                    String[] out_str     = responses[0].toString().split(" ");
+
                     ArrayList<Long> arr_uids_tmp = new ArrayList<>();
-
-                    responses = imapProtocol.command("UID SEARCH " + finalStart + ":" + finalEnd, null);
-
-                    String[] out_str = responses[0].toString().split(" ");
 
                     if (out_str.length > 2) {
                         for (int n = 2; n < out_str.length; n++) {
-                            arr_uids_tmp.add(Long.parseLong(out_str[n]));
+                            try {
+                                arr_uids_tmp.add(Long.parseLong(out_str[n]));
+                            } catch (java.lang.NumberFormatException e) {
+                                System.err.println(responses[0]);
+                                break;
+                            }
                         }
                     }
 
                     return arr_uids_tmp;
                 });
+
+                if (arr_uids.size() == 0 && imap_folder.getMessageCount() != 0) {
+                    throw new Exception("Problem with get UID"); // TODO повторный запрос UID
+                }
 
 //                if (finalStart == 1 &&  arr_uids.size() > 0 && (arr_uids.get(0) - 1) > 0) {
                 if (finalStart == 1) {
@@ -478,7 +475,13 @@ public class AddNewMessageThread implements Runnable {
     private void addFolderListenersConnection(IMAPFolder imap_folder) {
         imap_folder.addConnectionListener(new ConnectionListener() {
             @Override
-            public void opened(ConnectionEvent connectionEvent) {
+            public void opened(ConnectionEvent connectionEvent) { // TODO проверка изменения сообщений при переподключении/подключении
+//                long last_uid_db   = db.getLastAddUID(emailAccount.getEmailAddress(), folder_name);
+//                long last_uid_mail = messages_tmp.length > 0 ? imap_folder.getUID(messages_tmp[messages_tmp.length - 1]) : 0;
+//
+//                messages = imap_folder.getMessagesByUID(last_uid_db + 1, last_uid_mail);
+//                fetchMessages(messages);
+
                 checkRemoved(email_address, folder_name);
                 myFolder.setStatus("listening");
             }

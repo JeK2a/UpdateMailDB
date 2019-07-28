@@ -7,7 +7,6 @@ import com.classes.User;
 import com.db.DB;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,14 +46,17 @@ public class Mailing implements Runnable {
                     }
 
                     checkAccounts();
-
-                    Thread.sleep(60000);
+                    Thread.sleep(20000);
                 }
             }
 
             while (true) {
+                System.err.println("Test 0");
                 checkAccounts();
-                Thread.sleep(120000);
+//                Thread.sleep(120000);
+                System.err.println("Test 1000");
+                Thread.sleep(20000);
+                System.err.println("Test 2000");
             }
 
         } catch (Exception e) {
@@ -63,37 +65,52 @@ public class Mailing implements Runnable {
     }
 
     private void checkAccounts() {
+        System.err.println("Test 1");
         for (Map.Entry<String, EmailAccount> accountEntry : emailAccounts.entrySet()) {
+            System.err.println("Test 2");
 
             EmailAccount emailAccount = accountEntry.getValue();
             MailingEmailAccountThread mailingEmailAccount_tmp = new MailingEmailAccountThread(emailAccount);
 
-            if (
-                    !emailAccount.getStatus().equals("AuthenticationFailed") &&
-                    emailAccount.getThread_problem() > 0 &&
-                    emailAccount.getTime_reconnect() < (new Date().getTime() / 1000 - 240)
-            ) {
-                emailAccounts.remove(accountEntry.getKey());
-                addEmailAccount(emailAccount);
-            }
+//            if (
+//                    !emailAccount.getStatus().equals("AuthenticationFailed") &&
+//                    emailAccount.getThread_problem() > 0 &&
+//                    emailAccount.getTime_reconnect() < (new Date().getTime() / 1000 - 360)
+//            ) {
+//                for (Map.Entry<String, MyFolder> folderEntry : emailAccount.getMyFoldersMap().entrySet()) {
+//                    folderEntry.getValue().getThread().stop();
+//                    emailAccount.getMyFoldersMap().remove(folderEntry.getKey());
+//                }
+//
+//                accountEntry.getValue().getThread().stop();
+//                emailAccounts.remove(accountEntry.getKey());
+//                addEmailAccount(emailAccount);
+//
+//                continue;
+//            }
 
             for (Map.Entry<String, MyFolder> folderEntry : emailAccount.getMyFoldersMap().entrySet()) {
-                MyFolder myFolder = folderEntry.getValue();
+//                MyFolder myFolder = folderEntry.getValue();
+                System.err.println("Test 3");
 
                 if (
-                        myFolder.getThread_problem() > 0 &&
-                        myFolder.getTime_last_noop() < (new Date().getTime() / 1000 - 240)
+                        true
+//                        folderEntry.getValue().getThread_problem() > 0 &&
+//                        folderEntry.getValue().getTime_last_noop() < (new Date().getTime() / 1000 - 360)
                 ) {
-                    System.err.println("Folder removed");
+                    System.err.println("Test 4");
+                    folderEntry.getValue().getThread().stop();
                     emailAccount.getMyFoldersMap().remove(folderEntry.getKey());
-                    mailingEmailAccount_tmp.addFolder(myFolder.getImap_folder());
+                    mailingEmailAccount_tmp.addFolder(folderEntry.getValue().getImap_folder());
                 }
             }
+
         }
     }
 
     private void addEmailAccount(EmailAccount emailAccount) {
         Thread startMailThread = new Thread(new MailingEmailAccountThread(emailAccount)); // Создание потока для синхронизации всего почтового ящика // TODO old_messages
+        emailAccount.setThread(startMailThread);
         startMailThread.setName("MailingEmailAccountThread " + MailingEmailAccountThread.getIndex());
         emailAccounts.put(emailAccount.getEmailAddress(), emailAccount);
         startMailThread.setDaemon(true);

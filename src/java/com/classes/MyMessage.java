@@ -3,7 +3,7 @@ package com.classes;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -387,18 +387,13 @@ public class MyMessage {
 
     public boolean compareString(String str1, String str2, boolean is_print) {
 
-        try {
-            if (str1 != null) {
-                str1 = new String(str1.getBytes("UTF-8"), "UTF-8");
-                str1 = str1.replace("\n", "").trim();
-            }
-            if (str2 != null) {
-                str2 = new String(str2.getBytes("UTF-8"), "UTF-8");
-                str2 = str2.replace("\n", "").trim();
-            }
-        } catch (UnsupportedEncodingException e) {
-            System.err.println("Error in compareString");
-            e.printStackTrace();
+        if (str1 != null) {
+            str1 = new String(str1.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+            str1 = str1.replace("\n", "").trim();
+        }
+        if (str2 != null) {
+            str2 = new String(str2.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+            str2 = str2.replace("\n", "").trim();
         }
 
         if (
@@ -430,7 +425,6 @@ public class MyMessage {
                 }
                 if ((((int) c1[i])) != (((int) c2[j]))) {
                         error_count++;
-//
                 }
             }
 
@@ -460,10 +454,7 @@ public class MyMessage {
 
             if (is_show_debag) {
                 if (!compareLong(this.getUid(), mail_UID)) {
-                    Long t1 = this.getUid();
-                    Long t2 = mail_UID;
-
-                    compareString(t1.toString(), t2.toString(), true);
+                    compareString(Long.toString(this.getUid()), Long.toString(mail_UID), true);
                     System.out.println("UID( " + this.getUid() + " !=" + mail_UID + " )");
                 }
 
