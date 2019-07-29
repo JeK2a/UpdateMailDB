@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <setings>
-    <user>jek2a</user>
-    <password>zo3s24tlkr</password>
-    <host>93.189.150.244</host>
+    <user></user>
+    <password></password>
+    <host></host>
     <port>3306</port>
     <schema>tdf_asyst</schema>
     <usessl>false</usessl>
