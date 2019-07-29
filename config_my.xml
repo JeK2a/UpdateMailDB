@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <setings>
+    <user></user>
+    <password></password>
+    <host></host>
     <port>3306</port>
     <schema>tdf_asyst</schema>
     <usessl>false</usessl>
