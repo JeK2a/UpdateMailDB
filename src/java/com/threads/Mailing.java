@@ -45,21 +45,25 @@ public class Mailing implements Runnable {
                         break;
                     }
 
-                    checkAccounts();
+//                    checkAccounts();
                     Thread.sleep(20000);
                 }
             }
 
             while (true) {
                 System.err.println("Test 0");
-                checkAccounts();
+//                checkAccounts();
 //                Thread.sleep(120000);
                 System.err.println("Test 1000");
                 Thread.sleep(20000);
                 System.err.println("Test 2000");
+                System.err.println("END");
             }
 
+
+
         } catch (Exception e) {
+            System.err.println("ERROR");
             e.printStackTrace();
         }
     }

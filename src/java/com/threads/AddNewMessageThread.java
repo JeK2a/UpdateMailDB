@@ -10,10 +10,19 @@ import com.sun.mail.iap.Response;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 
-import javax.mail.*;
-import javax.mail.event.*;
+import javax.mail.FetchProfile;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.UIDFolder;
+import javax.mail.event.ConnectionEvent;
+import javax.mail.event.ConnectionListener;
+import javax.mail.event.MessageCountEvent;
+import javax.mail.event.MessageCountListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+//import javax.mail.*;
+//import javax.mail.event.*;
 
 public class AddNewMessageThread implements Runnable {
 
@@ -119,7 +128,11 @@ public class AddNewMessageThread implements Runnable {
 
         Message[] messages;
 
-        long messages_count_mail = imap_folder.getMessageCount();
+        if (!imap_folder.isOpen()) {
+            imap_folder.open(IMAPFolder.READ_ONLY);
+        }
+
+        long messages_count_mail = this.imap_folder.getMessageCount();
         long messages_count_db   = db.getCountMessages(email_address, folder_name);
 
         this.myFolder.setMessages_count(messages_count_mail);
@@ -246,7 +259,7 @@ public class AddNewMessageThread implements Runnable {
             if (imap_folder.isOpen()) {
                 myFolder.incrementCount_restart_noop();
             } else {
-                imap_folder.open(Folder.READ_ONLY);
+                imap_folder.open(IMAPFolder.READ_ONLY);
 //                fetchMessages(imap_folder.getMessages(), true); // TODO доработать (при перепоплючении проверять сообщения)
 //                FetchProfile fp = new FetchProfile();
 //                Message[] messages = new Message[0];
