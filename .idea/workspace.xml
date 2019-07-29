@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectId" id="1OhJh2TlDdDKwvNGrRmU4eN526S" />
   <component name="PropertiesComponent">
